@@ -8,7 +8,8 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException {
         System.out.println("Hello and welcome KSR!");
-        readXml test = new readXml();
-        test.readXmlT();
+//        readXml test = new readXml();
+//        test.readXmlT();
+        Algorithm al = new Algorithm();
     }
 }
