@@ -1,64 +1,37 @@
 package ksr;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-
+import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.List;
-import org.w3c.dom.*;
-import java.util.ArrayList;
-
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Algorithm {
 
     String filesLocation = "proj1/src/main/resources/xml/";
     String[] filesNames;
-
-    ArrayList<String> places = new ArrayList<String>();
-    ArrayList<String> exchanges = new ArrayList<String>();
-    ArrayList<String> people = new ArrayList<String>();
-    ArrayList<String> orgs = new ArrayList<String>();
+    Data data;
+    List<CountryVector> dataset = new ArrayList<>();
+    Set<String> allowedCountries = new HashSet<>(Arrays.asList("west-germany", "usa", "france", "uk", "canada", "japan"));
 
     public Algorithm() {
-        Data data = new Data();
-        places = data.getPlaces();
-        exchanges = data.getExchanges();
-        people = data.getPeople();
-        orgs = data.getOrgs();
+        data = new Data();
         filesNames = getFilesNames();
-        for (String filesName : filesNames) {
-            lern(filesLocation+"/"+filesName);
-        }
+        buildCountryVector("proj1/src/main/resources/xml/reut2-001.xml");
+        System.out.println(data.getPeople());
     }
 
-    public String[] getFilesNames() {
-        try {
-
-            // Create a file object
-            File f = new File(filesLocation);
-
-            // Get all the names of the files present
-            // in the given directory
-            String[] files = f.list();
-
-            System.out.println("Files are:");
-
-            // Display the names of the files
-            for (int i = 0; i < files.length; i++) {
-                System.out.println(files[i]);
-            }
-            return files;
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-        return new String[0];
+    private String[] getFilesNames() {
+        File f = new File(filesLocation);
+        String[] files = f.list();
+        return files != null ? files : new String[0];
     }
 
-    public void lern(String fileName){
+    public void buildCountryVector(String fileName) {
         try {
-            File inputFile = new File(fileName); // Zamień na rzeczywistą ścieżkę pliku
+            File inputFile = new File(fileName);
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             Document doc = builder.parse(inputFile);
@@ -69,24 +42,70 @@ public class Algorithm {
             for (int i = 0; i < reutersList.getLength(); i++) {
                 Element reuters = (Element) reutersList.item(i);
                 NodeList placesList = reuters.getElementsByTagName("PLACES");
-                List<String> countries = new ArrayList<>();
+                String place = "";
                 if (placesList.getLength() == 1) {
                     NodeList countryNodes = ((Element) placesList.item(0)).getElementsByTagName("D");
-                    for (int j = 0; j < countryNodes.getLength(); j++) {
-                        countries.add(countryNodes.item(j).getTextContent());
+                    if (countryNodes.getLength() == 1) {
+                        place = countryNodes.item(0).getTextContent();
                     }
                 }
-                // Pobranie treści <BODY>
-                NodeList textList = reuters.getElementsByTagName("BODY");
-                String bodyText = textList.getLength() > 0 ? textList.item(0).getTextContent().trim() : "";
-                // Dodanie do listy wynikowej
-                System.out.println(countries + bodyText);
+
+                if (allowedCountries.contains(place.toLowerCase())) {
+                    NodeList textList = reuters.getElementsByTagName("BODY");
+                    String bodyText = textList.getLength() > 0 ? textList.item(0).getTextContent().trim() : "";
+                    Vector vector = createVector(bodyText);
+                    dataset.add(new CountryVector(place, vector));
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    public Vector createVector(String text) {
+        return new Vector(
+                findFirstOccurrence(text, data.getExchanges()), countUniqueOccurrences(text, data.getExchanges()),
+                findFirstOccurrence(text, data.getPeople()), countUniqueOccurrences(text, data.getPeople()),
+                findFirstOccurrence(text, data.getPlaces()), countUniqueOccurrences(text, data.getPlaces()),
+                findFirstOccurrence(text, data.getSubjectCodes()), countUniqueOccurrences(text, data.getSubjectCodes()),
+                findFirstOccurrence(text, data.getEconomicIndicatorCodes()), countUniqueOccurrences(text, data.getEconomicIndicatorCodes()),
+                findFirstOccurrence(text, data.getCurrencyCodes()), countUniqueOccurrences(text, data.getCurrencyCodes()),
+                findFirstOccurrence(text, data.getCorporateCodes()), countUniqueOccurrences(text, data.getCorporateCodes()),
+                findFirstOccurrence(text, data.getCommodityCodes()), countUniqueOccurrences(text, data.getCommodityCodes()),
+                findFirstOccurrence(text, data.getEnergyCodes()), countUniqueOccurrences(text, data.getEnergyCodes())
+        );
+    }
 
+    private int countUniqueOccurrences(String text, ArrayList<String> list) {
+        Set<String> uniqueItems = new HashSet<>();
+        for (String item : list) {
+            String regex = "\\b" + Pattern.quote(item.toLowerCase()) + "\\b";
+            Matcher matcher = Pattern.compile(regex).matcher(text.toLowerCase());
+            if (matcher.find()) {
+                uniqueItems.add(item);
+            }
+        }
+        return uniqueItems.size();
+    }
 
+    private String findFirstOccurrence(String text, ArrayList<String> list) {
+        List<Integer> indices = new ArrayList<>();
+        Map<Integer, String> indexToItem = new HashMap<>();
+
+        for (String item : list) {
+            String regex = "\\b" + Pattern.quote(item.toLowerCase()) + "\\b";
+            Matcher matcher = Pattern.compile(regex).matcher(text.toLowerCase());
+            while (matcher.find()) {
+                indices.add(matcher.start());
+                indexToItem.put(matcher.start(), item);
+            }
+        }
+
+        if (indices.isEmpty()) {
+            return null;
+        }
+
+        int minIndex = Collections.min(indices);
+        return indexToItem.get(minIndex);
+    }
 }

@@ -10,6 +10,12 @@ public class Main {
         System.out.println("Hello and welcome KSR!");
 //        readXml test = new readXml();
 //        test.readXmlT();
-        Algorithm al = new Algorithm();
+        Algorithm algorithm = new Algorithm();
+
+        for (CountryVector countryVector : algorithm.dataset) {
+            System.out.println(countryVector);
+        }
+
+
     }
 }
