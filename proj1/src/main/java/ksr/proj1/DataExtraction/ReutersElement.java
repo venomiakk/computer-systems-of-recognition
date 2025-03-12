@@ -18,8 +18,14 @@ public class ReutersElement {
     public String author;
     public String dateline;
     public String body;
+    // classification attributes
+    public String label;
+    public int lp;
 
-    public ReutersElement(int id, String cgiSplit, String lewisSplit, String date, List<String> topics, List<String> places, List<String> people, List<String> orgs, List<String> exchanges, List<String> companies, String title, String author, String dateline, String body) {
+    // Constructor without classification attributes
+    public ReutersElement(int id, String cgiSplit, String lewisSplit, String date, List<String> topics,
+                          List<String> places, List<String> people, List<String> orgs, List<String> exchanges,
+                          List<String> companies, String title, String author, String dateline, String body) {
         this.id = id;
         this.cgiSplit = cgiSplit;
         this.lewisSplit = lewisSplit;
@@ -34,6 +40,29 @@ public class ReutersElement {
         this.author = author;
         this.dateline = dateline;
         this.body = body;
+    }
+
+    // Constructor with classification attributes
+    public ReutersElement(int id, String cgiSplit, String lewisSplit, String date, List<String> topics,
+                          List<String> places, List<String> people, List<String> orgs, List<String> exchanges,
+                          List<String> companies, String title, String author, String dateline, String body,
+                          String label, int lp) {
+        this.id = id;
+        this.cgiSplit = cgiSplit;
+        this.lewisSplit = lewisSplit;
+        this.date = date;
+        this.topics = topics;
+        this.places = places;
+        this.people = people;
+        this.orgs = orgs;
+        this.exchanges = exchanges;
+        this.companies = companies;
+        this.title = title;
+        this.author = author;
+        this.dateline = dateline;
+        this.body = body;
+        this.label = label;
+        this.lp = lp;
     }
 
     @Override
@@ -53,6 +82,8 @@ public class ReutersElement {
                 "author='" + author + "',\n" +
                 "dateline='" + dateline + "',\n" +
                 "body='" + body + "'\n" +
+                "label='" + label + "',\n" +
+                "lp=" + lp + "\n" +
                 '}';
     }
 }

@@ -14,7 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReutersData {
+public class ReutersXmlData {
     private static final Path xmlFolderPath = Paths.get("src", "main", "resources", "data", "xml");
     public static List<ReutersElement> allArticles = new ArrayList<>();
     public static List<ReutersElement> classificationArticles = new ArrayList<>();
@@ -24,7 +24,7 @@ public class ReutersData {
             System.out.println("Directory does not exist: " + xmlFolderPath);
             return;
         }
-
+        allArticles.clear();
         try (var paths = Files.list(xmlFolderPath)) {
             paths.forEach(path -> {
                 try {
@@ -50,10 +50,15 @@ public class ReutersData {
             System.out.println("No articles to classify");
             return;
         }
+        classificationArticles.clear();
+        int index = 1;
         for (ReutersElement element : allArticles) {
             if (element.places.size() == 1 && List.of("usa", "france", "japan", "west-germany", "uk", "canada").
                     contains(element.places.getFirst())) {
+                element.lp = index;
+                element.label = element.places.getFirst();
                 classificationArticles.add(element);
+                index++;
             }
         }
     }
@@ -69,6 +74,7 @@ public class ReutersData {
             String title = getTagValue(element, "TITLE");
             String author = getTagValue(element, "AUTHOR");
             String dateline = getTagValue(element, "DATELINE");
+            // TODO: maybe handle cases like '&amp;lt;BP&gt;' in body
             String body = getTagValue(element, "BODY");
             List<String> topics = getSubTagsValues(element, "TOPICS", "D");
             List<String> places = getSubTagsValues(element, "PLACES", "D");

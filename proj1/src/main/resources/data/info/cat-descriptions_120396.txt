@@ -208,9 +208,8 @@ European Investment Bank (EIB)@*
 European Monetary Cooperation Fund (EMCF)@*
 Food and Agriculture Organisation (FAO)@*
 General Agreement on Tariffs and Trade (GATT)@*
-Grupo de Paises Latinoamericanos y del Caribe Exportadores de Azucar
-[Group of Latin American and Caribbean Sugar Exporting Countries]
-(GEPLACEA)@*
+Grupo de Paises Latinoamericanos y del Caribe Exportadores de Azucar (GEPLACEA)@*
+Group of Latin American and Caribbean Sugar Exporting Countries (GEPLACEA)@*
 Gulf Cooperation Council (GCC)@*
 Inter-Government Council of Copper Exporting Countries (CIPEC)@*
 Inter-Governmental Maritime Consultative Organisation (IMCO)@*
