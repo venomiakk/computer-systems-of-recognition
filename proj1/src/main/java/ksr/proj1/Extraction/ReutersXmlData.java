@@ -1,4 +1,4 @@
-package ksr.proj1.DataExtraction;
+package ksr.proj1.Extraction;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -51,11 +51,11 @@ public class ReutersXmlData {
             return;
         }
         classificationArticles.clear();
-        int index = 1;
+        int index = 0;
         for (ReutersElement element : allArticles) {
             if (element.places.size() == 1 && List.of("usa", "france", "japan", "west-germany", "uk", "canada").
                     contains(element.places.getFirst())) {
-                element.lp = index;
+                element.index = index;
                 element.label = element.places.getFirst();
                 classificationArticles.add(element);
                 index++;

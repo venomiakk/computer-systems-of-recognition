@@ -1,7 +1,5 @@
-package ksr.proj1;
+package ksr.proj1.Extraction;
 
-import ksr.proj1.DataExtraction.ReutersElement;
-import ksr.proj1.DataExtraction.ReutersXmlData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +16,7 @@ class DataExtractionTests {
         for (ReutersElement element : ReutersXmlData.classificationArticles) {
             elements1.add(new ReutersElement(element.id, element.cgiSplit, element.lewisSplit, element.date,
                     element.topics, element.places, element.people, element.orgs, element.exchanges, element.companies,
-                    element.title, element.author, element.dateline, element.body, element.label, element.lp));
+                    element.title, element.author, element.dateline, element.body, element.label, element.index));
         }
 
         ReutersXmlData.allArticles.clear();
@@ -31,7 +29,7 @@ class DataExtractionTests {
             Assertions.fail();
         }
         for (int i = 0; i < elements1.size(); i++) {
-            if (elements1.get(i).lp != ReutersXmlData.classificationArticles.get(i).lp) {
+            if (elements1.get(i).index != ReutersXmlData.classificationArticles.get(i).index) {
                 Assertions.fail();
             }
         }
