@@ -1,4 +1,4 @@
-package ksr.proj1.Extraction;
+package ksr.proj1.DataExtraction;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -74,7 +74,7 @@ public class ReutersXmlData {
             String title = getTagValue(element, "TITLE");
             String author = getTagValue(element, "AUTHOR");
             String dateline = getTagValue(element, "DATELINE");
-            // TODO: maybe handle cases like '&amp;lt;BP&gt;' in body
+            // html unescape in ReutersElement constructor
             String body = getTagValue(element, "BODY");
             List<String> topics = getSubTagsValues(element, "TOPICS", "D");
             List<String> places = getSubTagsValues(element, "PLACES", "D");

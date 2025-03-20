@@ -1,4 +1,4 @@
-package ksr.proj1.Extraction;
+package ksr.proj1.DataExtraction;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

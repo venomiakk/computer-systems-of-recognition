@@ -1,4 +1,4 @@
-package ksr.proj1.Extraction;
+package ksr.proj1.DataExtraction;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,10 +28,10 @@ public class ReutersInfoData {
                     while ((line = reader.readLine()) != null) {
                         switch (path.getFileName().toString()) {
                             case "all-places-strings.lc.txt":
-                                allPlacesCodes.add(line);
+                                allPlacesCodes.add(line.strip());
                                 break;
                             case "all-people-strings.lc.txt":
-                                allPeopleCodes.add(line);
+                                allPeopleCodes.add(line.strip());
                                 break;
                         }
                     }

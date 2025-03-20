@@ -1,4 +1,4 @@
-package ksr.proj1.Utlis;
+package ksr.proj1.Utils;
 
 public class ListUtils {
     // deep copy of list

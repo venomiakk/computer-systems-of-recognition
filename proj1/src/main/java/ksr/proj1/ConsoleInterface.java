@@ -1,10 +1,10 @@
 package ksr.proj1;
 
-import ksr.proj1.Extraction.FeatureExtraction;
-import ksr.proj1.Extraction.ReutersInfoData;
-import ksr.proj1.Extraction.ReutersXmlData;
-import ksr.proj1.Extraction.ReutersElement;
-import ksr.proj1.Utlis.ListUtils;
+import ksr.proj1.FeatureExtraction.FeatureExtractor;
+import ksr.proj1.DataExtraction.ReutersInfoData;
+import ksr.proj1.DataExtraction.ReutersXmlData;
+import ksr.proj1.DataExtraction.ReutersElement;
+import ksr.proj1.Utils.ListUtils;
 
 import java.util.*;
 
@@ -53,40 +53,22 @@ public class ConsoleInterface {
         ReutersXmlData.readXmlFiles();
         ReutersXmlData.selectArticlesForClassification();
         System.out.println(ReutersXmlData.classificationArticles.size());
-        ReutersInfoData.readData();
 
         //split data into training and test sets
 
-        // Count occurrences of each class
-        //Map<String, Integer> classCountMap = new HashMap<>();
-        //for (ReutersElement article : ReutersXmlData.classificationArticles) {
-        //    String className = article.label;
-        //    classCountMap.put(className, classCountMap.getOrDefault(className, 0) + 1);
-        //}
-        //System.out.println("Class distribution:");
-        //for (Map.Entry<String, Integer> entry : classCountMap.entrySet()) {
-        //    System.out.println(entry.getKey() + ": " + entry.getValue());
-        //}
 
         // generate dictionaries
+        ReutersInfoData.readData();
 
         // extract features
         List<ReutersElement> allSet = ListUtils.deepCopyList(ReutersXmlData.classificationArticles);
-        //int min = 90000;
-        //int minIndex = 0;
-        //for (ReutersElement element : allSet) {
-        //    FeatureExtraction.extractFeatures(element);
-        //    if (element.c1 < min && element.c1 > 0) {
-        //        min = element.c1;
-        //        minIndex = element.index;
-        //    }
-        //}
-        //System.out.println("Min c1: " + min + " for article " + minIndex);
-        //System.out.println(allSet.get(minIndex - 1));
-        //System.out.println(allSet.get(minIndex - 1).featuresString());
 
-        ReutersElement testElement = allSet.get(10139);
-        FeatureExtraction.extractFeatures(testElement);
+        //ReutersElement testElement = allSet.get(10139);
+        ReutersElement testElement = allSet.get(10204);
+        //System.out.println(testElement);
+
+        FeatureExtractor featureExtractor = new FeatureExtractor(ReutersInfoData.allPeopleCodes, ReutersInfoData.allPlacesCodes);
+        featureExtractor.extractFeatures(testElement);
         System.out.println(testElement);
         System.out.println(testElement.featuresString());
 

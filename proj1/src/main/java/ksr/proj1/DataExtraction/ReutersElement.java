@@ -1,4 +1,4 @@
-package ksr.proj1.Extraction;
+package ksr.proj1.DataExtraction;
 
 import ksr.proj1.Models.SetSplit;
 
@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class ReutersElement {
+    //TODO should this be moved to models?
     /**
      * Class representing a single Reuters article.
      * Contains all the attributes of the article.
