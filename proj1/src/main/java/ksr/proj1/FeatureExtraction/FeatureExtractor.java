@@ -51,13 +51,21 @@ public class FeatureExtractor {
         if (elementText == null || elementText.isEmpty() || surnameDict.isEmpty()) {
             return null;
         }
-        //TODO manage punctuation marks near surnames
-        //TODO manage surname orders
-        //TODO example: Bond and bond <-- manage this
-        elementText = elementText.toLowerCase();
+        elementText = elementText.replaceAll("[^\\sa-zA-Z^-]", "");
         String[] words = elementText.split("\\s+");
+        List<String> filteredWords = new ArrayList<>();
+        for (String word : words){
+            if (!word.isEmpty() && Character.isUpperCase(word.charAt(0))){
+                filteredWords.add(word.toLowerCase());
+            }
+        }
+        //TODO manage surname orders
+        //? str name = null
+        //? int count = 0
+        //? for..
+        //? if surnameCount > count then : name = word
         Map<String, Integer> surnameCount = new HashMap<>();
-        for (String word : words) {
+        for (String word : filteredWords) {
             if (surnameDict.contains(word)) {
                 surnameCount.put(word, surnameCount.getOrDefault(word, 0) + 1);
             }

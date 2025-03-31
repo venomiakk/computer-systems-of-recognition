@@ -43,7 +43,7 @@ class FeatureExtractorTest {
         //TODO: test this method
         FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict);
         String text = """
-                Alfonsin Stich bond Stoltenberg.
+                Alfonsin Stich 19,70 bond Stoltenberg, Mohammed-ahmed-al-razaz, asffw - dsad.
                 """;
         String surname = featureExtractor.extractC3(text);
         System.out.println(surname);
