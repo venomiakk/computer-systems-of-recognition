@@ -1,19 +1,24 @@
 package ksr.proj1;
 
+import ksr.proj1.DataExtraction.StopWords;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.DataExtraction.ReutersInfoData;
 import ksr.proj1.DataExtraction.ReutersXmlData;
 import ksr.proj1.DataExtraction.ReutersElement;
-import ksr.proj1.Utils.ListUtils;
+import ksr.proj1.FeatureExtraction.FeatureVector;
+import ksr.proj1.DataExtraction.KeywordsExtraction;
+import ksr.proj1.Utils.SetSplit;
 
+import java.io.IOException;
 import java.util.*;
 
 public class ConsoleInterface {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Hello World!");
         //testingReadingXml();
         //testingReadingInfo();
         classificationActionPlan();
+        //StopWords.getStopWords();
     }
 
     public static void testingReadingXml() {
@@ -47,31 +52,31 @@ public class ConsoleInterface {
 
     }
 
-    public static void classificationActionPlan() {
-        //read data
-
+    public static void classificationActionPlan() throws IOException {
+        //! read data
         ReutersXmlData.readXmlFiles();
         ReutersXmlData.selectArticlesForClassification();
-        System.out.println(ReutersXmlData.classificationArticles.size());
 
-        //split data into training and test sets
+        //! split data into training and test sets
+        SetSplit setSplit = new SetSplit(ReutersXmlData.classificationArticles, ReutersXmlData.classificationArticles.size(), 80);
+        List<ReutersElement> trainSet = setSplit.trainSet;
+        List<ReutersElement> testSet = setSplit.testSet;
 
-
-        // generate dictionaries
+        //! generate dictionaries
         ReutersInfoData.readData();
+        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
+        List<String> countryDict = ReutersInfoData.allPlacesCodes;
+        List<String> keywordDict = KeywordsExtraction.extractKeywords(trainSet);
+        List<String> stopWords = StopWords.getStopWords();
 
-        // extract features
-        List<ReutersElement> allSet = ListUtils.deepCopyList(ReutersXmlData.classificationArticles);
+        //! extract features
+        FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
 
-        //ReutersElement testElement = allSet.get(10139);
-        ReutersElement testElement = allSet.get(10204);
-        //System.out.println(testElement);
-
-        FeatureExtractor featureExtractor = new FeatureExtractor(ReutersInfoData.allPeopleCodes, ReutersInfoData.allPlacesCodes);
-        featureExtractor.extractFeatures(testElement);
+        ReutersElement testElement = trainSet.get(10204);
+        FeatureVector fv = featureExtractor.extractFeatures(testElement);
+        System.out.println(fv);
         System.out.println(testElement);
-        System.out.println(testElement.featuresString());
 
-        // classify
+        //! classify
     }
 }
