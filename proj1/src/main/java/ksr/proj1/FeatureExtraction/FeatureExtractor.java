@@ -23,9 +23,12 @@ public class FeatureExtractor {
         this.stopWords = new HashSet<>(ListUtils.deepCopyList(stopWords));
     }
 
-    // test constructor
-    FeatureExtractor() {
+    public FeatureExtractor() {
+
     }
+
+    // test constructor
+
 
     public FeatureVector extractFeatures(ReutersElement element) {
         String elementText = element.body;
