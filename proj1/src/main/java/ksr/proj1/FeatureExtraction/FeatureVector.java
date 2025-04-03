@@ -1,5 +1,8 @@
 package ksr.proj1.FeatureExtraction;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class FeatureVector {
     /**
      * Class representing a single Reuters article.
@@ -34,36 +37,37 @@ public class FeatureVector {
     public String predictedLabel = null;
 
     //features
-    public int c1;
-    public float c2;
-    public String c3;
-    public String c4;
-    public String c5;
-    public int c6;
-    public String c7;
-    public String c8;
-    public float c9;
-    public float c10;
-    public int c11;
-    public int c12;
+    public ArrayList<Object> features = new ArrayList<>();
+//    public int c1;
+//    public float c2;
+//    public String c3;
+//    public String c4;
+//    public String c5;
+//    public int c6;
+//    public String c7;
+//    public String c8;
+//    public float c9;
+//    public float c10;
+//    public int c11;
+//    public int c12;
 
     public FeatureVector(int originalID, String realLabel, int reutersElementIndex, int c1, float c2, String c3, String c4, String c5,
                          int c6, String c7, String c8, float c9, float c10, int c11, int c12) {
         this.originalID = originalID;
         this.realLabel = realLabel;
         this.reutersElementIndex = reutersElementIndex;
-        this.c1 = c1;
-        this.c2 = c2;
-        this.c3 = c3;
-        this.c4 = c4;
-        this.c5 = c5;
-        this.c6 = c6;
-        this.c7 = c7;
-        this.c8 = c8;
-        this.c9 = c9;
-        this.c10 = c10;
-        this.c11 = c11;
-        this.c12 = c12;
+        features.add(c1);
+        features.add(c2);
+        features.add(c3);
+        features.add(c4);
+        features.add(c5);
+        features.add(c6);
+        features.add(c7);
+        features.add(c8);
+        features.add(c9);
+        features.add(c10);
+        features.add(c11);
+        features.add(c12);
     }
 
     @Override
@@ -73,18 +77,18 @@ public class FeatureVector {
                 "realLabel='" + realLabel + '\n' +
                 "reutersElementIndex=" + reutersElementIndex + '\n' +
                 "predictedLabel='" + predictedLabel + '\n' +
-                "c1: " + c1 + "\n" +
-                "c2: " + c2 + "\n" +
-                "c3: " + c3 + "\n" +
-                "c4: " + c4 + "\n" +
-                "c5: " + c5 + "\n" +
-                "c6: " + c6 + "\n" +
-                "c7: " + c7 + "\n" +
-                "c8: " + c8 + "\n" +
-                "c9: " + c9 + "\n" +
-                "c10: " + c10 + "\n" +
-                "c11: " + c11 + "\n" +
-                "c12: " + c12 + "\n" +
+                "c1: " + features.get(0) + "\n" +
+                "c2: " + features.get(1) + "\n" +
+                "c3: " + features.get(2) + "\n" +
+                "c4: " + features.get(3) + "\n" +
+                "c5: " + features.get(4) + "\n" +
+                "c6: " + features.get(5) + "\n" +
+                "c7: " + features.get(6) + "\n" +
+                "c8: " + features.get(7) + "\n" +
+                "c9: " + features.get(8) + "\n" +
+                "c10: " + features.get(9) + "\n" +
+                "c11: " + features.get(10) + "\n" +
+                "c12: " + features.get(11) + "\n" +
                 "}";
     }
 }
