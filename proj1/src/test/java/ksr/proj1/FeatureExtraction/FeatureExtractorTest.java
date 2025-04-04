@@ -15,6 +15,7 @@ class FeatureExtractorTest {
     private static List<String> countryDict = new ArrayList<>();
     private static List<String> keywordDict = new ArrayList<>();
     private static List<String> stopWords = new ArrayList<>();
+    private static List<String> testList = new ArrayList<>();
 
     @BeforeAll
     static void setUp() {

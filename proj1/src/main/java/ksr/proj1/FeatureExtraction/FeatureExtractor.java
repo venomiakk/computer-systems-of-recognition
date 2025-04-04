@@ -1,8 +1,10 @@
 package ksr.proj1.FeatureExtraction;
 
 import ksr.proj1.DataExtraction.ReutersElement;
+import ksr.proj1.DataExtraction.TfIdfKeyWordExtraction;
 import ksr.proj1.Utils.ListUtils;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,7 +32,7 @@ public class FeatureExtractor {
     // test constructor
 
 
-    public FeatureVector extractFeatures(ReutersElement element) {
+    public FeatureVector extractFeatures(ReutersElement element) throws IOException {
         String elementText = element.body;
         int wordCount = this.countTextWords(element.body);
         int c1 = this.extractC1(elementText);
@@ -131,6 +133,9 @@ public class FeatureExtractor {
         /*
          * Most common proper nouns
          * */
+        if (properNouns == null || properNouns.isEmpty()) {
+            return null;
+        }
 
         List<Integer> properNounsCount = new ArrayList<>();
         for (String properNoun : properNouns) {
@@ -143,24 +148,119 @@ public class FeatureExtractor {
     }
 
     int extractC6(String elementText) {
-        return 0;
+        String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return 0;
+        }
+        int keywordCount = 0;
+        for (String word : words) {
+            if (keywordDict.contains(word.toLowerCase())) {
+                keywordCount++;
+            }
+        }
+        return keywordCount;
     }
 
     String extractC7(String elementText) {
-        return "";
+        String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return null;
+        }
+
+        Map<String, Integer> keywordCount = new HashMap<>();
+        Map<String, Integer> firstOccurrence = new HashMap<>();
+        int position = 0;
+
+        for (String word : words) {
+            String lowerCaseWord = word.toLowerCase();
+            if (keywordDict.contains(lowerCaseWord)) {
+                keywordCount.put(lowerCaseWord, keywordCount.getOrDefault(lowerCaseWord, 0) + 1);
+                firstOccurrence.putIfAbsent(lowerCaseWord, position);
+            }
+            position++;
+        }
+
+        String mostFrequentKeyword = null;
+        int maxCount = 0;
+        int earliestPosition = Integer.MAX_VALUE;
+
+        for (Map.Entry<String, Integer> entry : keywordCount.entrySet()) {
+            String keyword = entry.getKey();
+            int count = entry.getValue();
+            int occurrence = firstOccurrence.get(keyword);
+
+            if (count > maxCount || (count == maxCount && occurrence < earliestPosition)) {
+                mostFrequentKeyword = keyword;
+                maxCount = count;
+                earliestPosition = occurrence;
+            }
+        }
+
+        return mostFrequentKeyword;
     }
 
-    String extractC8(String elementText) {
-        return "";
+    String extractC8(String elementText){
+        String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return null;
+        }
+
+        Map<String, Integer> keywordCount = new HashMap<>();
+        Map<String, Integer> lastOccurrence = new HashMap<>();
+        int position = 0;
+
+        for (String word : words) {
+            String lowerCaseWord = word.toLowerCase();
+            if (keywordDict.contains(lowerCaseWord)) {
+                keywordCount.put(lowerCaseWord, keywordCount.getOrDefault(lowerCaseWord, 0) + 1);
+                lastOccurrence.put(lowerCaseWord, position);
+            }
+            position++;
+        }
+
+        String leastFrequentKeyword = null;
+        int minCount = Integer.MAX_VALUE;
+        int latestPosition = -1;
+
+        for (Map.Entry<String, Integer> entry : keywordCount.entrySet()) {
+            String keyword = entry.getKey();
+            int count = entry.getValue();
+            int occurrence = lastOccurrence.get(keyword);
+
+            if (count < minCount || (count == minCount && occurrence > latestPosition)) {
+                leastFrequentKeyword = keyword;
+                minCount = count;
+                latestPosition = occurrence;
+            }
+        }
+
+        return leastFrequentKeyword;
     }
+
 
     float extractC9(String elementText) {
-        return 0;
+        /*
+         * Average TF-IDF of all keywords in the document
+         */
+        String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return 0;
+        }
+        int keywordCount = 0;
+        for (String word : words) {
+            if (keywordDict.contains(word.toLowerCase())) {
+                keywordCount++;
+            }
+        }
+        return (float) keywordCount / words.length;
     }
 
 
     int extractC11(String elementText) {
         String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return 0;
+        }
         List<String> filteredWords = new ArrayList<>();
         for (String word : words) {
             if (!word.isEmpty() && Character.isUpperCase(word.charAt(0))) {
@@ -178,6 +278,9 @@ public class FeatureExtractor {
 
     int extractC12(String elementText) {
         String[] words = clearTextForWords(elementText);
+        if (words == null || words.length == 0) {
+            return 0;
+        }
         List<String> filteredWords = new ArrayList<>();
         for (String word : words) {
             if (!word.isEmpty()) {

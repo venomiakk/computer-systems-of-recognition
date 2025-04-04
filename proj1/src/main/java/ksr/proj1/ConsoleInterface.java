@@ -1,5 +1,6 @@
 package ksr.proj1;
 
+import ksr.proj1.Classifier.KNN;
 import ksr.proj1.DataExtraction.StopWords;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.DataExtraction.ReutersInfoData;
@@ -7,6 +8,10 @@ import ksr.proj1.DataExtraction.ReutersXmlData;
 import ksr.proj1.DataExtraction.ReutersElement;
 import ksr.proj1.FeatureExtraction.FeatureVector;
 import ksr.proj1.DataExtraction.KeywordsExtraction;
+import ksr.proj1.Metrics.Distances;
+import ksr.proj1.Metrics.NgramMethod;
+import ksr.proj1.Metrics.WordsSimilirityMetrics;
+import ksr.proj1.Metrics.manhattanDistance;
 import ksr.proj1.Utils.SetSplit;
 
 import java.io.IOException;
@@ -54,28 +59,23 @@ public class ConsoleInterface {
 
     public static void classificationActionPlan() throws IOException {
         //! read data
-        ReutersXmlData.readXmlFiles();
-        ReutersXmlData.selectArticlesForClassification();
+        Distances mangattanDistance = new manhattanDistance();
+        WordsSimilirityMetrics wordMetric = new NgramMethod();
+        KNN knn = new KNN(mangattanDistance, wordMetric);
 
-        //! split data into training and test sets
-        SetSplit setSplit = new SetSplit(ReutersXmlData.classificationArticles, ReutersXmlData.classificationArticles.size(), 80);
-        List<ReutersElement> trainSet = setSplit.trainSet;
-        List<ReutersElement> testSet = setSplit.testSet;
-
-        //! generate dictionaries
         ReutersInfoData.readData();
-        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
-        List<String> countryDict = ReutersInfoData.allPlacesCodes;
-        List<String> keywordDict = KeywordsExtraction.extractKeywords(trainSet);
-        List<String> stopWords = StopWords.getStopWords();
-
-        //! extract features
-        FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
-
-        ReutersElement testElement = trainSet.get(10204);
-        FeatureVector fv = featureExtractor.extractFeatures(testElement);
-        System.out.println(fv);
-        System.out.println(testElement);
+//        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
+//        List<String> countryDict = ReutersInfoData.allPlacesCodes;
+//        List<String> keywordDict = KeywordsExtraction.extractKeywords(trainSet);
+//        List<String> stopWords = StopWords.getStopWords();
+//
+//        //! extract features
+//        FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
+//
+//        ReutersElement testElement = trainSet.get(10204);
+//        FeatureVector fv = featureExtractor.extractFeatures(testElement);
+//        System.out.println(fv);
+//        System.out.println(testElement);
 
         //! classify
     }

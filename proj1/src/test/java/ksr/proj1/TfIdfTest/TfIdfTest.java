@@ -3,9 +3,12 @@ package ksr.proj1.TfIdfTest;
 import ksr.proj1.DataExtraction.ReutersElement;
 import ksr.proj1.DataExtraction.ReutersXmlData;
 import ksr.proj1.DataExtraction.TfIdfKeyWordExtraction;
+import ksr.proj1.Utils.KeyWordDao;
 import ksr.proj1.Utils.SetSplit;
 import org.junit.jupiter.api.Test;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,32 +23,25 @@ public class TfIdfTest {
 
     @Test
     void keyWordExtractionTest() throws IOException {
+        KeyWordDao dao = new KeyWordDao();
         ReutersXmlData.readXmlFiles();
         ReutersXmlData.selectArticlesForClassification();
-        SetSplit setSplit = new SetSplit(ReutersXmlData.classificationArticles, ReutersXmlData.classificationArticles.size(), 40);
+        SetSplit setSplit = new SetSplit(ReutersXmlData.classificationArticles,60);
         List<ReutersElement> trainSet = setSplit.trainSet;
         List<String> trainSetString = new ArrayList<>();
         for (ReutersElement element : trainSet) {
             trainSetString.add(element.body);
         }
-        TfIdfKeyWordExtraction tfIdfKeyWordExtraction = new TfIdfKeyWordExtraction(trainSetString);
-        List<Map.Entry<String, Float>> top100Entries = getTop100Entries(tfIdfKeyWordExtraction.wordCount);
-
-        // Print the top 100 entries
-        for (Map.Entry<String, Float> entry : top100Entries) {
+        TfIdfKeyWordExtraction tfIdfKeyWordExtraction = new TfIdfKeyWordExtraction();
+        List<Map.Entry<String, Float>> top1000Entries = tfIdfKeyWordExtraction.keyWords(1000, trainSetString);
+        // Print the top 1000 entries
+        for (Map.Entry<String, Float> entry : top1000Entries) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
+
+        // Save the top 1000 entries to a file
+        dao.saveKeywordsToFile(new ArrayList<>(top1000Entries.stream().map(Map.Entry::getKey).toList()), "top1000Keywords.txt");
     }
 
-    public static List<Map.Entry<String, Float>> getTop100Entries(HashMap<String, Float> map) {
-        // Convert the HashMap to a list of entries
-        List<Map.Entry<String, Float>> entryList = new ArrayList<>(map.entrySet());
 
-        // Sort the list based on values in descending order
-        entryList.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
-
-        // Return the top 100 entries
-        return entryList.subList(0, Math.min(1000, entryList.size()));
-
-    }
 }
