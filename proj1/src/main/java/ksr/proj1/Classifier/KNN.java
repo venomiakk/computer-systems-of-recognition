@@ -99,7 +99,7 @@ public class KNN {
                 number++;
             }
         }
-
+        //do  komita
         if (number == 1) {
             for(Map.Entry<String, Long> entry : grouped.entrySet()) {
                 if (entry.getValue() == max[0]) {
