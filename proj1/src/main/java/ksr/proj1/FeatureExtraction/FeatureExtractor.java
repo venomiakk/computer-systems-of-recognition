@@ -45,7 +45,7 @@ public class FeatureExtractor {
         String c7 = this.extractC7(elementText);
         String c8 = this.extractC8(elementText);
         float c9 = this.extractC9(elementText);
-        float c10 = (float) properNouns.size() / wordCount;
+        float c10 = extractC10(properNouns.size(), wordCount);
         int c11 = this.extractC11(elementText);
         int c12 = this.extractC12(elementText);
 
@@ -66,6 +66,9 @@ public class FeatureExtractor {
         /*
          * Punctuation density
          */
+        if (wordCount == 0) {
+            return 0;
+        }
         //TODO add all punctuation marks
         int punctuationCount = 0;
         for (int i = 0; i < elementText.length(); i++) {
@@ -255,6 +258,15 @@ public class FeatureExtractor {
         return (float) keywordCount / words.length;
     }
 
+    float extractC10(int properNounsCount, int wordCount) {
+        /*
+         * Proper nouns density
+         */
+        if (wordCount == 0) {
+            return 0;
+        }
+        return (float) properNounsCount / wordCount;
+    }
 
     int extractC11(String elementText) {
         String[] words = clearTextForWords(elementText);

@@ -1,17 +1,14 @@
 package ksr.proj1;
 
 import ksr.proj1.Classifier.KNN;
-import ksr.proj1.DataExtraction.StopWords;
+import ksr.proj1.Classifier.KNN2;
+import ksr.proj1.DataExtraction.*;
+import ksr.proj1.Distances.Distances;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
-import ksr.proj1.DataExtraction.ReutersInfoData;
-import ksr.proj1.DataExtraction.ReutersXmlData;
-import ksr.proj1.DataExtraction.ReutersElement;
 import ksr.proj1.FeatureExtraction.FeatureVector;
-import ksr.proj1.DataExtraction.KeywordsExtraction;
-import ksr.proj1.Metrics.Distances;
 import ksr.proj1.Metrics.NgramMethod;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;
-import ksr.proj1.Metrics.manhattanDistance;
+import ksr.proj1.Distances.manhattanDistance;
 import ksr.proj1.Utils.SetSplit;
 
 import java.io.IOException;
@@ -22,8 +19,11 @@ public class ConsoleInterface {
         System.out.println("Hello World!");
         //testingReadingXml();
         //testingReadingInfo();
-        classificationActionPlan();
+        //classificationActionPlan();
         //StopWords.getStopWords();
+        //keywordsExtractionTest();
+        newKnnTest();
+
     }
 
     public static void testingReadingXml() {
@@ -63,7 +63,7 @@ public class ConsoleInterface {
         WordsSimilirityMetrics wordMetric = new NgramMethod();
         KNN knn = new KNN(mangattanDistance, wordMetric);
 
-        ReutersInfoData.readData();
+        //ReutersInfoData.readData();
 //        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
 //        List<String> countryDict = ReutersInfoData.allPlacesCodes;
 //        List<String> keywordDict = KeywordsExtraction.extractKeywords(trainSet);
@@ -78,5 +78,33 @@ public class ConsoleInterface {
 //        System.out.println(testElement);
 
         //! classify
+    }
+
+    public static void keywordsExtractionTest() {
+        System.out.println("Extracting keywords");
+        System.out.println(KeywordsExtraction.extractKeywords());
+    }
+
+    public static void newKnnTest() throws IOException {
+        System.out.println("New KNN test");
+
+        ReutersXmlData.readXmlFiles();
+        ReutersXmlData.selectArticlesForClassification();
+        List<ReutersElement> articles =  ReutersXmlData.classificationArticles;
+
+        ReutersInfoData.readData();
+        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
+        List<String> countryDict = ReutersInfoData.allPlacesCodes;
+        List<String> keywordDict = KeywordsExtraction.extractKeywords();
+
+        List<String> stopWords = StopWords.getStopWords();
+
+        Distances manhattanDistance = new manhattanDistance();
+        WordsSimilirityMetrics wordMetric = new NgramMethod();
+        List<String> features = List.of("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12");
+
+        KNN2 knn = new KNN2(articles, surnameDict, countryDict, keywordDict, stopWords);
+        knn.knnClassify(5, 60, features, manhattanDistance, wordMetric);
+
     }
 }

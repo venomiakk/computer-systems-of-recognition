@@ -1,5 +1,6 @@
 package ksr.proj1.FeatureExtraction;
 
+import ksr.proj1.DataExtraction.KeywordsExtraction;
 import ksr.proj1.DataExtraction.ReutersInfoData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -96,5 +97,17 @@ class FeatureExtractorTest {
                 """;
         int count = featureExtractor.extractC12(text);
         Assertions.assertEquals(4, count);
+    }
+
+    @Test
+    void extractC7() {
+        List<String> newKeywords = KeywordsExtraction.extractKeywords();
+        FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, newKeywords, stopWords);
+        String text = """
+                Alfonsin animals 19,70 usa Stoltenberg, iron vietnam, asffw - dsad? Stich west-germany? Vietnam Alfonsin
+                """;
+        String word = featureExtractor.extractC7(text);
+        System.out.println(word);
+        Assertions.assertEquals("animals", word);
     }
 }

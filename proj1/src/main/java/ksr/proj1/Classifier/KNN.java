@@ -1,19 +1,15 @@
 package ksr.proj1.Classifier;
 
-import ksr.proj1.DataExtraction.ReutersElement;
-import ksr.proj1.DataExtraction.ReutersInfoData;
-import ksr.proj1.DataExtraction.ReutersXmlData;
-import ksr.proj1.DataExtraction.StopWords;
+import ksr.proj1.DataExtraction.*;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.FeatureExtraction.FeatureVector;
-import ksr.proj1.Metrics.Distances;
+import ksr.proj1.Distances.Distances;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;
 import ksr.proj1.Utils.KeyWordDao;
 import ksr.proj1.Utils.SetSplit;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class KNN {
@@ -23,12 +19,16 @@ public class KNN {
     private static List<String> countryDict = new ArrayList<>();
     private static List<String> keywordDict = new ArrayList<>();
     private static List<String> stopWords = new ArrayList<>();
+
+    private static List<ReutersElement> articles = new ArrayList<>();
+
     public KNN(Distances metricMethod, WordsSimilirityMetrics wordMetric) throws IOException {
         KeyWordDao dao = new KeyWordDao();
         ReutersInfoData.readData();
         surnameDict = ReutersInfoData.allPeopleCodes;
         countryDict = ReutersInfoData.allPlacesCodes;
-        keywordDict = dao.loadKeywordsFromFile("top1000Keywords.txt");
+        //keywordDict = dao.loadKeywordsFromFile("top1000Keywords.txt");
+        keywordDict = KeywordsExtraction.extractKeywords();
         stopWords = StopWords.getStopWords();
         FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
         createSeperateSets(featureExtractor);
@@ -131,7 +131,7 @@ public class KNN {
             }
 
             if (minIndex != -1) {
-                System.out.println("Min index: " + minIndex);
+                //System.out.println("Min index: " + minIndex);
                 vector.predictedLabel = temp.get(minIndex).realLabel;
             }
         }
@@ -142,6 +142,19 @@ public class KNN {
                 System.out.println("Predicted label: " + vector.predictedLabel + " Real label: " + vector.realLabel);
             }
         }
+        float correct = 0;
+        float incorrect = 0;
+        for(FeatureVector vector : testingSet) {
+            if (vector.predictedLabel.equals(vector.realLabel)) {
+                correct++;
+            } else {
+                incorrect++;
+            }
+        }
+        float accuracy = (correct / (correct + incorrect));
+        System.out.println("Correct: " + correct);
+        System.out.println("Incorrect: " + incorrect);
+        System.out.println("Accuracy: " + accuracy);
     }
 
 }
