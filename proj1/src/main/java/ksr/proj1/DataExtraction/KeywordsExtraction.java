@@ -49,7 +49,11 @@ public class KeywordsExtraction {
                 String content = matcher.group(1);
                 String[] keywords = content.split(",");
                 for (String keyword : keywords) {
-                    keywordSet.add(keyword.replaceAll("\"", "").trim());
+                    //keyword = keyword.replaceAll("\\s+", "");
+                    String[] parts = keyword.split(" ");
+                    for (String part : parts) {
+                        keywordSet.add(part.replaceAll("\"", "").trim());
+                    }
                 }
             }
         }

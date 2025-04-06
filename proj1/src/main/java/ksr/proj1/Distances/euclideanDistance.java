@@ -8,6 +8,9 @@ public class euclideanDistance implements Distances {
     public float countDistance(FeatureVector featureVector1, FeatureVector featureVector2, WordsSimilirityMetrics metric) {
         float distance = 0.0f;
         for(int i=0; i< featureVector1.features.size();i++){
+            if(featureVector1.features.get(i) == null || featureVector2.features.get(i) == null){
+                continue;
+            }
             if (featureVector1.features.get(i).getClass() == featureVector2.features.get(i).getClass()) {
                 if (featureVector1.features.get(i) instanceof String) {
                     String word1 = (String) featureVector1.features.get(i);

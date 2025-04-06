@@ -54,7 +54,7 @@ public class ReutersXmlData {
         int index = 0;
         for (ReutersElement element : allArticles) {
             if (element.places.size() == 1 && List.of("usa", "france", "japan", "west-germany", "uk", "canada").
-                    contains(element.places.getFirst())) {
+                    contains(element.places.getFirst()) && element.body != null && !element.body.isEmpty()) {
                 element.index = index;
                 element.label = element.places.getFirst();
                 classificationArticles.add(element);

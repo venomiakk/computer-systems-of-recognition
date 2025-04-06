@@ -10,6 +10,9 @@ public class chebyshevDistance implements  Distances{
     public float countDistance(FeatureVector featureVector1, FeatureVector featureVector2, WordsSimilirityMetrics metric) {
         ArrayList<Float> distance = new ArrayList<>();
         for(int i=0; i< featureVector1.features.size();i++){
+            if(featureVector1.features.get(i) == null || featureVector2.features.get(i) == null){
+                continue;
+            }
             if (featureVector1.features.get(i).getClass() == featureVector2.features.get(i).getClass()) {
                 if (featureVector1.features.get(i) instanceof String) {
                     String word1 = (String) featureVector1.features.get(i);
@@ -24,6 +27,6 @@ public class chebyshevDistance implements  Distances{
                 }
             }
         }
-        return distance.stream().max(Float::compare).get();
+        return distance.stream().max(Float::compare).orElse(0.0f);
     }
 }

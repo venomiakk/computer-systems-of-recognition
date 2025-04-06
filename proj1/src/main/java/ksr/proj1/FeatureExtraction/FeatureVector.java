@@ -31,7 +31,7 @@ public class FeatureVector {
      * - c12: int, number of country names in the text
      */
 
-    int originalID;
+    public int originalID;
 
     // classification attributes
     public String realLabel;
