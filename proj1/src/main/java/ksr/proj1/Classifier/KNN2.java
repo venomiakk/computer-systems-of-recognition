@@ -1,7 +1,7 @@
 package ksr.proj1.Classifier;
 
 import ksr.proj1.DataExtraction.ReutersElement;
-import ksr.proj1.Distances.Distances;
+import ksr.proj1.Classifier.Distances.Distances;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.FeatureExtraction.FeatureVector;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;

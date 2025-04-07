@@ -3,15 +3,11 @@ package ksr.proj1;
 import ksr.proj1.Classifier.KNN;
 import ksr.proj1.Classifier.KNN2;
 import ksr.proj1.DataExtraction.*;
-import ksr.proj1.Distances.Distances;
-import ksr.proj1.Distances.chebyshevDistance;
-import ksr.proj1.Distances.euclideanDistance;
-import ksr.proj1.FeatureExtraction.FeatureExtractor;
-import ksr.proj1.FeatureExtraction.FeatureVector;
+import ksr.proj1.Classifier.Distances.Distances;
+import ksr.proj1.Classifier.Distances.chebyshevDistance;
+import ksr.proj1.Classifier.Distances.euclideanDistance;
 import ksr.proj1.Metrics.NgramMethod;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;
-import ksr.proj1.Distances.manhattanDistance;
-import ksr.proj1.Utils.SetSplit;
 
 import java.io.IOException;
 import java.util.*;
@@ -63,13 +59,15 @@ public class ConsoleInterface {
         //! read data
         long startTime = System.currentTimeMillis();
 
-        Distances mangattanDistance = new euclideanDistance();
+        Distances distanceMeasure = new euclideanDistance();
         WordsSimilirityMetrics wordMetric = new NgramMethod();
+
         List<Integer> kn = List.of(1,2, 3, 5, 7, 9,12,15,20,30);
         for (Integer i : kn) {
             System.out.println("K = " + i);
-            KNN knn = new KNN(mangattanDistance, wordMetric, i);
+            KNN knn = new KNN(distanceMeasure, wordMetric, i);
         }
+        //KNN knn = new KNN(distanceMeasure, wordMetric, 5);
 
 
         long endTime = System.currentTimeMillis();
@@ -77,22 +75,6 @@ public class ConsoleInterface {
         System.out.println("Execution time: " + duration + " milliseconds");
         System.out.println("Execution time: " + duration / 1000 + " seconds");
         System.out.println("Execution time: " + duration / 60000 + " minutes");
-
-        //ReutersInfoData.readData();
-//        List<String> surnameDict = ReutersInfoData.allPeopleCodes;
-//        List<String> countryDict = ReutersInfoData.allPlacesCodes;
-//        List<String> keywordDict = KeywordsExtraction.extractKeywords(trainSet);
-//        List<String> stopWords = StopWords.getStopWords();
-//
-//        //! extract features
-//        FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
-//
-//        ReutersElement testElement = trainSet.get(10204);
-//        FeatureVector fv = featureExtractor.extractFeatures(testElement);
-//        System.out.println(fv);
-//        System.out.println(testElement);
-
-        //! classify
     }
 
     public static void keywordsExtractionTest() {

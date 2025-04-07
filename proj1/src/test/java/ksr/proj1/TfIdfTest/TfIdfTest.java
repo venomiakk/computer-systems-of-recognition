@@ -32,6 +32,7 @@ public class TfIdfTest {
         for (ReutersElement element : trainSet) {
             trainSetString.add(element.body);
         }
+
         TfIdfKeyWordExtraction tfIdfKeyWordExtraction = new TfIdfKeyWordExtraction();
         List<Map.Entry<String, Float>> top1000Entries = tfIdfKeyWordExtraction.keyWords(1000, trainSetString);
         // Print the top 1000 entries

@@ -1,4 +1,4 @@
-package ksr.proj1.Distances;
+package ksr.proj1.Classifier.Distances;
 
 import ksr.proj1.FeatureExtraction.FeatureVector;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;

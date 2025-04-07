@@ -1,9 +1,9 @@
-package ksr.proj1.Distances;
+package ksr.proj1.Classifier.Distances;
 
 import ksr.proj1.FeatureExtraction.FeatureVector;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;
 
-public class manhattanDistance implements Distances {
+public class euclideanDistance implements Distances {
     @Override
     public float countDistance(FeatureVector featureVector1, FeatureVector featureVector2, WordsSimilirityMetrics metric) {
         float distance = 0.0f;
@@ -18,13 +18,14 @@ public class manhattanDistance implements Distances {
                     float similarity = metric.calc(word1, word2, 1, 2);
                     distance += (1 - similarity);
                 }else if (featureVector1.features.get(i) instanceof Integer) {
-                    distance += Math.abs((int) featureVector1.features.get(i) - (int) featureVector2.features.get(i));
+                    distance += Math.pow((int) featureVector1.features.get(i) - (int) featureVector2.features.get(i), 2);
                 }
                 else if (featureVector1.features.get(i) instanceof Float) {
-                    distance += Math.abs((float) featureVector1.features.get(i) - (float) featureVector2.features.get(i));
+                    distance += Math.pow((float) featureVector1.features.get(i) - (float) featureVector2.features.get(i), 2);
                 }
             }
         }
-        return distance;
+        return (float) Math.sqrt(distance);
     }
+
 }

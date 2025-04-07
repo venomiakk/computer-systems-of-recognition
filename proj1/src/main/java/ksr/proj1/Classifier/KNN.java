@@ -3,7 +3,7 @@ package ksr.proj1.Classifier;
 import ksr.proj1.DataExtraction.*;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.FeatureExtraction.FeatureVector;
-import ksr.proj1.Distances.Distances;
+import ksr.proj1.Classifier.Distances.Distances;
 import ksr.proj1.Metrics.WordsSimilirityMetrics;
 import ksr.proj1.Utils.KeyWordDao;
 import ksr.proj1.Utils.SetSplit;
@@ -129,7 +129,7 @@ public class KNN {
         //    }
         //}
         //return nearestNeighbors;
-        return testingSet.stream().
+        return trainingSet.stream().
                 sorted(Comparator.comparingDouble(fv -> metricMethod.countDistance(vector, fv, wordMetric)))
                 .limit(k)
                 .collect(Collectors.toList());
@@ -220,41 +220,22 @@ public class KNN {
 
         //print confusion matrix
         //wrong
-        //System.out.println("Confusion Matrix:");
-        //for (Map.Entry<String, Map<String, Integer>> real : confusionMatrix.entrySet()) {
-        //    String realLabel = real.getKey();
-        //    Map<String, Integer> predictedLabels = real.getValue();
-        //    System.out.print(realLabel + ": ");
-        //    for (Map.Entry<String, Integer> predicted : predictedLabels.entrySet()) {
-        //        String predictedLabel = predicted.getKey();
-        //        int count = predicted.getValue();
-        //        System.out.print("    " + predictedLabel + ": " + count + ", ");
-        //    }
-        //    System.out.println();
-        //}
-        //System.out.println("Precision and Recall for each class:");
-        //for (String classLabel : confusionMatrix.keySet()) {
-        //    int tp = confusionMatrix.get(classLabel).getOrDefault(classLabel, 0);
-        //    int fp = 0;
-        //    int fn = 0;
-        //
-        //    // Sum up false positives (FP) and false negatives (FN)
-        //    for (Map.Entry<String, Map<String, Integer>> real : confusionMatrix.entrySet()) {
-        //        if (!real.getKey().equals(classLabel)) {
-        //            fp += real.getValue().getOrDefault(classLabel, 0);
-        //            fn += real.getValue().getOrDefault(classLabel, 0);
-        //        }
-        //    }
-        //
-        //    // Calculate precision and recall
-        //    float precision = tp / (float)(tp + fp);
-        //    float recall = tp / (float)(tp + fn);
-        //
-        //    System.out.println("Class: " + classLabel);
-        //    System.out.println("Precision: " + precision);
-        //    System.out.println("Recall: " + recall);
-        //    System.out.println();
-        //}
+        System.out.println("Confusion Matrix:");
+        for (Map.Entry<String, Map<String, Integer>> real : confusionMatrix.entrySet()) {
+            String realLabel = real.getKey();
+            Map<String, Integer> predictedLabels = real.getValue();
+            System.out.print(realLabel + ": ");
+            for (Map.Entry<String, Integer> predicted : predictedLabels.entrySet()) {
+                String predictedLabel = predicted.getKey();
+                int count = predicted.getValue();
+                System.out.print("    " + predictedLabel + ": " + count + ", ");
+            }
+            System.out.println();
+        }
+        System.out.println("Precision and Recall for each class:");
+        for (String classLabel : confusionMatrix.keySet()) {
+            
+        }
     }
 
     private void normalizeVectors() {
