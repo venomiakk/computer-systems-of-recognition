@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 public class KeywordsExtraction {
     private static final String filePath = "src/main/resources/data/info/feldman-cia-worldfactbook-data.txt";
 
-    public static List<String> extractKeywords() {
+    public static List<String> extractKeywords() throws IOException {
         Set<String> keywordSet = new HashSet<>();
         List<String> bgfactLines = new ArrayList<>();
         List<String> types = List.of("NaturalResources", "Capital", "MemberOf", "ExportCommodities",
@@ -40,7 +40,6 @@ public class KeywordsExtraction {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        //System.out.println(bgfactLines);
 
         Pattern squareBracketsPattern = Pattern.compile("\\[(.*?)\\]");
         for (String line : bgfactLines) {
@@ -49,15 +48,19 @@ public class KeywordsExtraction {
                 String content = matcher.group(1);
                 String[] keywords = content.split(",");
                 for (String keyword : keywords) {
-                    //keyword = keyword.replaceAll("\\s+", "");
                     String[] parts = keyword.split(" ");
                     for (String part : parts) {
-                        keywordSet.add(part.replaceAll("\"", "").trim());
+                        String newPart = part.replaceAll("\"", "").trim();
+                        if (newPart.matches(".*[a-zA-Z].*")) {
+                            keywordSet.add(newPart);
+                        }
                     }
                 }
             }
         }
-        //keywordSet.forEach(System.out::println);
+        List<String> stopWords = StopWords.getStopWords();
+        stopWords.forEach(keywordSet::remove);
+
         return keywordSet.stream().toList();
     }
 

@@ -1,9 +1,9 @@
-package ksr.proj1.Metrics;
+package ksr.proj1.Classifier.Measures;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class JaccardMeasure implements WordsSimilirityMetrics{
+public class JaccardMeasure implements WordsSimilarityMeasure {
     @Override
     public float calc(String word1, String word2, int minLength, int maxLength) {
         String tempWord1 = word1.toLowerCase().replaceAll("\\s+", "");

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-public class FeatureVector {
+public class FeatureVector implements Cloneable {
     /**
      * Class representing a single Reuters article.
      * Contains all the attributes of the article.
@@ -40,7 +40,6 @@ public class FeatureVector {
 
     //features
     public ArrayList<Object> features = new ArrayList<>();
-    public HashMap<String, Object> featuresMap = new LinkedHashMap<>();
     public int c1;
     public float c2;
     public String c3;
@@ -88,21 +87,6 @@ public class FeatureVector {
 
     }
 
-    public void convertToHashmap(){
-        featuresMap.put("c1", c1);
-        featuresMap.put("c2", c2);
-        featuresMap.put("c3", c3);
-        featuresMap.put("c4", c4);
-        featuresMap.put("c5", c5);
-        featuresMap.put("c6", c6);
-        featuresMap.put("c7", c7);
-        featuresMap.put("c8", c8);
-        featuresMap.put("c9", c9);
-        featuresMap.put("c10", c10);
-        featuresMap.put("c11", c11);
-        featuresMap.put("c12", c12);
-    }
-
     //@Override
     //public String toString() {
     //    return "FeatureVector{" + '\n' +
@@ -134,5 +118,26 @@ public class FeatureVector {
                 ", predictedLabel='" + predictedLabel + '\'' +
                 ", features=" + features +
                 '}';
+    }
+
+    @Override
+    public FeatureVector clone() {
+        return new FeatureVector(
+                originalID,
+                realLabel,
+                reutersElementIndex,
+                c1,
+                c2,
+                c3,
+                c4,
+                c5,
+                c6,
+                c7,
+                c8,
+                c9,
+                c10,
+                c11,
+                c12
+        );
     }
 }

@@ -16,13 +16,14 @@ public class MainTest {
         for (String label : nn) {
             labelCounts.put(label, labelCounts.getOrDefault(label, 0) + 1);
         }
-
+        System.out.println(labelCounts);
         int maxCount = Collections.max(labelCounts.values());
+        System.out.println(Collections.max(labelCounts.entrySet(), Map.Entry.comparingByValue()).getKey());
         List<String> candidates = labelCounts.entrySet().stream()
                 .filter(e -> e.getValue() == maxCount)
                 .map(Map.Entry::getKey)
                 .toList();
-
+        System.out.println(candidates);
         Assertions.assertEquals("b", candidates.getFirst());
     }
 

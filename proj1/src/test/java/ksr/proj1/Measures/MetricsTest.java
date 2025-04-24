@@ -1,11 +1,7 @@
-package ksr.proj1.Metrics;
-
-import ksr.proj1.FeatureExtraction.FeatureVector;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+package ksr.proj1.Measures;
 
 public class MetricsTest {
-//    Metrics m = new Metrics();
+//    Measures m = new Measures();
 //    FeatureVector featureVector1 = new FeatureVector(
 //            2157, "usa", 1, 1, 1, "Smith", "USA", "John", 1, "finance", "inflation", 1f, 1f, 5, 3
 //    );

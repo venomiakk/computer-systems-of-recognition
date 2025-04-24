@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,7 +101,7 @@ class FeatureExtractorTest {
     }
 
     @Test
-    void extractC7() {
+    void extractC7() throws IOException {
         List<String> newKeywords = KeywordsExtraction.extractKeywords();
         FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, newKeywords, stopWords);
         String text = """

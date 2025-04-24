@@ -19,6 +19,7 @@ public class FeatureExtractor {
     public Set<String> stopWords = new HashSet<>();
 
     public FeatureExtractor(List<String> surnameDict, List<String> countryDict, List<String> keywordDict, List<String> stopWords) {
+        //TODO is here deep copy needed?
         this.surnameDict = new HashSet<>(ListUtils.deepCopyList(surnameDict));
         this.countryDict = new HashSet<>(ListUtils.deepCopyList(countryDict));
         this.keywordDict = new HashSet<>(ListUtils.deepCopyList(keywordDict));

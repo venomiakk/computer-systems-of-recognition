@@ -1,5 +1,6 @@
-package ksr.proj1.Metrics;
+package ksr.proj1.Measures;
 
+import ksr.proj1.Classifier.Measures.NgramMethod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

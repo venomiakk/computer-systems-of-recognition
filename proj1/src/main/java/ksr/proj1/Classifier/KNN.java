@@ -3,8 +3,8 @@ package ksr.proj1.Classifier;
 import ksr.proj1.DataExtraction.*;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.FeatureExtraction.FeatureVector;
-import ksr.proj1.Classifier.Distances.Distances;
-import ksr.proj1.Metrics.WordsSimilirityMetrics;
+import ksr.proj1.Classifier.DistanceMetrics.Distances;
+import ksr.proj1.Classifier.Measures.WordsSimilarityMeasure;
 import ksr.proj1.Utils.KeyWordDao;
 import ksr.proj1.Utils.SetSplit;
 
@@ -22,7 +22,7 @@ public class KNN {
 
     private static List<ReutersElement> articles = new ArrayList<>();
 
-    public KNN(Distances metricMethod, WordsSimilirityMetrics wordMetric, int kn) throws IOException {
+    public KNN(Distances metricMethod, WordsSimilarityMeasure wordMetric, int kn) throws IOException {
         KeyWordDao dao = new KeyWordDao();
         ReutersInfoData.readData();
         surnameDict = ReutersInfoData.allPeopleCodes;
@@ -30,6 +30,8 @@ public class KNN {
         //keywordDict = dao.loadKeywordsFromFile("top1000Keywords.txt");
         keywordDict = KeywordsExtraction.extractKeywords();
         stopWords = StopWords.getStopWords();
+
+        long startTime = System.currentTimeMillis();
         FeatureExtractor featureExtractor = new FeatureExtractor(surnameDict, countryDict, keywordDict, stopWords);
         createSeperateSets(featureExtractor);
         for (FeatureVector vector : testingSet) {
@@ -38,6 +40,12 @@ public class KNN {
         //for (FeatureVector vector : trainingSet) {
         //    System.out.println(vector);
         //}
+
+        long endTime = System.currentTimeMillis();
+        long duration = endTime - startTime; // Calculate duration in milliseconds
+        System.out.println("Execution time: " + duration + " milliseconds");
+        System.out.println("Execution time: " + duration / 1000 + " seconds");
+        System.out.println("Execution time: " + duration / 60000 + " minutes");
         showIncorrectLables();
 
 
@@ -51,7 +59,7 @@ public class KNN {
         for (ReutersElement article : ReutersXmlData.classificationArticles) {
             articleVectors.add(featureExtractor.extractFeatures(article));
         }
-        SetSplit.setSplitVectors(articleVectors, 60, 1000);
+        SetSplit.setSplitVectors(articleVectors, 60, articleVectors.size());
         trainingSet = SetSplit.trainSetVectors;
         testingSet = SetSplit.testSetVectors;
 
@@ -107,7 +115,7 @@ public class KNN {
         normalizeVectors();
     }
 
-    public List<FeatureVector> findNeighbours(Distances metricMethod, WordsSimilirityMetrics wordMetric, FeatureVector vector, int k) {
+    public List<FeatureVector> findNeighbours(Distances metricMethod, WordsSimilarityMeasure wordMetric, FeatureVector vector, int k) {
         //List<FeatureVector> nearestNeighbors = new ArrayList<>();
         //for (FeatureVector featureVector : trainingSet) {
         //    float distance = metricMethod.countDistance(vector, featureVector, wordMetric);
@@ -130,12 +138,12 @@ public class KNN {
         //}
         //return nearestNeighbors;
         return trainingSet.stream().
-                sorted(Comparator.comparingDouble(fv -> metricMethod.countDistance(vector, fv, wordMetric)))
+                sorted(Comparator.comparingDouble(fv -> metricMethod.calculateDistance(vector, fv, wordMetric)))
                 .limit(k)
                 .collect(Collectors.toList());
     }
 
-    public void classify(Distances metricMethod, WordsSimilirityMetrics wordMetric, FeatureVector vector, int k) {
+    public void classify(Distances metricMethod, WordsSimilarityMeasure wordMetric, FeatureVector vector, int k) {
         final Long[] max = {Long.MIN_VALUE};
         int number = 0;
         List<FeatureVector> nearestNeighbours = findNeighbours(metricMethod, wordMetric, vector, k);
@@ -178,7 +186,7 @@ public class KNN {
             int minIndex = -1;
 
             for (int i = 0; i < temp.size(); i++) {
-                float currentDistance = metricMethod.countDistance(vector, temp.get(i), wordMetric);
+                float currentDistance = metricMethod.calculateDistance(vector, temp.get(i), wordMetric);
                 if (currentDistance < min) {
                     min = currentDistance;
                     minIndex = i;

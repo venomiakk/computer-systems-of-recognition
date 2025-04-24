@@ -1,6 +1,6 @@
-package ksr.proj1.Metrics;
+package ksr.proj1.Classifier.Measures;
 
-public class NgramMethod implements WordsSimilirityMetrics {
+public class NgramMethod implements WordsSimilarityMeasure {
 
     @Override
     public float calc(String word1, String word2, int minLength, int maxLength) {
@@ -18,6 +18,7 @@ public class NgramMethod implements WordsSimilirityMetrics {
             }
 
         }
+        //TODO: check if fNn1n2 is necessary
         float fNn1n2 = (float) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength));
         return sum * ((float) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength)));
     }
