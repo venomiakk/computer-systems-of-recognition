@@ -3,7 +3,7 @@ package ksr.proj1.Classifier.Measures;
 public class NgramMethod implements WordsSimilarityMeasure {
 
     @Override
-    public float calc(String word1, String word2, int minLength, int maxLength) {
+    public double calc(String word1, String word2, int minLength, int maxLength) {
         String tempWord1 = word1.replaceAll("\\s+","");
         String tempWord2 = word2.replaceAll("\\s+","");
         int lenght = Math.min(tempWord1.length(), tempWord2.length());
@@ -19,7 +19,7 @@ public class NgramMethod implements WordsSimilarityMeasure {
 
         }
         //TODO: check if fNn1n2 is necessary
-        float fNn1n2 = (float) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength));
-        return sum * ((float) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength)));
+        double fNn1n2 = (double) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength));
+        return sum * ((double) 2 /((N-minLength + 1)*(N-minLength +2) - (N-maxLength + 1)*(N-maxLength)));
     }
 }

@@ -1,8 +1,6 @@
 package ksr.proj1.FeatureExtraction;
 
 import ksr.proj1.DataExtraction.ReutersElement;
-import ksr.proj1.DataExtraction.TfIdfKeyWordExtraction;
-import ksr.proj1.Utils.ListUtils;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,16 +12,14 @@ public class FeatureExtractor {
 
     public Set<String> surnameDict = new HashSet<>();
     public Set<String> countryDict = new HashSet<>();
-    //TODO should order of keywords matter?
     public Set<String> keywordDict = new HashSet<>();
     public Set<String> stopWords = new HashSet<>();
 
     public FeatureExtractor(List<String> surnameDict, List<String> countryDict, List<String> keywordDict, List<String> stopWords) {
-        //TODO is here deep copy needed?
-        this.surnameDict = new HashSet<>(ListUtils.deepCopyList(surnameDict));
-        this.countryDict = new HashSet<>(ListUtils.deepCopyList(countryDict));
-        this.keywordDict = new HashSet<>(ListUtils.deepCopyList(keywordDict));
-        this.stopWords = new HashSet<>(ListUtils.deepCopyList(stopWords));
+        this.surnameDict = new HashSet<>(surnameDict);
+        this.countryDict = new HashSet<>(countryDict);
+        this.keywordDict = new HashSet<>(keywordDict);
+        this.stopWords = new HashSet<>(stopWords);
     }
 
     public FeatureExtractor() {
@@ -243,9 +239,6 @@ public class FeatureExtractor {
 
 
     float extractC9(String elementText) {
-        /*
-         * Average TF-IDF of all keywords in the document
-         */
         String[] words = clearTextForWords(elementText);
         if (words == null || words.length == 0) {
             return 0;

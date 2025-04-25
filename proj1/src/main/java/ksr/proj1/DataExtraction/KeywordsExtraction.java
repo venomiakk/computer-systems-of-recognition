@@ -51,6 +51,7 @@ public class KeywordsExtraction {
                     String[] parts = keyword.split(" ");
                     for (String part : parts) {
                         String newPart = part.replaceAll("\"", "").trim();
+                        newPart = newPart.replaceAll("\\s+", "");
                         if (newPart.matches(".*[a-zA-Z].*")) {
                             keywordSet.add(newPart);
                         }

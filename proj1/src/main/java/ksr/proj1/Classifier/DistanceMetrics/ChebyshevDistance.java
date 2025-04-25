@@ -7,27 +7,30 @@ import java.util.ArrayList;
 
 public class ChebyshevDistance implements  Distances{
     @Override
-    public float calculateDistance(FeatureVector featureVector1, FeatureVector featureVector2, WordsSimilarityMeasure metric) {
-        // TODO: handle null values properly, check getClass() condition
-        ArrayList<Float> distance = new ArrayList<>();
-        for(int i=0; i< featureVector1.features.size();i++){
-            if(featureVector1.features.get(i) == null || featureVector2.features.get(i) == null){
-                continue;
+    public double calculateDistance(FeatureVector featureVector1, FeatureVector featureVector2, WordsSimilarityMeasure wordSimMeasure) {
+        double maxDistance = 0.0d;
+        for (int i = 0; i < featureVector1.features.size(); i++) {
+            Object feature1 = featureVector1.features.get(i);
+            Object feature2 = featureVector2.features.get(i);
+
+            double currentDist;
+
+            //TODO: jakoś inaczej rozwiązać problem z nullami
+            if (feature1 == null || feature2 == null || feature1.getClass() != feature2.getClass()) {
+                currentDist = 0.0d;
+            } else if (feature1 instanceof String) {
+                double similarity = wordSimMeasure.calc((String) feature1, (String) feature2, 1, 3);
+                currentDist = Math.abs(1.0d - similarity);
+            } else {
+                double val1 = ((Number) feature1).doubleValue();
+                double val2 = ((Number) feature2).doubleValue();
+                currentDist = Math.abs(val1 - val2);
             }
-            if (featureVector1.features.get(i).getClass() == featureVector2.features.get(i).getClass()) {
-                if (featureVector1.features.get(i) instanceof String) {
-                    String word1 = (String) featureVector1.features.get(i);
-                    String word2 = (String) featureVector2.features.get(i);
-                    float similarity = metric.calc(word1, word2, 1, 2);
-                    distance.add(1 - similarity);
-                }else if (featureVector1.features.get(i) instanceof Integer) {
-                    distance.add((float) Math.abs((int) featureVector1.features.get(i) - (int) featureVector2.features.get(i)));
-                }
-                else if (featureVector1.features.get(i) instanceof Float) {
-                    distance.add(Math.abs((float) featureVector1.features.get(i) - (float) featureVector2.features.get(i)));
-                }
+
+            if (currentDist > maxDistance) {
+                maxDistance = currentDist;
             }
         }
-        return distance.stream().max(Float::compare).orElse(0.0f);
+        return maxDistance;
     }
 }

@@ -17,7 +17,7 @@ public class NgramMethodTest {
         //TODO: implement proper tests
         String word1 = "test";
         String word2 = "test";
-        float similiarity = m.calc(word1, word2, 1, 2);
+        double similiarity = m.calc(word1, word2, 1, 2);
         Assertions.assertEquals(1.0f, similiarity);
     }
 
@@ -26,7 +26,7 @@ public class NgramMethodTest {
         //TODO: implement proper tests
         String word1 = "string";
         String word2 = "stringify";
-        float similiarity = m.calc(word1, word2, 1, 2);
+        double similiarity = m.calc(word1, word2, 1, 2);
         DecimalFormat df_obj = new DecimalFormat("#.###");
         Assertions.assertEquals(df_obj.format(0.647),  df_obj.format(similiarity));
     }
@@ -36,7 +36,7 @@ public class NgramMethodTest {
         //TODO: implement proper tests
         String word1 = "string";
         String word2 = "stringify";
-        float similiarity = m.calc(word1, word2, 1, 2);
+        double similiarity = m.calc(word1, word2, 1, 2);
         DecimalFormat df_obj = new DecimalFormat("#.###");
         Assertions.assertEquals(df_obj.format(0.647),  df_obj.format(similiarity));
     }

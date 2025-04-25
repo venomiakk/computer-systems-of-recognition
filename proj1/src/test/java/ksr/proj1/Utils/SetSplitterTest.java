@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class SetSplitTest {
+class SetSplitterTest {
 
     @Test
     public void shuffleTest(){

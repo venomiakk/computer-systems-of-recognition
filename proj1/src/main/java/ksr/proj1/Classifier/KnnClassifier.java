@@ -5,8 +5,7 @@ import ksr.proj1.DataExtraction.ReutersElement;
 import ksr.proj1.Classifier.Measures.WordsSimilarityMeasure;
 import ksr.proj1.FeatureExtraction.FeatureExtractor;
 import ksr.proj1.FeatureExtraction.FeatureVector;
-import ksr.proj1.Utils.ListUtils;
-import ksr.proj1.Utils.SetSplit;
+import ksr.proj1.Utils.SetSplitter;
 
 import java.io.IOException;
 import java.util.*;
@@ -47,7 +46,7 @@ public class KnnClassifier {
         }
     }
 
-    public void classify(int k, int percentageOfTrainSet, int numOfArticles, List<String> classificationFeatures,
+    public ClassificationResult classify(int k, int percentageOfTrainSet, int numOfArticles, List<String> classificationFeatures,
                          Distances dstMetric, WordsSimilarityMeasure wordsSimMeasure) {
         long startTime = System.currentTimeMillis();
 
@@ -63,27 +62,44 @@ public class KnnClassifier {
         if (numOfArticles <= 0) {
             numOfArticles = articleVectors.size();
         }
-        SetSplit.setSplitVectors(articleVectors, percentageOfTrainSet, numOfArticles);
-        List<FeatureVector> trainSet = SetSplit.trainSetVectors;
-        List<FeatureVector> testSet = SetSplit.testSetVectors;
+        SetSplitter.setSplitVectors(articleVectors, percentageOfTrainSet, numOfArticles);
+        List<FeatureVector> trainSet = SetSplitter.trainSetVectors;
+        List<FeatureVector> testSet = SetSplitter.testSetVectors;
 
         // Normalize vectors (based on the training set)
         normalizeVectors(trainSet, testSet);
         //System.out.println(trainSet.getFirst());
-        //System.out.println(testSet.getFirst());
-
+        ////System.out.println(testSet.getFirst());
+        //for (Object f : trainSet.getFirst().features) {
+        //    if (f == null) {
+        //        System.out.println("null");
+        //    }
+        //    else{
+        //        System.out.println(f + "  " + f.getClass());
+        //    }
+        //}
         // Find k nearest neighbors for each test vector
+        int progress_index = 1;
         for (FeatureVector testVector : testSet) {
+            System.out.print("\r" + progress_index + "/" + testSet.size());
+            progress_index++;
             List<FeatureVector> neighbors = findNearestNeighbors(testVector, trainSet, k, dstMetric, wordsSimMeasure);
             // Classify the test vector based on the majority class of its neighbors
             assignLabel(testVector, neighbors);
 
         }
+        System.out.println("\n");
+        //for (FeatureVector testVector : testSet) {
+        //    System.out.println(testVector);
+        //}
         // Calculate results (accuracy, precision, recall, F1 score)
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
+
         ClassificationResult cr = new ClassificationResult(trainSet, testSet, k, percentageOfTrainSet,
                 numOfArticles, classificationFeatures, dstMetric, wordsSimMeasure, duration);
+
+        return cr;
     }
 
     private void assignLabel(FeatureVector testVector, List<FeatureVector> neighbors) {
@@ -97,10 +113,6 @@ public class KnnClassifier {
 
     private List<FeatureVector> findNearestNeighbors(FeatureVector testVector, List<FeatureVector> trainingSet, int k,
                                                      Distances dstMetric, WordsSimilarityMeasure wordsSimMeasure) {
-        //return trainingSet.stream().sorted(Comparator.comparingDouble(trainFeatureVector ->
-        //        dstMetric.calculateDistance(trainFeatureVector, testVector, wordsSimMeasure)))
-        //        .limit(k)
-        //        .toList();
 
         PriorityQueue<FeatureVector> heap = new PriorityQueue<>(Comparator.comparingDouble(trainFeatureVector ->
                 -dstMetric.calculateDistance(trainFeatureVector, testVector, wordsSimMeasure)));

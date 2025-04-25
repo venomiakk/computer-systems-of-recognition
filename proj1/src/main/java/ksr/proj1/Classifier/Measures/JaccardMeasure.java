@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class JaccardMeasure implements WordsSimilarityMeasure {
     @Override
-    public float calc(String word1, String word2, int minLength, int maxLength) {
+    public double calc(String word1, String word2, int minLength, int maxLength) {
         String tempWord1 = word1.toLowerCase().replaceAll("\\s+", "");
         String tempWord2 = word2.toLowerCase().replaceAll("\\s+", "");
         ArrayList<Character> intersection = new ArrayList<>();
@@ -27,6 +27,6 @@ public class JaccardMeasure implements WordsSimilarityMeasure {
             union.add(c);
         }
 
-        return (float) intersection.size() / union.size();
+        return (double) intersection.size() / union.size();
     }
 }

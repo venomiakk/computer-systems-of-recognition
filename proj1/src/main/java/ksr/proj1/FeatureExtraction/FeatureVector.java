@@ -87,28 +87,6 @@ public class FeatureVector implements Cloneable {
 
     }
 
-    //@Override
-    //public String toString() {
-    //    return "FeatureVector{" + '\n' +
-    //            "originalID=" + originalID + '\n' +
-    //            "realLabel=" + realLabel + '\n' +
-    //            "reutersElementIndex=" + reutersElementIndex + '\n' +
-    //            "predictedLabel=" + predictedLabel + '\n' +
-    //            "c1: " + features.get(0) + "\n" +
-    //            "c2: " + features.get(1) + "\n" +
-    //            "c3: " + features.get(2) + "\n" +
-    //            "c4: " + features.get(3) + "\n" +
-    //            "c5: " + features.get(4) + "\n" +
-    //            "c6: " + features.get(5) + "\n" +
-    //            "c7: " + features.get(6) + "\n" +
-    //            "c8: " + features.get(7) + "\n" +
-    //            "c9: " + features.get(8) + "\n" +
-    //            "c10: " + features.get(9) + "\n" +
-    //            "c11: " + features.get(10) + "\n" +
-    //            "c12: " + features.get(11) + "\n" +
-    //            "}";
-    //}
-
     @Override
     public String toString() {
         return "FeatureVector{" +
