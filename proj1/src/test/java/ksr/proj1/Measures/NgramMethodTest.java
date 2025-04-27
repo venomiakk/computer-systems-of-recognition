@@ -13,8 +13,6 @@ public class NgramMethodTest {
     NgramMethod m = new NgramMethod();
     @Test
     void NgramWithConstraints1() {
-
-        //TODO: implement proper tests
         String word1 = "test";
         String word2 = "test";
         double similiarity = m.calc(word1, word2, 1, 2);
@@ -23,7 +21,6 @@ public class NgramMethodTest {
 
     @Test
     void NgramWithConstraints2() {
-        //TODO: implement proper tests
         String word1 = "string";
         String word2 = "stringify";
         double similiarity = m.calc(word1, word2, 1, 2);
@@ -33,12 +30,11 @@ public class NgramMethodTest {
 
     @Test
     void NgramWithConstraints3() {
-        //TODO: implement proper tests
-        String word1 = "string";
-        String word2 = "stringify";
+        String word1 = "enterprise";
+        String word2 = "hollow";
         double similiarity = m.calc(word1, word2, 1, 2);
         DecimalFormat df_obj = new DecimalFormat("#.###");
-        Assertions.assertEquals(df_obj.format(0.647),  df_obj.format(similiarity));
+        Assertions.assertEquals(df_obj.format(0),  df_obj.format(similiarity));
     }
 
 

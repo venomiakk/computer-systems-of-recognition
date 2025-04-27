@@ -62,6 +62,15 @@ public class KnnClassifier {
         if (numOfArticles <= 0) {
             numOfArticles = articleVectors.size();
         }
+        if (numOfArticles > articleVectors.size()) {
+            numOfArticles = articleVectors.size();
+        }
+        if (percentageOfTrainSet <= 0) {
+            percentageOfTrainSet = 1;
+        }
+        if (percentageOfTrainSet >= 100) {
+            percentageOfTrainSet = 99;
+        }
         SetSplitter.setSplitVectors(articleVectors, percentageOfTrainSet, numOfArticles);
         List<FeatureVector> trainSet = SetSplitter.trainSetVectors;
         List<FeatureVector> testSet = SetSplitter.testSetVectors;
@@ -79,6 +88,12 @@ public class KnnClassifier {
         //    }
         //}
         // Find k nearest neighbors for each test vector
+        if (k <= 0) {
+            k = 1;
+        }
+        if (k > trainSet.size()) {
+            k = trainSet.size();
+        }
         int progress_index = 1;
         for (FeatureVector testVector : testSet) {
             System.out.print("\r" + progress_index + "/" + testSet.size());
@@ -86,6 +101,7 @@ public class KnnClassifier {
             List<FeatureVector> neighbors = findNearestNeighbors(testVector, trainSet, k, dstMetric, wordsSimMeasure);
             // Classify the test vector based on the majority class of its neighbors
             assignLabel(testVector, neighbors);
+            //System.out.println(testVector);
 
         }
         System.out.println("\n");
@@ -118,6 +134,7 @@ public class KnnClassifier {
                 -dstMetric.calculateDistance(trainFeatureVector, testVector, wordsSimMeasure)));
 
         for (FeatureVector trainFeatureVector : trainingSet) {
+            //System.out.println(trainFeatureVector);
             heap.offer(trainFeatureVector);
             if (heap.size() > k) {
                 heap.poll();
@@ -130,7 +147,6 @@ public class KnnClassifier {
     }
 
     private void normalizeVectors(List<FeatureVector> trainingSet, List<FeatureVector> testingSet) {
-        //TODO: Should this consider null values?
         int numberOfFeatures = trainingSet.getFirst().features.size();
 
         for (int feature = 0; feature < numberOfFeatures; feature++) {

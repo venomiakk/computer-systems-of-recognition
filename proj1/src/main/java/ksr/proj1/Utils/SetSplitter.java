@@ -76,48 +76,8 @@ public class SetSplitter {
                 train.add(fv);
             }
         }
-
-        //System.out.println("Target count:" + targetCounts);
-        //System.out.println("Test target count:" + testTargetCounts);
         trainSetVectors = train;
         testSetVectors = test;
-        //System.out.println("Train set size: " + trainSetVectors.size());
-        //System.out.println("Test set size: " + testSetVectors.size());
-    }
-
-    //    public static void setSplitVectors(List<FeatureVector> featureVectors, int percentageOfTrainSet) {
-    //        Map<String, Long> placeCounts = featureVectors.stream()
-    //                .collect(Collectors.groupingBy(featureVector -> featureVector.realLabel, Collectors.counting()));
-    //
-    //        Map<String, Long> testSetSizes = placeCounts.entrySet().stream()
-    //                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() * percentageOfTrainSet / 100));
-    //
-    //        testSetVectors = featureVectors.stream()
-    //                .filter(featureVector -> testSetSizes.getOrDefault(featureVector.realLabel, 0L) > 0)
-    //                .peek(featureVector -> testSetSizes.put(featureVector.realLabel, testSetSizes.get(featureVector.realLabel) - 1))
-    //                .collect(Collectors.toList());
-    //
-    //        trainSetVectors = featureVectors.stream()
-    //                .filter(featureVector -> !testSetVectors.contains(featureVector))
-    //                .collect(Collectors.toList());
-    //}
-
-    public static void setSplitVectors(List<FeatureVector> featureVectors, int percentageOfTrainSet){
-        int numberOfArticles = featureVectors.size();
-        Map<String, Long> placeCounts = featureVectors.stream()
-                .collect(Collectors.groupingBy(featureVector -> featureVector.realLabel, Collectors.counting()));
-
-        Map<String, Long> testSetSizes = placeCounts.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue() * percentageOfTrainSet / 100));
-
-        testSetVectors = featureVectors.stream()
-                .filter(featureVector -> testSetSizes.getOrDefault(featureVector.realLabel, 0L) > 0)
-                .peek(featureVector -> testSetSizes.put(featureVector.realLabel, testSetSizes.get(featureVector.realLabel) - 1))
-                .collect(Collectors.toList());
-
-        trainSetVectors = featureVectors.stream()
-                .filter(featureVector -> !testSetVectors.contains(featureVector))
-                .collect(Collectors.toList());
     }
 }
 

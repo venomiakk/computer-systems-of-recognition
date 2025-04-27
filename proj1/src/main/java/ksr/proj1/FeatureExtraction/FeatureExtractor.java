@@ -66,7 +66,7 @@ public class FeatureExtractor {
         if (wordCount == 0) {
             return 0;
         }
-        //TODO add all punctuation marks
+
         int punctuationCount = 0;
         for (int i = 0; i < elementText.length(); i++) {
             if (elementText.charAt(i) == '.' || elementText.charAt(i) == ',' || elementText.charAt(i) == '!' ||
@@ -303,13 +303,11 @@ public class FeatureExtractor {
     }
 
     int countTextWords(String text) {
-        //TODO TEST
         if (text == null || text.isEmpty()) {
             return 0;
         }
 
         // Split on any whitespace character sequence
-        //TODO split on " " or "\\s+"?
         String[] wordArray = text.split(" ");
 
         for (int i = 0; i < wordArray.length; i++) {

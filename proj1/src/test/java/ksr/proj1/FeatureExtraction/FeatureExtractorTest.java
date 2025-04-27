@@ -30,7 +30,6 @@ class FeatureExtractorTest {
 
     @Test
     void extractC1() {
-        //TODO: implement proper tests
         FeatureExtractor featureExtractor = new FeatureExtractor();
         int count = featureExtractor.extractC1("test, - test.");
         Assertions.assertEquals(11, count);
@@ -38,7 +37,6 @@ class FeatureExtractorTest {
 
     @Test
     void extractC2() {
-        //TODO: implement proper tests
         FeatureExtractor featureExtractor = new FeatureExtractor();
         float count = featureExtractor.extractC2("test, test.", 2);
         Assertions.assertEquals(1, count);

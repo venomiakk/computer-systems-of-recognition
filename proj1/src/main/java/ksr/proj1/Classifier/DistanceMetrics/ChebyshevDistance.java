@@ -15,9 +15,8 @@ public class ChebyshevDistance implements  Distances{
 
             double currentDist;
 
-            //TODO: jakoś inaczej rozwiązać problem z nullami
             if (feature1 == null || feature2 == null || feature1.getClass() != feature2.getClass()) {
-                currentDist = 0.0d;
+                continue;
             } else if (feature1 instanceof String) {
                 double similarity = wordSimMeasure.calc((String) feature1, (String) feature2, 1, 3);
                 currentDist = Math.abs(1.0d - similarity);
