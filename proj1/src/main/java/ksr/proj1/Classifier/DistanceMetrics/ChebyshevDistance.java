@@ -3,7 +3,6 @@ package ksr.proj1.Classifier.DistanceMetrics;
 import ksr.proj1.FeatureExtraction.FeatureVector;
 import ksr.proj1.Classifier.Measures.WordsSimilarityMeasure;
 
-import java.util.ArrayList;
 
 public class ChebyshevDistance implements  Distances{
     @Override

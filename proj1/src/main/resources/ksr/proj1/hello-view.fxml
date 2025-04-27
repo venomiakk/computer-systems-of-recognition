@@ -28,7 +28,7 @@
          <Label text="Wartość K" />
          <TextField fx:id="k_value" maxHeight="25.0" maxWidth="100.0" minHeight="25.0" minWidth="100.0" text="5" />
          <Label text="Procent zbioru treningowego" />
-         <TextField fx:id="percent_value" maxHeight="25.0" maxWidth="100.0" text="50" />
+         <TextField fx:id="percent_value" maxHeight="25.0" maxWidth="100.0" text="60" />
          <Label text="Liczba artykułów (0 = wszystkie)" />
          <TextField fx:id="numOfArticles" maxHeight="25.0" maxWidth="100.0" text="1000" />
          <Label text="Cechy" />

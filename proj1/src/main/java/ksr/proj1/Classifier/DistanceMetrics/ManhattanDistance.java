@@ -10,7 +10,6 @@ public class ManhattanDistance implements Distances {
         for(int i=0; i< featureVector1.features.size();i++){
             Object feature1 = featureVector1.features.get(i);
             Object feature2 = featureVector2.features.get(i);
-            //TODO: czy dodawanie 1.0d jest zawsze ok?
             if (feature1 == null || feature2 == null || feature1.getClass() != feature2.getClass()) {
                 distance += 1.0d;
             }

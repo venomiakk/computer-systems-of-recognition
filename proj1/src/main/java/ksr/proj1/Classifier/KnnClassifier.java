@@ -77,17 +77,7 @@ public class KnnClassifier {
 
         // Normalize vectors (based on the training set)
         normalizeVectors(trainSet, testSet);
-        //System.out.println(trainSet.getFirst());
-        ////System.out.println(testSet.getFirst());
-        //for (Object f : trainSet.getFirst().features) {
-        //    if (f == null) {
-        //        System.out.println("null");
-        //    }
-        //    else{
-        //        System.out.println(f + "  " + f.getClass());
-        //    }
-        //}
-        // Find k nearest neighbors for each test vector
+
         if (k <= 0) {
             k = 1;
         }
@@ -101,14 +91,10 @@ public class KnnClassifier {
             List<FeatureVector> neighbors = findNearestNeighbors(testVector, trainSet, k, dstMetric, wordsSimMeasure);
             // Classify the test vector based on the majority class of its neighbors
             assignLabel(testVector, neighbors);
-            //System.out.println(testVector);
 
         }
         System.out.println("\n");
-        //for (FeatureVector testVector : testSet) {
-        //    System.out.println(testVector);
-        //}
-        // Calculate results (accuracy, precision, recall, F1 score)
+
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
 
@@ -134,7 +120,6 @@ public class KnnClassifier {
                 -dstMetric.calculateDistance(trainFeatureVector, testVector, wordsSimMeasure)));
 
         for (FeatureVector trainFeatureVector : trainingSet) {
-            //System.out.println(trainFeatureVector);
             heap.offer(trainFeatureVector);
             if (heap.size() > k) {
                 heap.poll();

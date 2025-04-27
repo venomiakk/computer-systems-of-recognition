@@ -1,7 +1,6 @@
 package ksr.proj1;
 
 import ksr.proj1.Classifier.ClassificationResult;
-import ksr.proj1.Classifier.DistanceMetrics.ChebyshevDistance;
 import ksr.proj1.Classifier.DistanceMetrics.Distances;
 import ksr.proj1.Classifier.DistanceMetrics.EuclideanDistance;
 import ksr.proj1.Classifier.KnnClassifier;
@@ -16,8 +15,8 @@ import java.util.List;
 public class ConsoleInterface {
     public static void main(String[] args) throws IOException {
         //Experiments.preliminaryClassifierTest();
-        //simpleClassification();
-        Experiments.runAllExperiments();
+        //Experiments.runAllExperiments();
+        simpleClassification();
     }
 
     public static void simpleClassification() throws IOException {
@@ -33,7 +32,6 @@ public class ConsoleInterface {
         Distances dstMetric = new EuclideanDistance();
         WordsSimilarityMeasure wordsSimMeasures = new NgramMethod();
         List<String> features = List.of("c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "c10", "c11", "c12");
-        //List<String> features = List.of("c1");
         KnnClassifier knnClassifier = new KnnClassifier(articles, surnameDict, countryDict, keywordDict, stopWords);
         ClassificationResult cr = knnClassifier.classify(5, 60, 1000, features, dstMetric, wordsSimMeasures);
         cr.printClassificationResults();
