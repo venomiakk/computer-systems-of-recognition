@@ -3841,7 +3841,6 @@ id,Make,Model,Generation,Year_from,Year_to,Series,Trim,Body_type,full_weight_kg,
 13248,Chevrolet,Matiz,2 generation [redesign],2008,2010,Hatchback,0.8 MT,Hatchback,1250,845,fwd,Manual,Inline,3,Gasoline,68.0,72.0,796,72,4400,51,6000,18.2,145,5,35,5.2,6.9,4.2
 13249,Chevrolet,Matiz,2 generation [redesign],2008,2010,Hatchback,1.0 MT,Hatchback,1270,845,fwd,Manual,Inline,4,Gasoline,68.0,67.0,995,91,4200,65,5400,14.1,156,5,35,5.6,7.2,4.7
 13405,Chevrolet,Niva,1 generation [redesign],2009,2020,SUV 5-doors,1.7 MT,Crossover,1860,650,awd,Manual,Inline,4,Gasoline,80.0,82.0,1690,128,4000,80,5000,19.0,140,5,58,10.2,13.2,8.4
-13513,Chevrolet,Nova,2 generation,1966,0,wagon,4.6 3Synchromesh,Wagon,1100,2158,rwd,Manual,V-type,8,Gasoline,98.0,76.0,4638,295,3200,220,4800,8.3,183,3,61,19.4,22.8,13.7
 13798,Chevrolet,Nubira,1 generation,2003,2010,Sedan,1.6 MT,Sedan,1665,405,fwd,Manual,Inline,4,Gasoline,79.0,82.0,1598,150,3600,109,5800,10.7,187,5,60,7.1,9.2,5.9
 13799,Chevrolet,Nubira,1 generation,2003,2010,Sedan,1.8 AT,Sedan,1720,405,fwd,Automatic,Inline,4,Gasoline,80.0,88.0,1796,169,3600,121,5800,10.7,184,4,60,8.8,12.2,6.8
 13800,Chevrolet,Nubira,1 generation,2003,2010,Sedan,1.8 AT,Sedan,1720,405,fwd,Automatic,Inline,4,Gasoline,82.0,86.0,1799,165,4000,122,5800,10.7,184,4,60,9.1,12.5,7.1
