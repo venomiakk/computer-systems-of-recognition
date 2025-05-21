@@ -6,13 +6,24 @@ import java.util.List;
 
 public class summarizer {
     String name;
-    HashMap<String,List<double>> parameters;
-    List<linguisticVariable> linguisticVariables;
-    public summarizer(String name) {
+    List<double> parameters;
+    public summarizer(String name, List<double> parameters) {
         this.name = name;
+        this.parameters = parameters;
+
     }
 
-    public List<fuzzySet> summarize(carObject car,String valueName) {
-        return null;
+    public fuzzySet summarize(carObject car,String valueName) {
+        double membership = 0;
+        if (parameters.size() == 5) {
+            membership = calc.cal((double)car.carProperties.get(valueName), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
+        } else if (parameters.size() == 3) {
+            membership = calc.cal((double)car.carProperties.get(valueName), parameters.get(0), parameters.get(1), parameters.get(2));
+        } else if (parameters.size() == 2) {
+            membership = calc.cal((double)car.carProperties.get(valueName), parameters.get(0), parameters.get(1));
+        } else {
+            throw new IllegalArgumentException("Unsupported number of parameters: " + parameters.size());
+        }
+        return new fuzzySet(car, membership);
     }
 }
