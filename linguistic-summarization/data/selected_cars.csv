@@ -1,4 +1,4 @@
-id,make,pl.ksr.summarizator.model,body_type,drive_wheels,transmission,cylinder_layout,number_of_cylinders,fuel_type,year_from,year_to,displacement,power,torque,acc,max_speed,mixed_fc,city_fc,highway_fc,trunk,weight
+id,make,model,body_type,drive_wheels,transmission,cylinder_layout,number_of_cylinders,fuel_type,year_from,year_to,displacement,power,torque,acc,max_speed,mixed_fc,city_fc,highway_fc,trunk,weight
 0,Acura,Integra,Sedan,fwd,Automatic,Inline,4,Gasoline,1991,2002,1834,144,173,7.5,205,8.4,9.4,7.6,370,1600
 1,Acura,Integra,Sedan,fwd,Manual,Inline,4,Gasoline,1991,2002,1834,144,173,7.5,205,8.4,9.4,7.6,370,1600
 2,Acura,Integra,Sedan,fwd,Manual,Inline,4,Gasoline,1991,2002,1797,172,173,7.2,210,8.6,9.4,7.6,311,1650
