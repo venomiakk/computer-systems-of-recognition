@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class carObject {
+public class CarObject {
     Map<String, Object> carProperties = new HashMap<>();
 
-    public carObject(List<String> headers, List<Object> value) {
+    public CarObject(List<String> headers, List<Object> value) {
         for (int i = 0; i < headers.size(); i++) {
             carProperties.put(headers.get(i), value.get(i));
         }

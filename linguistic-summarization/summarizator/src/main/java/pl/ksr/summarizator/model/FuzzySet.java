@@ -5,10 +5,10 @@ import java.util.Map;
 
 import static java.util.Collections.max;
 
-public class fuzzySet {
-    Map<carObject, Double> fuzzySet = new HashMap<carObject,Double>();
-    public fuzzySet(carObject car, double value) {
-        fuzzySet.put(car, value);
+public class FuzzySet {
+    Map<CarObject, Double> fuzzySet = new HashMap<CarObject,Double>();
+    public void addCar(CarObject car, double membership) {
+        fuzzySet.put(car, membership);
     }
 
     public double getCard() {
@@ -44,7 +44,7 @@ public class fuzzySet {
 
     public void normalize(){
         double max = max(fuzzySet.values());
-        for (Map.Entry<carObject, Double> entry : fuzzySet.entrySet()) {
+        for (Map.Entry<CarObject, Double> entry : fuzzySet.entrySet()) {
             entry.setValue(entry.getValue() / max);
         }
     }
