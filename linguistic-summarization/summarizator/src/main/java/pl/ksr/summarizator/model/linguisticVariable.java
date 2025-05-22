@@ -1,17 +1,19 @@
 package pl.ksr.summarizator.model;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class linguisticVariable {
-    String name;
-    List<String> values;
-    Double[] domain;
-    public linguisticVariable(String name, List<String> values, double beggining, double end) {
+    private String name;
+    private Map<String, summarizer> summarizers = new HashMap<>();
+
+    public linguisticVariable(String name) {
         this.name = name;
-        this.values = values;
-        this.domain = new Double[2];
-        this.domain[0] = beggining;
-        this.domain[1] = end;
+    }
+
+    public void addSummarizer(String label, List<Double> parameters) {
+        summarizers.put(label, new summarizer(label, parameters));
     }
 }

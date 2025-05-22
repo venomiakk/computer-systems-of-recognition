@@ -5,12 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class summarizer {
-    String name;
-    List<double> parameters;
-    public summarizer(String name, List<double> parameters) {
+    private String name;
+    private List<Double> parameters;
+
+    public summarizer(String name, List<Double> parameters) {
         this.name = name;
         this.parameters = parameters;
+    }
 
+    public String getName() {
+        return name;
     }
 
     public fuzzySet summarize(carObject car,String valueName) {
