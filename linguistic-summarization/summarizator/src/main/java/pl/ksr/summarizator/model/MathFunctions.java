@@ -1,7 +1,7 @@
 package pl.ksr.summarizator.model;
 
-public class Calc {
-    static double cal(double x, double leftBottom, double leftUp, double rightUp, double rightBottom) {
+public class MathFunctions {
+    static double calc(double x, double leftBottom, double leftUp, double rightUp, double rightBottom) {
         if (x <= leftBottom || x >= rightBottom) {
             return 0;
         } else if (x < leftUp) {
@@ -14,7 +14,7 @@ public class Calc {
         return 0;
     }
 
-    static double cal(double x, double left,double vertex, double right) {
+    static double calc(double x, double left, double vertex, double right) {
         if (x <= left || x >= right) {
             return 0;
         } else if (x < vertex) {
@@ -26,7 +26,7 @@ public class Calc {
 
     }
 
-    static double cal(double x, double mean, double sigma) {
+    static double calc(double x, double mean, double sigma) {
         return Math.exp(-Math.pow((x - mean) / sigma, 2));
     }
 }

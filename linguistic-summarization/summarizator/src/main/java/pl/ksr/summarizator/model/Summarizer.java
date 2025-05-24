@@ -1,6 +1,5 @@
 package pl.ksr.summarizator.model;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class Summarizer {
@@ -19,11 +18,11 @@ public class Summarizer {
     public Double summarize(CarObject car, String valueName) {
         double membership = 0.0;
         if (parameters.size() == 4) {
-            membership = Calc.cal(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
+            membership = MathFunctions.calc(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
         } else if (parameters.size() == 3) {
-            membership = Calc.cal(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1), parameters.get(2));
+            membership = MathFunctions.calc(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1), parameters.get(2));
         } else if (parameters.size() == 2) {
-            membership = Calc.cal(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1));
+            membership = MathFunctions.calc(Double.parseDouble((String)car.carProperties.get(valueName)), parameters.get(0), parameters.get(1));
         } else {
             throw new IllegalArgumentException("Unsupported number of parameters: " + parameters.size());
         }

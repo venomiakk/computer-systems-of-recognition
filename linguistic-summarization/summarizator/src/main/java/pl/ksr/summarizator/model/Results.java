@@ -8,7 +8,7 @@ public class Results {
     List<Double> summarizersValues;
     Double quantifireValue;
     FuzzySet fuzzySet;
-    List<double> qualityMeasures;
+    List<Double> qualityMeasures;
 
 
 }

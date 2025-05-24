@@ -18,11 +18,11 @@ public class Quantifier {
     public double calculateMembership(double ratio) {
         switch (parameters.size()) {
             case 2:
-                return Calc.cal(ratio, parameters.get(0), parameters.get(1));
+                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1));
             case 3:
-                return Calc.cal(ratio, parameters.get(0), parameters.get(1), parameters.get(2));
+                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1), parameters.get(2));
             case 4:
-                return Calc.cal(ratio, parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
+                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
             default:
                 throw new IllegalArgumentException("Unsupported quantifier shape.");
         }
