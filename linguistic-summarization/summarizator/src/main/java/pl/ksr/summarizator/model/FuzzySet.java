@@ -10,7 +10,7 @@ public class FuzzySet {
     public void addCar(CarObject car, double membership) {
         fuzzySet.put(car, membership);
     }
-
+    //TODO; dodac przestrzen rozwazan
     public double getCard() {
         double sum = 0;
         for (double value : fuzzySet.values()) {
@@ -30,6 +30,7 @@ public class FuzzySet {
                 supp++;
             }
         }
+        //TODO zwracac classic ser (liste)
         return supp;
     }
 

@@ -11,7 +11,7 @@ public class Summarizator {
         boolean header = true;
         List<String> headers = new ArrayList<>();
         List<CarObject> records = new ArrayList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("data/selected_cars.csv"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("../data/selected_cars.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split( ",");
@@ -58,11 +58,15 @@ public class Summarizator {
         for (CarObject record : records) {
             wspolczesneSamochody.addCar(record,lv.getSummarizer("Współczesny").summarize(record,"year_from"));
         }
-        System.out.println("Liczba samochodów współczesnych: " + wspolczesneSamochody.getSize());
-        System.out.println("Liczba kardynalna samochodów współczesnych: " + wspolczesneSamochody.getCard());
-        System.out.println("Wielkosc nosnika samochodów współczesnych: " + wspolczesneSamochody.getSupp());
-        System.out.println("Czy zbiory są normalne: " + wspolczesneSamochody.isNormal());
-        System.out.println("w jakim stopniu " +quantifier1.getName()+" to samochody wpolczesne " + quantifier1.calculateMembership(wspolczesneSamochody.getCard()));
-        System.out.println(quantifier1.getName() + " samochodow jest/ma wspolczesny" );
+        //System.out.println("Liczba samochodów współczesnych: " + wspolczesneSamochody.getSize());
+        //System.out.println("Liczba kardynalna samochodów współczesnych: " + wspolczesneSamochody.getCard());
+        //System.out.println("Wielkosc nosnika samochodów współczesnych: " + wspolczesneSamochody.getSupp());
+        //System.out.println("Czy zbiory są normalne: " + wspolczesneSamochody.isNormal());
+        //System.out.println("w jakim stopniu " +quantifier1.getName()+" to samochody wpolczesne " + quantifier1.calculateMembership(wspolczesneSamochody.getCard()));
+        //System.out.println(quantifier1.getName() + " samochodow jest/ma wspolczesny" );
+
+        List<Summarizer> summarizers = List.of(lv.getSummarizer("Współczesny"), lv1.getSummarizer("Duży"));
+        //List<List<Summarizer>> summarizersList =
+        System.out.println(summarizers);
     }
 }

@@ -5,6 +5,7 @@ public class Quantifier {
     private String name;
     private List<Double> parameters;
     private boolean isAbsolute;
+    //TODO dziedzina moze tez byc
 
     public Quantifier(String name, List<Double> parameters) {
         this.name = name;
