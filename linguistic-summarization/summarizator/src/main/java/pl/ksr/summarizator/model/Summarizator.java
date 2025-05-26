@@ -38,6 +38,10 @@ public class Summarizator {
         lv.addSummarizer("Stary", Arrays.asList(1980.0,1985.0,2000.0,2005.0));
         lv.addSummarizer("Współczesny", Arrays.asList(2000.0,2005.0,2015.0,2020.0));
         lv.addSummarizer("Nowoczesny", Arrays.asList(2015.0,2020.0,2020.0));
+        LinguisticVariable lv1 = new LinguisticVariable("Pjemność silnika");
+        lv1.addSummarizer("Mały", Arrays.asList(649.0,649.0,1500.0,2500.0));
+        lv1.addSummarizer("Średni", Arrays.asList(1500.0,2500.0,3500.0,4500.0));
+        lv1.addSummarizer("Duży", Arrays.asList(3500.0,4500.0,6761.0,6761.0));
         List<Double> parameters = new ArrayList<>();
         parameters.add(13000.0);
         parameters.add(700.0);
@@ -50,6 +54,7 @@ public class Summarizator {
         Quantifier quantifier1 = new Quantifier("polowa",parameters1);
         FuzzySet wspolczesneSamochody = new FuzzySet();
         linguisticVariables.add(lv);
+        linguisticVariables.add(lv1);
         for (CarObject record : records) {
             wspolczesneSamochody.addCar(record,lv.getSummarizer("Współczesny").summarize(record,"year_from"));
         }
