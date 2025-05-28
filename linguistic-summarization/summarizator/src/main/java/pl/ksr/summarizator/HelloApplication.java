@@ -23,9 +23,9 @@ public class HelloApplication extends Application {
     public static void main(String[] args) {
 
         launch();
-        List<CarObject> records = Summarizator.readCsv();
-        for (CarObject record : records) {
-            System.out.println(record.getCarProperties());
-        }
+        //List<CarObject> records = Summarizator.readCsv();
+        //for (CarObject record : records) {
+        //    System.out.println(record.getCarProperties());
+        //}
     }
 }

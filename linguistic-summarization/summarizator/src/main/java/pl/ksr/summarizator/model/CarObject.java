@@ -1,11 +1,11 @@
 package pl.ksr.summarizator.model;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public class CarObject {
-    Map<String, Object> carProperties = new HashMap<>();
+    private final Map<String, Object> carProperties = new LinkedHashMap<>();
 
     public CarObject(List<String> headers, List<Object> value) {
         for (int i = 0; i < headers.size(); i++) {

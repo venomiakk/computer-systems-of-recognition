@@ -6,8 +6,10 @@ import java.util.Map;
 
 
 public class LinguisticVariable {
-    private String name;
+    private final String name;
     private Map<String, Summarizer> summarizers = new HashMap<>();
+    private double minX;
+    private double maxX;
 
     public LinguisticVariable(String name) {
         this.name = name;
@@ -20,7 +22,24 @@ public class LinguisticVariable {
     public Summarizer getSummarizer(String label) {
         return summarizers.get(label);
     }
+
     public String getName() {
         return name;
+    }
+
+    public double getMinX() {
+        return minX;
+    }
+
+    public void setMinX(double minX) {
+        this.minX = minX;
+    }
+
+    public double getMaxX() {
+        return maxX;
+    }
+
+    public void setMaxX(double maxX) {
+        this.maxX = maxX;
     }
 }
