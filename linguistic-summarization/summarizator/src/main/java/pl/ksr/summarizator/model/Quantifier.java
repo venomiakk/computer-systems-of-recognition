@@ -1,31 +1,47 @@
 package pl.ksr.summarizator.model;
-import java.util.List;
+
+import pl.ksr.summarizator.model.membership.MembershipFunction;
+
 
 public class Quantifier {
-    private String name;
-    private List<Double> parameters;
-    private boolean isAbsolute;
-    //TODO dziedzina moze tez byc
+    private final String name;
+    private final MembershipFunction membershipFunction;
+    private final double leftBound;
+    private final double rightBound;
+    private final boolean isAbsolute;
 
-    public Quantifier(String name, List<Double> parameters) {
+    public Quantifier(String name, MembershipFunction membershipFunction, double leftBound, double rightBound, boolean isAbsolute) {
         this.name = name;
-        this.parameters = parameters;
+        this.membershipFunction = membershipFunction;
+        this.leftBound = leftBound;
+        this.rightBound = rightBound;
+        this.isAbsolute = isAbsolute;
+    }
+
+    public double calculateMembership(Object value) {
+        if (value instanceof Number) {
+            return membershipFunction.calculateMembership(value);
+        }
+        throw new IllegalArgumentException("Value must be a number");
     }
 
     public String getName() {
         return name;
     }
 
-    public double calculateMembership(double ratio) {
-        switch (parameters.size()) {
-            case 2:
-                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1));
-            case 3:
-                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1), parameters.get(2));
-            case 4:
-                return MathFunctions.calc(ratio, parameters.get(0), parameters.get(1), parameters.get(2), parameters.get(3));
-            default:
-                throw new IllegalArgumentException("Unsupported quantifier shape.");
-        }
+    public MembershipFunction getMembershipFunction() {
+        return membershipFunction;
+    }
+
+    public double getLeftBound() {
+        return leftBound;
+    }
+
+    public double getRightBound() {
+        return rightBound;
+    }
+
+    public boolean isAbsolute() {
+        return isAbsolute;
     }
 }

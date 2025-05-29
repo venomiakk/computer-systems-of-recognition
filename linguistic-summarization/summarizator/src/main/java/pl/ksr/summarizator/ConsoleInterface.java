@@ -1,11 +1,14 @@
 package pl.ksr.summarizator;
 
 import pl.ksr.summarizator.model.*;
+import pl.ksr.summarizator.model.membership.Gaussian;
+import pl.ksr.summarizator.model.membership.MembershipFunction;
+import pl.ksr.summarizator.model.membership.Trapezoidal;
+import pl.ksr.summarizator.model.membership.Triangular;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
+
 
 public class ConsoleInterface {
     /*
@@ -15,66 +18,35 @@ public class ConsoleInterface {
      *  Or maybe FuzzySet should get LinguisticVariable and then it can use all summarizers from that variable?
      */
     public static void main(String[] args) {
+        //firstTest();
         List<CarObject> cars = DataLoader.loadCars();
         System.out.println(cars.size());
-        System.out.println(cars.get(1).getCarProperties());
-
-        LinguisticVariable variable1 = new LinguisticVariable("Pojemnosc silnika");
-        variable1.addSummarizer("Maly", Arrays.asList(649.0, 649.0, 1500.0, 2500.0));
-        variable1.addSummarizer("Sredni", Arrays.asList(1500.0, 2500.0, 3500.0, 4500.0));
-        variable1.addSummarizer("Duzy", Arrays.asList(3500.0, 4500.0, 6761.0, 6761.0));
-
-        Quantifier quantifier = new Quantifier("Prawie wszystkie", List.of(0.8, 0.9, 1.0, 1.0));
-
-        FuzzySet fuzzySet = new FuzzySet("Samochody z duzym silnikiem");
-
-        for (CarObject car : cars) {
-            double membership = variable1.getSummarizer("Duzy").summarize(car, "displacement");
-            fuzzySet.addCar(car, membership);
-        }
-        System.out.println("-------------------");
-        System.out.println("Liczba samochodów z dużym silnikiem: " + fuzzySet.getSize());
-        System.out.println("Supp: " + fuzzySet.getSupp().size());
+        System.out.println(cars.get(0).getCarProperties());
+        enginePower(cars);
     }
 
-    public void oldMain() {
-        List<CarObject> records = DataLoader.loadCars();
-        List<LinguisticVariable> linguisticVariables = new ArrayList<>();
-        LinguisticVariable lv = new LinguisticVariable("Rok produkcji");
-        lv.addSummarizer("Zabytkowy", Arrays.asList(1965.0, 1965.0, 1970.0));
-        lv.addSummarizer("klasyczny", Arrays.asList(1965.0, 1970.0, 1980.0, 1985.0));
-        lv.addSummarizer("Stary", Arrays.asList(1980.0, 1985.0, 2000.0, 2005.0));
-        lv.addSummarizer("Współczesny", Arrays.asList(2000.0, 2005.0, 2015.0, 2020.0));
-        lv.addSummarizer("Nowoczesny", Arrays.asList(2015.0, 2020.0, 2020.0));
-        LinguisticVariable lv1 = new LinguisticVariable("Pjemność silnika");
-        lv1.addSummarizer("Mały", Arrays.asList(649.0, 649.0, 1500.0, 2500.0));
-        lv1.addSummarizer("Średni", Arrays.asList(1500.0, 2500.0, 3500.0, 4500.0));
-        lv1.addSummarizer("Duży", Arrays.asList(3500.0, 4500.0, 6761.0, 6761.0));
-        List<Double> parameters = new ArrayList<>();
-        parameters.add(13000.0);
-        parameters.add(700.0);
-        Quantifier quantifier = new Quantifier("Większość", parameters);
-        List<Double> parameters1 = new ArrayList<>();
-        parameters1.add(5550.0);
-        parameters1.add(7000.0);
-        parameters1.add(9500.0);
-        parameters1.add(11000.0);
-        Quantifier quantifier1 = new Quantifier("polowa", parameters1);
-        FuzzySet wspolczesneSamochody = new FuzzySet("Wspolczesne samochody");
-        linguisticVariables.add(lv);
-        linguisticVariables.add(lv1);
-        for (CarObject record : records) {
-            wspolczesneSamochody.addCar(record, lv.getSummarizer("Współczesny").summarize(record, "year_from"));
-        }
-        //System.out.println("Liczba samochodów współczesnych: " + wspolczesneSamochody.getSize());
-        //System.out.println("Liczba kardynalna samochodów współczesnych: " + wspolczesneSamochody.getCard());
-        //System.out.println("Wielkosc nosnika samochodów współczesnych: " + wspolczesneSamochody.getSupp());
-        //System.out.println("Czy zbiory są normalne: " + wspolczesneSamochody.isNormal());
-        //System.out.println("w jakim stopniu " +quantifier1.getName()+" to samochody wpolczesne " + quantifier1.calculateMembership(wspolczesneSamochody.getCard()));
-        //System.out.println(quantifier1.getName() + " samochodow jest/ma wspolczesny" );
+    public static void enginePower(List<CarObject> cars) {
+        // * Defining membership functions for engine power
+        MembershipFunction slabyFunc = new Trapezoidal(29.0, 29.0, 100.0, 150.0);
+        MembershipFunction przecietnyFunc = new Gaussian(200.0, 30.0, 100.0, 300.0);
+        MembershipFunction dynamicznyFunc = new Gaussian(300.0, 30.0, 200.0, 400.0);
+        MembershipFunction mocnyFunc = new Trapezoidal(350.0, 400.0, 710.0, 710.0);
 
-        List<Summarizer> summarizers = List.of(lv.getSummarizer("Współczesny"), lv1.getSummarizer("Duży"));
-        //List<List<Summarizer>> summarizersList =
-        System.out.println(summarizers);
+        // * Creating fuzzy sets for engine power
+        FuzzySet slaby = new FuzzySet("SLABY", cars, "power", slabyFunc);
+        FuzzySet przecietny = new FuzzySet("PRZECIETNY", cars, "power", przecietnyFunc);
+        FuzzySet dynamiczny = new FuzzySet("DYNAMICZNY", cars, "power", dynamicznyFunc);
+        FuzzySet mocny = new FuzzySet("MOCNY", cars, "power", mocnyFunc);
+
+        // * Creating a linguistic variable for engine power
+        LinguisticVariable enginePowerVariable =
+                new LinguisticVariable("MOC POJAZDU",
+                        Arrays.asList(slaby, przecietny, dynamiczny, mocny), 29.0, 710.0);
+
+        Quantifier okoloPolowy = DefinedQuantifiers.okoloPolowy;
+
+        System.out.println(okoloPolowy.getName() + " samochodow " + " ma/jest " + enginePowerVariable.getName() + ": " +
+                enginePowerVariable.getFuzzySets().get(1).getName());
     }
+
 }

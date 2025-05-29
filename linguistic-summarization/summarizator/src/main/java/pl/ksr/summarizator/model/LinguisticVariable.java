@@ -1,45 +1,49 @@
 package pl.ksr.summarizator.model;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 public class LinguisticVariable {
-    private final String name;
-    private Map<String, Summarizer> summarizers = new HashMap<>();
-    private double minX;
-    private double maxX;
+    private String name;
+    private List<FuzzySet> fuzzySets;
+    private double leftBound;
+    private double rightBound;
 
-    public LinguisticVariable(String name) {
+    public LinguisticVariable(String name, List<FuzzySet> fuzzySets, double leftBound, double rightBound) {
         this.name = name;
-    }
-
-    public void addSummarizer(String label, List<Double> parameters) {
-        summarizers.put(label, new Summarizer(label, parameters));
-    }
-
-    public Summarizer getSummarizer(String label) {
-        return summarizers.get(label);
+        this.fuzzySets = fuzzySets;
+        this.leftBound = leftBound;
+        this.rightBound = rightBound;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getMinX() {
-        return minX;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setMinX(double minX) {
-        this.minX = minX;
+    public List<FuzzySet> getFuzzySets() {
+        return fuzzySets;
     }
 
-    public double getMaxX() {
-        return maxX;
+    public void setFuzzySets(List<FuzzySet> fuzzySets) {
+        this.fuzzySets = fuzzySets;
     }
 
-    public void setMaxX(double maxX) {
-        this.maxX = maxX;
+    public double getLeftBound() {
+        return leftBound;
+    }
+
+    public void setLeftBound(double leftBound) {
+        this.leftBound = leftBound;
+    }
+
+    public double getRightBound() {
+        return rightBound;
+    }
+
+    public void setRightBound(double rightBound) {
+        this.rightBound = rightBound;
     }
 }

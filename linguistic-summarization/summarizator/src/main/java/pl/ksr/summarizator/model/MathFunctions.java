@@ -1,6 +1,7 @@
 package pl.ksr.summarizator.model;
 
 public class MathFunctions {
+    //TODO: add hedges/modifiers
     static double calc(double x, double leftBottom, double leftUp, double rightUp, double rightBottom) {
         if (x <= leftBottom || x >= rightBottom) {
             return 0;

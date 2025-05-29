@@ -1,6 +1,9 @@
 package pl.ksr.summarizator.model;
 
+import pl.ksr.summarizator.model.membership.MembershipFunction;
+
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,43 +12,46 @@ import static java.util.Collections.max;
 public class FuzzySet {
 
     private final String name;
-    private Map<CarObject, Double> fuzzySet = new HashMap<CarObject, Double>();
+    private Map<CarObject, Double> fuzzySet = new LinkedHashMap<>();
+    private MembershipFunction membershipFunction;
+    //private String linguisticModifier;
+    //private double modifierValue;
 
-    public FuzzySet(String name) {
+    public FuzzySet(String name, List<CarObject> cars, String valueName, MembershipFunction membershipFunction) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Map<CarObject, Double> getFuzzySet() {
-        return fuzzySet;
+        this.membershipFunction = membershipFunction;
+        for (CarObject car : cars) {
+            double membership = membershipFunction.calculateMembership(car.getCarProperties().get(valueName));
+            fuzzySet.put(car, membership);
+        }
     }
 
     public void addCar(CarObject car, double membership) {
         fuzzySet.put(car, membership);
     }
 
-    //TODO; dodac przestrzen rozwazan
-    public double getCard() {
-        double sum = 0;
-        for (double value : fuzzySet.values()) {
-            sum += value;
-        }
-        return sum;
+    public List<CarObject> getSupport() {
+        return fuzzySet.entrySet().stream()
+                .filter(entry -> entry.getValue() > 0)
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    public double getCardinality() {
+        return fuzzySet.values()
+                .stream()
+                .mapToDouble(v -> v)
+                .sum();
+    }
+
+    public double getDegreeOfFuzziness() {
+        return getSupport().size() / (double) getSize();
     }
 
     public int getSize() {
         return fuzzySet.size();
     }
 
-    public List<CarObject> getSupp() {
-        return fuzzySet.entrySet().stream()
-                .filter(entry -> entry.getValue() > 0)
-                .map(Map.Entry::getKey)
-                .toList();
-    }
 
     public boolean isNormal() {
         double max = max(fuzzySet.values());
@@ -65,5 +71,13 @@ public class FuzzySet {
 
     public boolean isConvex() {
         return true;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Map<CarObject, Double> getFuzzySet() {
+        return fuzzySet;
     }
 }
