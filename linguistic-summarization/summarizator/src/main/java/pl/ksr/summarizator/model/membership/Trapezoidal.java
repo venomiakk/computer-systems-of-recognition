@@ -15,10 +15,6 @@ public class Trapezoidal implements MembershipFunction{
 
     @Override
     public double calculateMembership(Object value) {
-        if (!(value instanceof Number)) {
-            throw new IllegalArgumentException("Value must be a number");
-        }
-
         double x = Double.parseDouble(value.toString());
 
         if (x < leftBottom || x > rightBottom) {

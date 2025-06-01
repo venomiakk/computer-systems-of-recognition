@@ -1,4 +1,4 @@
-package pl.ksr.summarizator.model;
+package pl.ksr.summarizator.model.fuzzylogic;
 
 import pl.ksr.summarizator.model.membership.MembershipFunction;
 

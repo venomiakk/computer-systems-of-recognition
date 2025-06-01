@@ -2,11 +2,11 @@ package pl.ksr.summarizator.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.ksr.summarizator.model.fuzzylogic.FuzzySet;
 import pl.ksr.summarizator.model.membership.MembershipFunction;
 import pl.ksr.summarizator.model.membership.Trapezoidal;
 
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

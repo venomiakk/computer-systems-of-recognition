@@ -1,8 +1,8 @@
-package pl.ksr.summarizator.model;
+package pl.ksr.summarizator.model.fuzzylogic;
 
+import pl.ksr.summarizator.model.CarObject;
 import pl.ksr.summarizator.model.membership.MembershipFunction;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,5 +79,10 @@ public class FuzzySet {
 
     public Map<CarObject, Double> getFuzzySet() {
         return fuzzySet;
+    }
+
+    public double getMembership(CarObject car) {
+        // If the car is not in the fuzzy set, return 0 membership
+        return fuzzySet.getOrDefault(car, 0.0);
     }
 }

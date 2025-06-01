@@ -138,12 +138,17 @@ $T(Q \space objects \space are \space S_1) = \mu_Q (\frac{\sum{-count}(S_1)}{M})
 tu tylko relatywny kwantyfikator (pewna liczba tych obiektów które mają jakąś cechę)  
 $T(Q \space objects \space being \space S_2 \space are \space S_1) = \mu_Q (\frac{\sum{-count}(S_1 \cap S_2 )}{\sum{-count}(S_2)})$
 
+- licznik - kardynalność części wspólnej kwalifikatorów i sumaryzatorów
+- mianownik - kardynalność kwalifikatorów ?
+
 **degree of impecision $T_2$ (stopeiń precyzyjności/nieprecyzyjności)**  
+$T_2 = 1 - (\prod^n_{j=1} in(S_j))^\frac{1}{n}$  
 wz 8.42, przyk 8.6  
 in(s1) = 0.5, in(s2) = 0.5  
 $T_2 = 1 - \sqrt{(0.5 * 0.5)}$  
 średnia geometryczna (?? )  
-nie zależy od kwantyfikatora Q
+nie zależy od kwantyfikatora Q  
+czy kwalifikator też?
 
 **degree of convering $T_3$ (stopień pokrycia)**  
 wz 8.44  
@@ -157,7 +162,7 @@ dla każdego zbioru klasycznego A supp(A) = A
 miara $T_3$ nie zależy od kwantyfikatora Q (miara $T_1$ już zależy)
 
 **degree of appropriateness $T_4$ (stopień trafności)**  
-wz 8.53  
+wz 8.53   
 liczymy $r_j$ osobno dla sumaryzatorów
 0 wyjdzie dla każdego podsumowania z jednym sumaryzatorem
 

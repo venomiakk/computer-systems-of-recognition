@@ -1,9 +1,10 @@
-package pl.ksr.summarizator.model;
+package pl.ksr.summarizator.model.fuzzylogic;
 
 import java.util.List;
 
 public class LinguisticVariable {
     private String name;
+    //TODO: Consider using a Map<String, FuzzySet> for better access by name
     private List<FuzzySet> fuzzySets;
     private double leftBound;
     private double rightBound;

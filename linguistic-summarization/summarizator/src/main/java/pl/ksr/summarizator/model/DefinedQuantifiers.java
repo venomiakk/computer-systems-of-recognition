@@ -1,10 +1,12 @@
 package pl.ksr.summarizator.model;
 
+import pl.ksr.summarizator.model.fuzzylogic.Quantifier;
 import pl.ksr.summarizator.model.membership.Gaussian;
 import pl.ksr.summarizator.model.membership.Trapezoidal;
 import pl.ksr.summarizator.model.membership.Triangular;
 
 public class DefinedQuantifiers {
+    //TODO: Change to proper objects / enums??
     public static Quantifier niewiele = new Quantifier(
             "NIEWIELE",
             new Trapezoidal(0.0, 0.0, 0.1, 0.2),

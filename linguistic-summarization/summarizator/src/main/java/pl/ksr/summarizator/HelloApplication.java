@@ -4,11 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pl.ksr.summarizator.model.CarObject;
-import pl.ksr.summarizator.model.Summarizator;
 
 import java.io.IOException;
-import java.util.List;
 
 public class HelloApplication extends Application {
     @Override
