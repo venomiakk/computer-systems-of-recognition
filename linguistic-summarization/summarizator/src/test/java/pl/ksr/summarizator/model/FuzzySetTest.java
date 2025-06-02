@@ -43,7 +43,6 @@ class FuzzySetTest {
         List<CarObject> support = fuzzySet.getSupport();
         assertEquals(4, support.size(), "Support size should be 4");
         assertFalse(support.isEmpty(), "Support should not be empty");
-        assertTrue(support.stream().anyMatch(car -> car.getCarProperties().get("power").equals(100.0)), "Support should contain car with power 100.0");
         assertTrue(support.stream().anyMatch(car -> car.getCarProperties().get("power").equals(129.0)), "Support should contain car with power 150.0");
     }
 

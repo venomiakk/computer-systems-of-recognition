@@ -2,7 +2,9 @@ package pl.ksr.summarizator.model.fuzzylogic;
 
 import pl.ksr.summarizator.model.CarObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -51,7 +53,7 @@ public class SingleSubjectLinguisticTerm {
     public String getTerm() {
         String term = this.quantifier.getName() + " " + this.subject;
         if (!qualifiers.isEmpty()) {
-            term += " bedacych/majacych " + String.join(" i ", qualifiers.stream().map(FuzzySet::getName).toList());
+            term += " będących/mających " + String.join(" i ", qualifiers.stream().map(FuzzySet::getName).toList());
         }
         if (!summarizers.isEmpty()) {
             term += " jest/ma " + String.join(" i ", summarizers.stream().map(FuzzySet::getName).toList());
@@ -60,6 +62,7 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT1() {
+        // * Dane z bazy danych
         double denominator = 0.0;
         if (qualifiers.isEmpty()) {
             denominator = (double) this.setOfObjects.size();
@@ -103,14 +106,32 @@ public class SingleSubjectLinguisticTerm {
 
 
     private double calculateT2() {
+        // * Dane z modelu
         double exponent = 1 / (double) this.summarizers.size();
-        double inMean = this.summarizers.stream()
-                .mapToDouble(FuzzySet::getDegreeOfFuzziness)
+        List<Double> inList = new ArrayList<>();
+        for (FuzzySet summarizer : this.summarizers) {
+            double minValue = summarizer.getFuzzySet().keySet()
+                    .stream()
+                    .map(car -> car.getCarProperties().get(summarizer.getValueName()))
+                    .mapToDouble(val -> (Double.parseDouble((String) val)))
+                    .min()
+                    .orElse(0.0);
+            double maxValue = summarizer.getFuzzySet().keySet()
+                    .stream()
+                    .map(car -> car.getCarProperties().get(summarizer.getValueName()))
+                    .mapToDouble(val -> (Double.parseDouble((String) val)))
+                    .max()
+                    .orElse(0.0);
+            double supportSize = summarizer.getMembershipFunction().getSupportSize();
+            inList.add(supportSize / (maxValue - minValue));
+        }
+        double inMean = inList.stream()
                 .reduce(1.0, (a, b) -> a * b);
         return 1 - Math.pow(inMean, exponent);
     }
 
     private double calculateT3() {
+        // * Dane z bazy danych
         double numerator = 0.0;
         double denominator = 0.0;
         if (qualifiers.isEmpty()) {
@@ -159,9 +180,8 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT4() {
-        //TODO: tu nwm czy sumaryzatory i klasyfikatory?
-        List<FuzzySet> allSets = Stream.concat(this.qualifiers.stream(), this.summarizers.stream()).toList();
-        List<Double> rj = allSets.stream()
+        // * Dane z bazy
+        List<Double> rj = this.summarizers.stream()
                 .map(FuzzySet::getDegreeOfFuzziness)
                 .toList();
         return Math.abs(rj.stream().reduce(1.0, (a, b) -> a * b) - this.t3);
@@ -172,46 +192,32 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT6() {
+        // * Dane z modelu
         if (quantifier.isAbsolute()) {
-            double suppVal = 0.0;
-            for (int i = 1; i <= setOfObjects.size(); i++) {
-                suppVal += quantifier.calculateMembership(i);
-            }
-            return 1 - (suppVal / setOfObjects.size());
+            return 1.0 - (quantifier.getMembershipFunction().getSupportSize() / (double) setOfObjects.size());
         } else {
-            double step = 0.01;
-            double suppVal = 0.0;
-            double points = (quantifier.getRightBound() - quantifier.getLeftBound()) / step;
-            for (double i = quantifier.getLeftBound(); i <= quantifier.getRightBound(); i += step) {
-                suppVal += quantifier.calculateMembership(i);
-            }
-            return 1 - (suppVal / points);
+            return 1.0 - quantifier.getMembershipFunction().getSupportSize();
         }
     }
 
     private double calculateT7() {
-        if (quantifier.isAbsolute()) {
-            double suppVal = 0.0;
-            for (int i = 1; i <= setOfObjects.size(); i++) {
-                if (quantifier.calculateMembership(i) > 0) {
-                    suppVal += 1;
-                }
-            }
-            return suppVal / setOfObjects.size();
-        } else {
-            double step = 0.01;
-            double suppVal = 0.0;
-            double points = (quantifier.getRightBound() - quantifier.getLeftBound()) / step;
-            for (double i = quantifier.getLeftBound(); i <= quantifier.getRightBound(); i += step) {
-                if (quantifier.calculateMembership(i) > 0) {
-                    suppVal += 1;
-                }
-            }
-            return suppVal / points;
-        }
+        // * Dane z modelu czy z bazy?
+        // * Raczej dla modelu
+        return 1.0 - quantifier.getMembershipFunction().getCardinality();
+        //if (quantifier.isAbsolute()) {
+        //    double suppVal = 0.0;
+        //    for (int i = 1; i <= setOfObjects.size(); i++) {
+        //        suppVal += quantifier.calculateMembership(i);
+        //    }
+        //    return 1 - (suppVal / setOfObjects.size());
+        //} else {
+        //    return 1.0 - quantifier.getMembershipFunction().getCardinality();
+        //}
     }
 
     private double calculateT8() {
+        // * Na bazie danych
+        //TODO czy dobry wzór
         List<Double> rj = this.summarizers.stream()
                 .map(fuzzySet -> fuzzySet.getCardinality() / (double) fuzzySet.getSize()
                 ).toList();
@@ -222,6 +228,7 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT9() {
+        // * Na bazie danych ?
         if (qualifiers.isEmpty()) {
             return 0.0;
         } else {
@@ -234,6 +241,8 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT10() {
+        // * Na bazie danych ?
+        //TODO czy dobry wzór
         if (qualifiers.isEmpty()) {
             return 0.0;
         } else {
@@ -248,24 +257,23 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT11() {
-        if (qualifiers.isEmpty()){
+        if (qualifiers.isEmpty()) {
             return 0.0;
         } else {
-
             return 2.0 * Math.pow(0.5, this.qualifiers.size());
         }
     }
 
     private double calculateOptimalSummary(List<Double> tValues) {
         List<Double> weights = List.of(
-                0.3, // T1
-                0.15, // T2
-                0.1, // T3
+                0.5, // T1
+                0.05, // T2
+                0.05, // T3
                 0.05, // T4
                 0.05, // T5
                 0.05, // T6
                 0.05, // T7
-                0.1, // T8
+                0.05, // T8
                 0.05, // T9
                 0.05, // T10
                 0.05  // T11

@@ -6,7 +6,6 @@ import pl.ksr.summarizator.model.membership.Trapezoidal;
 import pl.ksr.summarizator.model.membership.Triangular;
 
 public class DefinedQuantifiers {
-    //TODO: Change to proper objects / enums??
     public static Quantifier niewiele = new Quantifier(
             "NIEWIELE",
             new Trapezoidal(0.0, 0.0, 0.1, 0.2),
@@ -15,21 +14,21 @@ public class DefinedQuantifiers {
             false
     );
     public static Quantifier mniejszosc = new Quantifier(
-            "MNIEJSZOSC",
+            "MNIEJSZOŚĆ",
             new Gaussian(0.25, 0.04, 0.1, 0.4),
             0.0,
             1.0,
             false
     );
     public static Quantifier okoloPolowy = new Quantifier(
-            "OKOLO POLOWY",
+            "OKOŁO POŁOWY",
             new Triangular(0.3, 0.5, 0.7),
             0.0,
             1.0,
             false
     );
     public static Quantifier wiekszosc = new Quantifier(
-            "WIEKSZOSC",
+            "WIĘKSZOŚĆ",
             new Gaussian(0.75, 0.04, 0.6, 0.9),
             0.0,
             1.0,

@@ -14,12 +14,14 @@ public class FuzzySet {
     private final String name;
     private Map<CarObject, Double> fuzzySet = new LinkedHashMap<>();
     private MembershipFunction membershipFunction;
+    private String valueName;
     //private String linguisticModifier;
     //private double modifierValue;
 
     public FuzzySet(String name, List<CarObject> cars, String valueName, MembershipFunction membershipFunction) {
         this.name = name;
         this.membershipFunction = membershipFunction;
+        this.valueName = valueName;
         for (CarObject car : cars) {
             double membership = membershipFunction.calculateMembership(car.getCarProperties().get(valueName));
             fuzzySet.put(car, membership);
@@ -84,5 +86,17 @@ public class FuzzySet {
     public double getMembership(CarObject car) {
         // If the car is not in the fuzzy set, return 0 membership
         return fuzzySet.getOrDefault(car, 0.0);
+    }
+
+    public String getValueName() {
+        return valueName;
+    }
+
+    public double calculateMembership(Double value) {
+        return membershipFunction.calculateMembership(value);
+    }
+
+    public MembershipFunction getMembershipFunction() {
+        return membershipFunction;
     }
 }

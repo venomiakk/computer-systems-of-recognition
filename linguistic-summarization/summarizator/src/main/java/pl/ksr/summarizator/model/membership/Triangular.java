@@ -24,4 +24,19 @@ public class Triangular implements MembershipFunction{
             return (right - x) / (right - vertex);
         }
     }
+
+    @Override
+    public double getSupportSize() {
+        return right - left;
+    }
+
+    @Override
+    public double getCardinality() {
+        double step = 0.01;
+        double cardinality = 0.0;
+        for (double x = left; x <= right; x += step) {
+            cardinality += calculateMembership(x);
+        }
+        return cardinality / (1 / step);
+    }
 }

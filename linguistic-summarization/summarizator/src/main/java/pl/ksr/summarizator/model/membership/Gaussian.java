@@ -22,4 +22,19 @@ public class Gaussian implements MembershipFunction {
             return Math.exp(-Math.pow((x - mean), 2) / (sigma * sigma * 2));
         }
     }
+
+    @Override
+    public double getSupportSize() {
+        return rightBound - leftBound;
+    }
+
+    @Override
+    public double getCardinality() {
+        double step = 0.01;
+        double cardinality = 0.0;
+        for (double x = leftBound; x <= rightBound; x += step) {
+            cardinality += calculateMembership(x);
+        }
+        return cardinality / (1 / step);
+    }
 }

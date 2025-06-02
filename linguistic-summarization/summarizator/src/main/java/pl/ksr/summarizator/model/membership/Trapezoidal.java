@@ -27,4 +27,19 @@ public class Trapezoidal implements MembershipFunction{
             return (rightBottom - x) / (rightBottom - rightUp);
         }
     }
+
+    @Override
+    public double getSupportSize() {
+        return rightBottom - leftBottom;
+    }
+
+    @Override
+    public double getCardinality() {
+        double step = 0.01;
+        double cardinality = 0.0;
+        for (double x = leftBottom; x <= rightBottom; x += step) {
+            cardinality += calculateMembership(x);
+        }
+        return cardinality / (1 / step);
+    }
 }
