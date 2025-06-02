@@ -61,6 +61,8 @@ public class SingleSubjectLinguisticTerm {
         return term;
     }
 
+
+    //TODO: Czy jeszcze jakies miary (jak T2) powinny się ograniczac do zbioru ograniczonego przez kwalifikatory
     private double calculateT1() {
         // * Dane z bazy danych
         double denominator = 0.0;
@@ -106,7 +108,9 @@ public class SingleSubjectLinguisticTerm {
 
 
     private double calculateT2() {
-        // * Dane z modelu
+        // * Dane z modelu?
+        //TODO: Trzeba jednak z bazy
+        //TODO: Tylko te które spełniają kwalifikator W
         double exponent = 1 / (double) this.summarizers.size();
         List<Double> inList = new ArrayList<>();
         for (FuzzySet summarizer : this.summarizers) {
@@ -132,6 +136,7 @@ public class SingleSubjectLinguisticTerm {
 
     private double calculateT3() {
         // * Dane z bazy danych
+        // * Jak nakładają się sumaryzatory na podzbiór wyróżniony na kwalifikator
         double numerator = 0.0;
         double denominator = 0.0;
         if (qualifiers.isEmpty()) {
@@ -181,6 +186,8 @@ public class SingleSubjectLinguisticTerm {
 
     private double calculateT4() {
         // * Dane z bazy
+        // * Odnosi jakość sumaryzatora do całej bazy
+        //* na ile zbieżne są sumaryzatory
         List<Double> rj = this.summarizers.stream()
                 .map(FuzzySet::getDegreeOfFuzziness)
                 .toList();
@@ -192,7 +199,7 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT6() {
-        // * Dane z modelu
+        // * DLA MODELU
         if (quantifier.isAbsolute()) {
             return 1.0 - (quantifier.getMembershipFunction().getSupportSize() / (double) setOfObjects.size());
         } else {
@@ -201,8 +208,7 @@ public class SingleSubjectLinguisticTerm {
     }
 
     private double calculateT7() {
-        // * Dane z modelu czy z bazy?
-        // * Raczej dla modelu
+        // * DLA MODELU
         return 1.0 - quantifier.getMembershipFunction().getCardinality();
         //if (quantifier.isAbsolute()) {
         //    double suppVal = 0.0;

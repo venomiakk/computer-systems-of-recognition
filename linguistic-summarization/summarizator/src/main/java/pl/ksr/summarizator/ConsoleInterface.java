@@ -20,8 +20,8 @@ public class ConsoleInterface {
      *  Or maybe FuzzySet should get LinguisticVariable and then it can use all summarizers from that variable?
      */
     public static void main(String[] args) {
-        test();
-        //preliminaryExperiments();
+        //test();
+        preliminaryExperiments();
     }
 
     public static void test() {
@@ -63,52 +63,52 @@ public class ConsoleInterface {
 
         // * Pierwsza forma
         // *
-        //for (FuzzySet summarizer : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()) {
-        //    for (Quantifier quantifier : quantifiers) {
-        //        SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
-        //                cars,
-        //                "wszystkich samochodow",
-        //                quantifier,
-        //                List.of(),
-        //                List.of(summarizer)
-        //        );
-        //        System.out.println(term.getTerm());
-        //        results.add(term);
-        //    }
-        //}
-        //
-        //for (FuzzySet summarizer1 : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()){
-        //    for (FuzzySet summarizer2 : DefinedLinguisticVariables.spalanieMieszane(cars).getFuzzySets()){
-        //        for (Quantifier quantifier : quantifiers) {
-        //            SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
-        //                    cars,
-        //                    "wszystkich samochodow",
-        //                    quantifier,
-        //                    List.of(),
-        //                    List.of(summarizer1, summarizer2)
-        //            );
-        //            System.out.println(term.getTerm());
-        //            results.add(term);
-        //        }
-        //    }
-        //}
-
-        // * Druga forma
         for (FuzzySet summarizer : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()) {
-            for (FuzzySet qualifier : DefinedLinguisticVariables.pojemnoscSilnika(cars).getFuzzySets()) {
+            for (Quantifier quantifier : quantifiers) {
+                SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
+                        cars,
+                        "wszystkich samochodow",
+                        quantifier,
+                        List.of(),
+                        List.of(summarizer)
+                );
+                System.out.println(term.getTerm());
+                results.add(term);
+            }
+        }
+
+        for (FuzzySet summarizer1 : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()){
+            for (FuzzySet summarizer2 : DefinedLinguisticVariables.spalanieMieszane(cars).getFuzzySets()){
                 for (Quantifier quantifier : quantifiers) {
                     SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
                             cars,
                             "wszystkich samochodow",
                             quantifier,
-                            List.of(qualifier),
-                            List.of(summarizer)
+                            List.of(),
+                            List.of(summarizer1, summarizer2)
                     );
                     System.out.println(term.getTerm());
                     results.add(term);
                 }
             }
         }
+
+        // * Druga forma
+        //for (FuzzySet summarizer : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()) {
+        //    for (FuzzySet qualifier : DefinedLinguisticVariables.pojemnoscSilnika(cars).getFuzzySets()) {
+        //        for (Quantifier quantifier : quantifiers) {
+        //            SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
+        //                    cars,
+        //                    "wszystkich samochodow",
+        //                    quantifier,
+        //                    List.of(qualifier),
+        //                    List.of(summarizer)
+        //            );
+        //            System.out.println(term.getTerm());
+        //            results.add(term);
+        //        }
+        //    }
+        //}
 
         DataLoader.saveResults(results);
     }
