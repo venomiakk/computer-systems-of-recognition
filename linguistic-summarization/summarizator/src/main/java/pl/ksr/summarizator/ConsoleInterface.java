@@ -2,12 +2,9 @@ package pl.ksr.summarizator;
 
 import pl.ksr.summarizator.model.*;
 import pl.ksr.summarizator.model.fuzzylogic.FuzzySet;
-import pl.ksr.summarizator.model.fuzzylogic.LinguisticVariable;
 import pl.ksr.summarizator.model.fuzzylogic.Quantifier;
-import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectLinguisticTerm;
-import pl.ksr.summarizator.model.membership.Gaussian;
-import pl.ksr.summarizator.model.membership.MembershipFunction;
-import pl.ksr.summarizator.model.membership.Trapezoidal;
+import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectTerm;
+import pl.ksr.summarizator.model.fuzzylogic.Subject;
 
 import java.util.*;
 
@@ -21,13 +18,26 @@ public class ConsoleInterface {
      */
     public static void main(String[] args) {
         //test();
-        preliminaryExperiments();
+        //preliminaryExperiments();
+
+        doubleSubjectTest();
+    }
+
+
+    public static void doubleSubjectTest() {
+        List<CarObject> cars = DataLoader.loadCars();
+        System.out.println(cars.getFirst().getCarProperties());
+        System.out.println(DefinedSubjects.FuelType.getTypeGasoline());
+        List<CarObject> coupes = DataLoader.getSubjectObjects(cars, DefinedSubjects.BodyType.getName(), DefinedSubjects.BodyType.getTypeCoupe());
+        System.out.println(coupes.getFirst().getCarProperties());
+        System.out.println(coupes.size());
+        Subject coupeCars = new Subject(DefinedLinguisticVariables::mocPojazdu, coupes);
     }
 
     public static void test() {
         List<CarObject> cars = DataLoader.loadCars();
         // * Creating a single subject linguistic term with quantifier, qualifiers, and summarizers
-        SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
+        SingleSubjectTerm term = new SingleSubjectTerm(
                 cars,
                 "wszystkich samochodow",
                 DefinedQuantifiers.okoloPolowy,
@@ -59,13 +69,13 @@ public class ConsoleInterface {
                 DefinedQuantifiers.wiekszosc,
                 DefinedQuantifiers.prawieWszystkie
         );
-        List<SingleSubjectLinguisticTerm> results = new ArrayList<>();
+        List<SingleSubjectTerm> results = new ArrayList<>();
 
         // * Pierwsza forma
         // *
         for (FuzzySet summarizer : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()) {
             for (Quantifier quantifier : quantifiers) {
-                SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
+                SingleSubjectTerm term = new SingleSubjectTerm(
                         cars,
                         "wszystkich samochodow",
                         quantifier,
@@ -80,7 +90,7 @@ public class ConsoleInterface {
         for (FuzzySet summarizer1 : DefinedLinguisticVariables.mocPojazdu(cars).getFuzzySets()){
             for (FuzzySet summarizer2 : DefinedLinguisticVariables.spalanieMieszane(cars).getFuzzySets()){
                 for (Quantifier quantifier : quantifiers) {
-                    SingleSubjectLinguisticTerm term = new SingleSubjectLinguisticTerm(
+                    SingleSubjectTerm term = new SingleSubjectTerm(
                             cars,
                             "wszystkich samochodow",
                             quantifier,

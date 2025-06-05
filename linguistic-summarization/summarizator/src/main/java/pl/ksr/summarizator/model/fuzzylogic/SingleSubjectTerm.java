@@ -4,11 +4,10 @@ import pl.ksr.summarizator.model.CarObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-public class SingleSubjectLinguisticTerm {
+public class SingleSubjectTerm {
     private final List<CarObject> setOfObjects;
     private final String subject;
     private final Quantifier quantifier;
@@ -27,8 +26,8 @@ public class SingleSubjectLinguisticTerm {
     private final double t11;
     private final double optimalSummary;
 
-    public SingleSubjectLinguisticTerm(List<CarObject> setOfObjects, String subject, Quantifier quantifier,
-                                       List<FuzzySet> qualifiers, List<FuzzySet> summarizers) {
+    public SingleSubjectTerm(List<CarObject> setOfObjects, String subject, Quantifier quantifier,
+                             List<FuzzySet> qualifiers, List<FuzzySet> summarizers) {
         this.setOfObjects = setOfObjects;
         this.subject = subject;
         this.quantifier = quantifier;
