@@ -86,6 +86,7 @@ public class SingleSubjectTerm {
                 return 0.0; // Avoid division by zero
             }
         }
+        //TODO: Czy tu w sumie nie powinno być min z sumaryzatorów dla obiektów które są w support kwalifikatora?
         List<FuzzySet> allSets = Stream.concat(this.qualifiers.stream(), this.summarizers.stream()).toList();
         double numerator = 0.0;
         if (allSets.size() == 1) {
@@ -107,28 +108,34 @@ public class SingleSubjectTerm {
 
 
     private double calculateT2() {
-        // * Dane z modelu?
         //TODO: Trzeba jednak z bazy
         //TODO: Tylko te które spełniają kwalifikator W
+        // * Model
+        //double exponent = 1 / (double) this.summarizers.size();
+        //List<Double> inList = new ArrayList<>();
+        //for (FuzzySet summarizer : this.summarizers) {
+        //    double minValue = summarizer.getFuzzySet().keySet()
+        //            .stream()
+        //            .map(car -> car.getCarProperties().get(summarizer.getValueName()))
+        //            .mapToDouble(val -> (Double.parseDouble((String) val)))
+        //            .min()
+        //            .orElse(0.0);
+        //    double maxValue = summarizer.getFuzzySet().keySet()
+        //            .stream()
+        //            .map(car -> car.getCarProperties().get(summarizer.getValueName()))
+        //            .mapToDouble(val -> (Double.parseDouble((String) val)))
+        //            .max()
+        //            .orElse(0.0);
+        //    double supportSize = summarizer.getMembershipFunction().getSupportSize();
+        //    inList.add(supportSize / (maxValue - minValue));
+        //}
+        //double inMean = inList.stream()
+        //        .reduce(1.0, (a, b) -> a * b);
+        //return 1 - Math.pow(inMean, exponent);
+        // * Baza
         double exponent = 1 / (double) this.summarizers.size();
-        List<Double> inList = new ArrayList<>();
-        for (FuzzySet summarizer : this.summarizers) {
-            double minValue = summarizer.getFuzzySet().keySet()
-                    .stream()
-                    .map(car -> car.getCarProperties().get(summarizer.getValueName()))
-                    .mapToDouble(val -> (Double.parseDouble((String) val)))
-                    .min()
-                    .orElse(0.0);
-            double maxValue = summarizer.getFuzzySet().keySet()
-                    .stream()
-                    .map(car -> car.getCarProperties().get(summarizer.getValueName()))
-                    .mapToDouble(val -> (Double.parseDouble((String) val)))
-                    .max()
-                    .orElse(0.0);
-            double supportSize = summarizer.getMembershipFunction().getSupportSize();
-            inList.add(supportSize / (maxValue - minValue));
-        }
-        double inMean = inList.stream()
+        double inMean = this.summarizers.stream()
+                .mapToDouble(FuzzySet::getDegreeOfFuzziness)
                 .reduce(1.0, (a, b) -> a * b);
         return 1 - Math.pow(inMean, exponent);
     }

@@ -2,8 +2,12 @@ package pl.ksr.summarizator.model;
 
 public class DefinedSubjects {
     public static class FuelType {
-        public static String getName() {
+        public static String getValueName() {
             return "fuel_type";
+        }
+
+        public static String getName() {
+            return "TYP PALIWA";
         }
 
         public static String getTypeDiesel() {
@@ -24,8 +28,12 @@ public class DefinedSubjects {
     }
 
     public static class TransmissionType {
-        public static String getName() {
+        public static String getValueName() {
             return "transmission";
+        }
+
+        public static String getName() {
+            return "RODZAJ SKRZYNI BIEGÓW";
         }
 
         public static String getTypeManual() {
@@ -38,8 +46,12 @@ public class DefinedSubjects {
     }
 
     public static class BodyType {
-        public static String getName() {
+        public static String getValueName() {
             return "body_type";
+        }
+
+        public static String getName() {
+            return "NADWOZIE";
         }
 
         public static String getTypeSedan() {
@@ -92,8 +104,12 @@ public class DefinedSubjects {
     }
 
     public static class DriveWheels {
-        public static String getName() {
+        public static String getValueName() {
             return "drive_wheels";
+        }
+
+        public static String getName() {
+            return "NAPĘD";
         }
 
         public static String getTypeFwd() {
@@ -115,8 +131,12 @@ public class DefinedSubjects {
 
     //'Inline', 'V-type', 'Opposed', 'W-type', 'Rotary-piston'
     public static class CylinderLayout {
-        public static String getName() {
+        public static String getValueName() {
             return "cylinder_layout";
+        }
+
+        public static String getName() {
+            return "UKŁAD CYLINDRÓW";
         }
 
         public static String getTypeInline() {
@@ -142,8 +162,12 @@ public class DefinedSubjects {
 
     // 4,  6,  5,  8, 12,  3, 10,  2
     public static class NumberOfCylinders {
-        public static String getName() {
+        public static String getValueName() {
             return "number_of_cylinders";
+        }
+
+        public static String getName() {
+            return "LICZBA CYLINDRÓW";
         }
 
         public static String getType4() {

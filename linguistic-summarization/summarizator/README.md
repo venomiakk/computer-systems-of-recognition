@@ -95,6 +95,9 @@ koniunkcja i alternatywa są
 - P_m - podmiot - "samochodów z silnikiem benzynowym"
 - S_n - koniunkcja sumaryzatorów - np. "Duży silnik" i "Ekonomiczny"
 
+$M_1 + M_2 = M$,  
+$T = \mu_q (\frac{\frac{1}{M_1} * card(S(P_1))}{\frac{1}{M_1} * card(S(P_1)) + \frac{1}{M_2} * card(S(P_2))})$
+
 ### Wielopodmiotowe w drugiej formie
 
 **Q P_n compared to P_m being/having W_n(S_n) are/have S_n**
@@ -105,6 +108,7 @@ koniunkcja i alternatywa są
 - W_n(S_n) - kwalifikator - może być sumaryzatorem (lub ich koniunkcją?) - np. "Duży silnik"
 - S_n - koniunkcja sumaryzatorów - np. "Współczesny" i "Ekonomiczny"
 
+$T = \mu_q (\frac{\frac{1}{M_1} * card(S(P_1))}{\frac{1}{M_1} * card(S(P_1)) + \frac{1}{M_2} * card(S(P_2)\cap W)})$
 
 ### Wielopodmiotowe w trzeciej formie
 
@@ -116,6 +120,8 @@ koniunkcja i alternatywa są
 - W_n(S_n) - kwalifikator - może być sumaryzatorem (lub ich koniunkcją?) - np. "Duży silnik"
 - S_n - koniunkcja sumaryzatorów - np. "Współczesny" i "Ekonomiczny"
 
+$T = \mu_q (\frac{\frac{1}{M_1} * card(S(P_1)\cap W)}{\frac{1}{M_1} * card(S(P_1)\cap W) + \frac{1}{M_2} * card(S(P_2))})$
+
 ### Wielopodmiotowe w czwartej formie
 
 ** More P_n than P_m are/have S_n**
@@ -124,6 +130,15 @@ koniunkcja i alternatywa są
 - P_m - podmiot - "samochodów z silnikiem benzynowym"
 - S_n - koniunkcja sumaryzatorów - np. "Duży silnik" i "Ekonomiczny"
 
+$T = 1 - m(Inc(S(P_2), S(P_1)))$  
+Inc - inkluzja, zawieranie się, pewien zbiór rozmyty  
+m - miara rozmyta (względna) zbioru (1.11 pl)  
+$A \subseteq B \rightarrow m(A) \leq m(B)$  
+$\mu_{inc(A,B)}(x) = I(\mu_A(x), \mu_B(x))$  
+implikacja Łukasiewicza  
+$I(a,b) = min\{1, 1-a+b\}$  
+implikacja Reichenbacha  
+$I(a,b) = 1 - a + ab$  
 
 ## Miary jakości podsumowań lingwistycznych
 

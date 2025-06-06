@@ -5,6 +5,8 @@ import pl.ksr.summarizator.model.membership.Gaussian;
 import pl.ksr.summarizator.model.membership.Trapezoidal;
 import pl.ksr.summarizator.model.membership.Triangular;
 
+import java.util.List;
+
 public class DefinedQuantifiers {
     public static Quantifier niewiele = new Quantifier(
             "NIEWIELE",
@@ -41,4 +43,14 @@ public class DefinedQuantifiers {
             1.0,
             false
     );
+
+    public static List<Quantifier> getAllQuantifiers() {
+        return List.of(
+                niewiele,
+                mniejszosc,
+                okoloPolowy,
+                wiekszosc,
+                prawieWszystkie
+        );
+    }
 }
