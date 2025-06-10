@@ -5,4 +5,6 @@ module pl.ksr.summarizator {
 
     opens pl.ksr.summarizator to javafx.fxml;
     exports pl.ksr.summarizator;
+    exports pl.ksr.summarizator.view;
+    opens pl.ksr.summarizator.view to javafx.fxml;
 }
