@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -11,10 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="720.0" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/21"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.ksr.summarizator.view.ViewController">
+<VBox prefHeight="720.0" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.ksr.summarizator.view.ViewController">
     <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
     </padding>
     <TabPane prefHeight="1270.0" prefWidth="710.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -22,36 +22,28 @@
                 <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="720.0" prefWidth="1270.0">
                         <children>
-                            <TreeView fx:id="fuzzySetsTreeView" layoutX="14.0" layoutY="21.0" prefHeight="415.0"
-                                      prefWidth="220.0"/>
-                            <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Etykiety"
-                                  wrappingWidth="220.0"/>
-                            <Text layoutX="14.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0"
-                                  text="Kwantyfikatory"/>
-                            <TreeView fx:id="quantifiersTreeView" layoutX="14.0" layoutY="464.0" prefHeight="120.0"
-                                      prefWidth="220.0"/>
-                            <Button fx:id="generateSingleSubjectButton" layoutX="92.0" layoutY="591.0"
-                                    mnemonicParsing="false" onAction="#onGenerateSingleSubjectButtonSingleSubjectClick"
-                                    prefHeight="25.0" prefWidth="64.0" text="Generuj"/>
-                            <Button fx:id="exportSingleSubjectButton" disable="true" layoutX="70.0" layoutY="628.0"
-                                    mnemonicParsing="false" onAction="#onExportSingleSubjectButtonClick"
-                                    text="Eksportuj do CSV"/>
-                            <TableView fx:id="singleSubjectTermsTableView" layoutX="255.0" layoutY="21.0"
-                                       prefHeight="640.0" prefWidth="990.0">
+                            <TreeView fx:id="fuzzySetsTreeView" layoutX="14.0" layoutY="21.0" prefHeight="415.0" prefWidth="220.0" />
+                            <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Etykiety" wrappingWidth="220.0" />
+                            <Text layoutX="14.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kwantyfikatory" />
+                            <TreeView fx:id="quantifiersTreeView" layoutX="14.0" layoutY="464.0" prefHeight="120.0" prefWidth="220.0" />
+                            <Button fx:id="generateSingleSubjectButton" layoutX="92.0" layoutY="591.0" mnemonicParsing="false" onAction="#onGenerateSingleSubjectTermButtonClick" prefHeight="25.0" prefWidth="64.0" text="Generuj" />
+                            <Button fx:id="exportSingleSubjectButton" disable="true" layoutX="70.0" layoutY="628.0" mnemonicParsing="false" onAction="#onExportSingleSubjectButtonClick" text="Eksportuj do CSV" />
+                            <TableView fx:id="singleSubjectTermsTableView" layoutX="255.0" layoutY="21.0" prefHeight="640.0" prefWidth="990.0">
                                 <columns>
-                                    <TableColumn fx:id="sstTermColumn" prefWidth="500.0" text="Zdanie"/>
-                                    <TableColumn fx:id="sstT0Column" prefWidth="40.0" text="T0"/>
-                                    <TableColumn fx:id="sstT1Column" prefWidth="40.0" text="T1"/>
-                                    <TableColumn fx:id="sstT2Column" prefWidth="40.0" text="T2"/>
-                                    <TableColumn fx:id="sstT3Column" prefWidth="40.0" text="T3"/>
-                                    <TableColumn fx:id="sstT4Column" prefWidth="40.0" text="T4"/>
-                                    <TableColumn fx:id="sstT5Column" prefWidth="40.0" text="T5"/>
-                                    <TableColumn fx:id="sstT6Column" prefWidth="40.0" text="T6"/>
-                                    <TableColumn fx:id="sstT7Column" prefWidth="40.0" text="T7"/>
-                                    <TableColumn fx:id="sstT8Column" prefWidth="40.0" text="T8"/>
-                                    <TableColumn fx:id="sstT9Column" prefWidth="40.0" text="T9"/>
-                                    <TableColumn fx:id="sstT10Column" prefWidth="40.0" text="T10"/>
-                                    <TableColumn fx:id="sstT11Column" prefWidth="40.0" text="T11"/>
+                                    <TableColumn fx:id="sstIndex" prefWidth="35.0" text="#" />
+                                    <TableColumn fx:id="sstTermColumn" prefWidth="465.0" text="Zdanie" />
+                                    <TableColumn fx:id="sstT0Column" prefWidth="40.0" text="T0" />
+                                    <TableColumn fx:id="sstT1Column" prefWidth="40.0" text="T1" />
+                                    <TableColumn fx:id="sstT2Column" prefWidth="40.0" text="T2" />
+                                    <TableColumn fx:id="sstT3Column" prefWidth="40.0" text="T3" />
+                                    <TableColumn fx:id="sstT4Column" prefWidth="40.0" text="T4" />
+                                    <TableColumn fx:id="sstT5Column" prefWidth="40.0" text="T5" />
+                                    <TableColumn fx:id="sstT6Column" prefWidth="40.0" text="T6" />
+                                    <TableColumn fx:id="sstT7Column" prefWidth="40.0" text="T7" />
+                                    <TableColumn fx:id="sstT8Column" prefWidth="40.0" text="T8" />
+                                    <TableColumn fx:id="sstT9Column" prefWidth="40.0" text="T9" />
+                                    <TableColumn fx:id="sstT10Column" prefWidth="40.0" text="T10" />
+                                    <TableColumn fx:id="sstT11Column" prefWidth="40.0" text="T11" />
                                 </columns>
                             </TableView>
 
@@ -61,12 +53,34 @@
             </Tab>
             <Tab text="Podsumowania wielopodmiotowe">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <TableView fx:id="doubleSubjectTermsTreeView" layoutX="493.0" layoutY="21.0" prefHeight="647.0" prefWidth="763.0">
+                       <columns>
+                           <TableColumn fx:id="dstIndex" prefWidth="35.0" text="#" />
+                         <TableColumn fx:id="dstFormColumn" prefWidth="53.0" text="Forma" />
+                         <TableColumn fx:id="dstTermColumn" prefWidth="621.0" text="Zdanie" />
+                           <TableColumn fx:id="dstT1Column" minWidth="0.0" prefWidth="53.0" text="T1" />
+                       </columns>
+                     </TableView>
+                     <Button fx:id="generateDoubleSubjectTermsButton" layoutX="176.0" layoutY="625.0" mnemonicParsing="false" onAction="#onGenerateDoubleSubjectTermsButtonClick" text="Generuj" />
+                     <Button fx:id="exportDoubleSubjectTermsButton" layoutX="260.0" layoutY="625.0" mnemonicParsing="false" text="Eksportuj do CSV" disable="true"/>
+                     <TreeView fx:id="doubleSubjectFuzzySetsTreeView" layoutX="14.0" layoutY="21.0" prefHeight="576.0" prefWidth="220.0" />
+                     <TreeView fx:id="doubleSubjectQuantifiersTreeView" layoutX="260.0" layoutY="21.0" prefHeight="291.0" prefWidth="200.0" />
+                     <ComboBox fx:id="firstSubjectMainComboBox" layoutX="285.0" layoutY="367.0" prefWidth="150.0" />
+                     <ComboBox fx:id="firstSubjectSubComboBox" layoutX="285.0" layoutY="409.0" prefWidth="150.0" />
+                     <ComboBox fx:id="secondSubjectMainComboBox" layoutX="285.0" layoutY="481.0" prefWidth="150.0" />
+                     <ComboBox fx:id="secondSubjectSubComboBox" layoutX="285.0" layoutY="521.0" prefWidth="150.0" />
+                     <Text layoutX="14.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Etykiety" />
+                     <Text layoutX="260.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kwantyfikatory" />
+                     <Text layoutX="288.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pierwszy podmiot" />
+                     <Text layoutX="288.0" layoutY="471.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drugi podmiot" />
+                  </children></AnchorPane>
                 </content>
             </Tab>
             <Tab text="Zaawansowane podsumowania">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
                 </content>
             </Tab>
         </tabs>

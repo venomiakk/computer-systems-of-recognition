@@ -251,21 +251,4 @@ public class ConsoleInterface {
         DataLoader.saveResults(results);
     }
 
-    public static <T> List<List<T>> generatePowerSet(List<T> originalList) {
-        List<List<T>> powerSet = new ArrayList<>();
-        int setSize = originalList.size();
-        int powerSetSize = 1 << setSize; // 2^n podzbiorów
-
-        for (int i = 0; i < powerSetSize; i++) {
-            List<T> subset = new ArrayList<>();
-            for (int j = 0; j < setSize; j++) {
-                if ((i & (1 << j)) != 0) {
-                    subset.add(originalList.get(j));
-                }
-            }
-            powerSet.add(subset);
-        }
-
-        return powerSet;
-    }
 }

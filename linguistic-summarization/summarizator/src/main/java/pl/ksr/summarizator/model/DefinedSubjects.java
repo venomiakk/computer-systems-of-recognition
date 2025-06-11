@@ -1,5 +1,8 @@
 package pl.ksr.summarizator.model;
 
+import java.util.List;
+import java.util.Map;
+
 public class DefinedSubjects {
     public static class FuelType {
         public static String getValueName() {

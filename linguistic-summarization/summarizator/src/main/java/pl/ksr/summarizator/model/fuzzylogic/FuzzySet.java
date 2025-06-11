@@ -99,4 +99,5 @@ public class FuzzySet {
     public MembershipFunction getMembershipFunction() {
         return membershipFunction;
     }
+
 }
