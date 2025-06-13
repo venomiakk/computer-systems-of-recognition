@@ -1,6 +1,7 @@
 package pl.ksr.summarizator.view;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectTerm;
 
@@ -21,8 +22,9 @@ public class SstViewModel {
     private final SimpleDoubleProperty t10;
     private final SimpleDoubleProperty t11;
     private final SimpleDoubleProperty t0;
+    public SimpleIntegerProperty index;
 
-    public SstViewModel(SingleSubjectTerm termObject) {
+    public SstViewModel(SingleSubjectTerm termObject, int index) {
         this.term = new SimpleStringProperty(termObject.getTerm());
         this.t0 = new SimpleDoubleProperty(round(termObject.getOptimalSummary(),2));
         this.t1 = new SimpleDoubleProperty(round(termObject.getT1(),2));
@@ -36,6 +38,7 @@ public class SstViewModel {
         this.t9 = new SimpleDoubleProperty(round(termObject.getT9(),2));
         this.t10 = new SimpleDoubleProperty(round(termObject.getT10(),2));
         this.t11 = new SimpleDoubleProperty(round(termObject.getT11(),2));
+        this.index = new SimpleIntegerProperty(index);
     }
 
     private static double round(double value, int places) {
@@ -202,4 +205,11 @@ public class SstViewModel {
         this.t0.set(t0);
     }
 
+    public int getIndex() {
+        return index.get();
+    }
+
+    public SimpleIntegerProperty indexProperty() {
+        return index;
+    }
 }

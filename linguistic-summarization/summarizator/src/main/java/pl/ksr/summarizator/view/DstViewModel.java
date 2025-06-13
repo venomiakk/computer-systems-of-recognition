@@ -1,6 +1,7 @@
 package pl.ksr.summarizator.view;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.math.BigDecimal;
@@ -12,11 +13,13 @@ public class DstViewModel {
     private final SimpleStringProperty term;
     private final SimpleDoubleProperty t1;
     //TODO: ADD INDEX
+    public SimpleIntegerProperty index;
 
-    public DstViewModel(String form, String term, double t1) {
+    public DstViewModel(String form, String term, double t1, int index) {
         this.form = new SimpleStringProperty(form);
         this.term = new SimpleStringProperty(term);
         this.t1 = new SimpleDoubleProperty(round(t1, 2));
+        this.index = new SimpleIntegerProperty(index);
     }
 
     private static double round(double value, int places) {
@@ -50,6 +53,15 @@ public class DstViewModel {
 
     public SimpleDoubleProperty t1Property() {
         return t1;
+    }
+
+
+    public int getIndex() {
+        return index.get();
+    }
+
+    public SimpleIntegerProperty indexProperty() {
+        return index;
     }
 
     @Override

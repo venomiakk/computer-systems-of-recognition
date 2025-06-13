@@ -33,7 +33,8 @@ public class SummarizationService {
         return new ArrayList<>(DefinedQuantifiers.getAllQuantifiers());
     }
 
-    public static List<SingleSubjectTerm> getSingleSubjectTerms(List<Quantifier> quantifiers, List<FuzzySet> sets) {
+    public static List<SingleSubjectTerm> getSingleSubjectTerms(List<Quantifier> quantifiers, List<FuzzySet> sets,
+                                                                List<Double> weights) {
         List<List<FuzzySet>> powerSet = generatePowerSet(sets);
         List<SingleSubjectTerm> terms = new ArrayList<>();
         // * Qualifiers loop
@@ -43,15 +44,28 @@ public class SummarizationService {
                     continue;
                 }
                 for (Quantifier quantifier : quantifiers) {
-                    terms.add(
-                            new SingleSubjectTerm(
-                                    cars,
-                                    "wszystkich samochodów",
-                                    quantifier,
-                                    qualifier,
-                                    summarizer
-                            )
-                    );
+                    if (weights.isEmpty()) {
+                        terms.add(
+                                new SingleSubjectTerm(
+                                        cars,
+                                        "wszystkich samochodów",
+                                        quantifier,
+                                        qualifier,
+                                        summarizer
+                                )
+                        );
+                    } else {
+                        terms.add(
+                                new SingleSubjectTerm(
+                                        cars,
+                                        "wszystkich samochodów",
+                                        quantifier,
+                                        qualifier,
+                                        summarizer,
+                                        weights
+                                )
+                        );
+                    }
                 }
             }
         }
@@ -69,6 +83,7 @@ public class SummarizationService {
         System.out.println(cars.getFirst().getCarProperties());
         List<CarObject> firstObjects = DataLoader.getSubjectObjects(cars, firstSubject.valueName(), firstSubject.typeName());
         List<CarObject> secondObjects = DataLoader.getSubjectObjects(cars, secondSubject.valueName(), secondSubject.typeName());
+        int index = 1;
         for (List<FuzzySet> summarizer : powerSet) {
             if (summarizer.isEmpty()) {
                 continue;
@@ -91,11 +106,11 @@ public class SummarizationService {
             );
             DoubleSubjectTerm dstTerm = new DoubleSubjectTerm(subject1, subject2, quantifiers.getFirst());
             DstViewModel forthForm1 = new DstViewModel(
-                    "4", dstTerm.getTerm4(), dstTerm.getDot4()
+                    "4", dstTerm.getTerm4(), dstTerm.getDot4(), index++
             );
             dstTerm = new DoubleSubjectTerm(subject2, subject1, quantifiers.getFirst());
             DstViewModel forthForm2 = new DstViewModel(
-                    "4", dstTerm.getTerm4(), dstTerm.getDot4()
+                    "4", dstTerm.getTerm4(), dstTerm.getDot4(), index++
             );
             terms.addAll(List.of(forthForm1, forthForm2));
             for (List<FuzzySet> qulifier : powerSet) {
@@ -122,9 +137,9 @@ public class SummarizationService {
                                 List.of()
                         );
                         DoubleSubjectTerm dst2 = new DoubleSubjectTerm(anotherSubject1, anotherSubject2, quantifier);
-                        terms.add(new DstViewModel("1", dst2.getTerm1(), dst2.getDot1()));
+                        terms.add(new DstViewModel("1", dst2.getTerm1(), dst2.getDot1(), index++));
                         dst2 = new DoubleSubjectTerm(anotherSubject2, anotherSubject1, quantifier);
-                        terms.add(new DstViewModel("1", dst2.getTerm1(), dst2.getDot1()));
+                        terms.add(new DstViewModel("1", dst2.getTerm1(), dst2.getDot1(), index++));
                     } else {
                         Subject anotherSubject1 = new Subject(
                                 firstSubject.valueName(),
@@ -143,11 +158,11 @@ public class SummarizationService {
                                 changeObjects(qulifier, secondObjects)
                         );
                         DoubleSubjectTerm dst1 = new DoubleSubjectTerm(anotherSubject1, anotherSubject2, quantifier);
-                        terms.add(new DstViewModel("2", dst1.getTerm2(), dst1.getDot2()));
-                        terms.add(new DstViewModel("3", dst1.getTerm3(), dst1.getDot3()));
+                        terms.add(new DstViewModel("2", dst1.getTerm2(), dst1.getDot2(), index++));
+                        terms.add(new DstViewModel("3", dst1.getTerm3(), dst1.getDot3(), index++));
                         dst1 = new DoubleSubjectTerm(anotherSubject2, anotherSubject1, quantifier);
-                        terms.add(new DstViewModel("2", dst1.getTerm2(), dst1.getDot2()));
-                        terms.add(new DstViewModel("3", dst1.getTerm3(), dst1.getDot3()));
+                        terms.add(new DstViewModel("2", dst1.getTerm2(), dst1.getDot2(), index++));
+                        terms.add(new DstViewModel("3", dst1.getTerm3(), dst1.getDot3(), index++));
                     }
                 }
             }

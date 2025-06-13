@@ -45,7 +45,30 @@ public class SingleSubjectTerm {
         this.t10 = calculateT10();
         this.t11 = calculateT11();
         this.optimalSummary = calculateOptimalSummary(List.of(this.t1, this.t2, this.t3, this.t4, this.t5,
-                this.t6, this.t7, this.t8, this.t9, this.t10, this.t11));
+                this.t6, this.t7, this.t8, this.t9, this.t10, this.t11), List.of());
+
+    }
+
+    public SingleSubjectTerm(List<CarObject> setOfObjects, String subject, Quantifier quantifier,
+                             List<FuzzySet> qualifiers, List<FuzzySet> summarizers, List<Double> weights) {
+        this.setOfObjects = setOfObjects;
+        this.subject = subject;
+        this.quantifier = quantifier;
+        this.qualifiers = qualifiers;
+        this.summarizers = summarizers;
+        this.t1 = calculateT1();
+        this.t2 = calculateT2();
+        this.t3 = calculateT3();
+        this.t4 = calculateT4();
+        this.t5 = calculateT5();
+        this.t6 = calculateT6();
+        this.t7 = calculateT7();
+        this.t8 = calculateT8();
+        this.t9 = calculateT9();
+        this.t10 = calculateT10();
+        this.t11 = calculateT11();
+        this.optimalSummary = calculateOptimalSummary(List.of(this.t1, this.t2, this.t3, this.t4, this.t5,
+                this.t6, this.t7, this.t8, this.t9, this.t10, this.t11), weights);
 
     }
 
@@ -276,25 +299,32 @@ public class SingleSubjectTerm {
         }
     }
 
-    private double calculateOptimalSummary(List<Double> tValues) {
-        List<Double> weights = List.of(
-                0.5, // T1
-                0.05, // T2
-                0.05, // T3
-                0.05, // T4
-                0.05, // T5
-                0.05, // T6
-                0.05, // T7
-                0.05, // T8
-                0.05, // T9
-                0.05, // T10
-                0.05  // T11
-        ); //Need to sum to 1.0
+    private double calculateOptimalSummary(List<Double> tValues, List<Double> inputWeights) {
+        List<Double> weights; //Need to sum to 1.0
+        if (inputWeights != null && inputWeights.size() == tValues.size()) {
+            weights = inputWeights;
+        } else {
+            weights = List.of(
+                    0.5, // T1
+                    0.05, // T2
+                    0.05, // T3
+                    0.05, // T4
+                    0.05, // T5
+                    0.05, // T6
+                    0.05, // T7
+                    0.05, // T8
+                    0.05, // T9
+                    0.05, // T10
+                    0.05  // T11
+            );
+        }
         //System.out.println(weights.stream().mapToDouble(Double::doubleValue).sum());
+        List<Double> finalWeights = weights;
         return IntStream.range(0, tValues.size())
-                .mapToDouble(i -> tValues.get(i) * weights.get(i))
+                .mapToDouble(i -> tValues.get(i) * finalWeights.get(i))
                 .sum();
     }
+
 
 
     public String getSubject() {

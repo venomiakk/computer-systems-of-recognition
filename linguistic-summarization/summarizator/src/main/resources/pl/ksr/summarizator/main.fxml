@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <VBox prefHeight="720.0" prefWidth="1280.0" spacing="20.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.ksr.summarizator.view.ViewController">
-    <padding>
-        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-    </padding>
     <TabPane prefHeight="1270.0" prefWidth="710.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
             <Tab text="Podsumowania jednopodmiotowe">
@@ -26,13 +25,12 @@
                             <Text layoutX="14.0" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Etykiety" wrappingWidth="220.0" />
                             <Text layoutX="14.0" layoutY="461.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kwantyfikatory" />
                             <TreeView fx:id="quantifiersTreeView" layoutX="14.0" layoutY="464.0" prefHeight="120.0" prefWidth="220.0" />
-                            <Button fx:id="generateSingleSubjectButton" layoutX="92.0" layoutY="591.0" mnemonicParsing="false" onAction="#onGenerateSingleSubjectTermButtonClick" prefHeight="25.0" prefWidth="64.0" text="Generuj" />
-                            <Button fx:id="exportSingleSubjectButton" disable="true" layoutX="70.0" layoutY="628.0" mnemonicParsing="false" onAction="#onExportSingleSubjectButtonClick" text="Eksportuj do CSV" />
-                            <TableView fx:id="singleSubjectTermsTableView" layoutX="255.0" layoutY="21.0" prefHeight="640.0" prefWidth="990.0">
+                            <Button fx:id="generateSingleSubjectButton" layoutX="28.0" layoutY="641.0" mnemonicParsing="false" onAction="#onGenerateSingleSubjectTermButtonClick" prefHeight="25.0" prefWidth="64.0" text="Generuj" />
+                            <Button fx:id="exportSingleSubjectButton" disable="true" layoutX="121.0" layoutY="641.0" mnemonicParsing="false" onAction="#onExportSingleSubjectButtonClick" text="Eksportuj do CSV" />
+                            <TableView fx:id="singleSubjectTermsTableView" layoutX="270.0" layoutY="21.0" prefHeight="640.0" prefWidth="990.0">
                                 <columns>
                                     <TableColumn fx:id="sstIndex" prefWidth="35.0" text="#" />
                                     <TableColumn fx:id="sstTermColumn" prefWidth="465.0" text="Zdanie" />
-                                    <TableColumn fx:id="sstT0Column" prefWidth="40.0" text="T0" />
                                     <TableColumn fx:id="sstT1Column" prefWidth="40.0" text="T1" />
                                     <TableColumn fx:id="sstT2Column" prefWidth="40.0" text="T2" />
                                     <TableColumn fx:id="sstT3Column" prefWidth="40.0" text="T3" />
@@ -44,8 +42,11 @@
                                     <TableColumn fx:id="sstT9Column" prefWidth="40.0" text="T9" />
                                     <TableColumn fx:id="sstT10Column" prefWidth="40.0" text="T10" />
                                     <TableColumn fx:id="sstT11Column" prefWidth="40.0" text="T11" />
+                                    <TableColumn fx:id="sstT0Column" prefWidth="40.0" text="T0" />
                                 </columns>
                             </TableView>
+                     <Button fx:id="weightsButton" layoutX="21.0" layoutY="597.0" mnemonicParsing="false" onAction="#onWeightsButtonClick" text="Ustaw wagi" />
+                     <Button fx:id="readSstAdvButton" layoutX="124.0" layoutY="597.0" mnemonicParsing="false" onAction="#onReadSstAdvButtonClick" text="Wczytaj modele" />
 
                         </children>
                     </AnchorPane>
@@ -59,12 +60,12 @@
                        <columns>
                            <TableColumn fx:id="dstIndex" prefWidth="35.0" text="#" />
                          <TableColumn fx:id="dstFormColumn" prefWidth="53.0" text="Forma" />
-                         <TableColumn fx:id="dstTermColumn" prefWidth="621.0" text="Zdanie" />
+                         <TableColumn fx:id="dstTermColumn" prefWidth="615.0" text="Zdanie" />
                            <TableColumn fx:id="dstT1Column" minWidth="0.0" prefWidth="53.0" text="T1" />
                        </columns>
                      </TableView>
                      <Button fx:id="generateDoubleSubjectTermsButton" layoutX="176.0" layoutY="625.0" mnemonicParsing="false" onAction="#onGenerateDoubleSubjectTermsButtonClick" text="Generuj" />
-                     <Button fx:id="exportDoubleSubjectTermsButton" layoutX="260.0" layoutY="625.0" mnemonicParsing="false" text="Eksportuj do CSV" disable="true"/>
+                     <Button fx:id="exportDoubleSubjectTermsButton" disable="true" layoutX="260.0" layoutY="625.0" mnemonicParsing="false" onAction="#onExportDoubleSubjectTermsButtonClick" text="Eksportuj do CSV" />
                      <TreeView fx:id="doubleSubjectFuzzySetsTreeView" layoutX="14.0" layoutY="21.0" prefHeight="576.0" prefWidth="220.0" />
                      <TreeView fx:id="doubleSubjectQuantifiersTreeView" layoutX="260.0" layoutY="21.0" prefHeight="291.0" prefWidth="200.0" />
                      <ComboBox fx:id="firstSubjectMainComboBox" layoutX="285.0" layoutY="367.0" prefWidth="150.0" />
@@ -75,12 +76,38 @@
                      <Text layoutX="260.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kwantyfikatory" />
                      <Text layoutX="288.0" layoutY="358.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pierwszy podmiot" />
                      <Text layoutX="288.0" layoutY="471.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Drugi podmiot" />
+                     <Button fx:id="readDstAdvButton" layoutX="43.0" layoutY="625.0" mnemonicParsing="false" onAction="#onReadDstAdvButtonClick" text="Wczytaj modele" />
                   </children></AnchorPane>
                 </content>
             </Tab>
-            <Tab text="Zaawansowane podsumowania">
+            <Tab text="Instrukcja dla użytkownika zaawansowanego">
                 <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                     <Label layoutX="14.0" layoutY="14.0" text="Instrukcja korzystania z plików JSON">
+                        <font>
+                           <Font size="25.0" />
+                        </font>
+                     </Label>
+                     <Label layoutX="847.0" layoutY="13.0" text="Przykładowy plik">
+                        <font>
+                           <Font size="26.0" />
+                        </font>
+                     </Label>
+                     <TextArea editable="false" layoutX="847.0" layoutY="50.0" prefHeight="624.0" prefWidth="385.0" text="[&#10;    {&#10;        &quot;type&quot;: &quot;zmienna&quot;,&#10;        &quot;name&quot;: &quot;pojemność silnika&quot;,&#10;        &quot;valueName&quot;: &quot;displacement&quot;,&#10;        &quot;functions&quot;: [&#10;            {&#10;                &quot;name&quot;: &quot;2000-4000 trapez&quot;,&#10;                &quot;type&quot;: &quot;trapez&quot;,&#10;                &quot;parameters&quot;: {&#10;                    &quot;leftBottom&quot;: 2000,&#10;                    &quot;leftUp&quot;: 2500,&#10;                    &quot;rightUp&quot;: 3000,&#10;                    &quot;rightBottom&quot;: 4000&#10;                }&#10;            },&#10;            {&#10;                &quot;name&quot;: &quot;2000-3000 trójkąt&quot;,&#10;                &quot;type&quot;: &quot;trójkąt&quot;,&#10;                &quot;parameters&quot;: {&#10;                    &quot;left&quot;: 2000,&#10;                    &quot;vertex&quot;: 2500,&#10;                    &quot;right&quot;: 3000&#10;                }&#10;            },&#10;            {&#10;                &quot;name&quot;: &quot;4000-30-3000-5000 gauss&quot;,&#10;                &quot;type&quot;: &quot;gauss&quot;,&#10;                &quot;parameters&quot;: {&#10;                    &quot;mean&quot;: 4000,&#10;                    &quot;sigma&quot;: 30,&#10;                    &quot;leftBound&quot;: 3000,&#10;                    &quot;rightBound&quot;: 5000&#10;                }&#10;            }&#10;        ]&#10;    },&#10;    {&#10;        &quot;type&quot;: &quot;kwantyfikator&quot;,&#10;        &quot;name&quot;: &quot;0.2-0.8 trapez&quot;,&#10;        &quot;function&quot;: {&#10;            &quot;type&quot;: &quot;trapez&quot;,&#10;            &quot;parameters&quot;: {&#10;                &quot;leftBottom&quot;: 0.2,&#10;                &quot;leftUp&quot;: 0.4,&#10;                &quot;rightUp&quot;: 0.6,&#10;                &quot;rightBottom&quot;: 0.8&#10;            }&#10;        }&#10;    }&#10;]" />
+                     <Label layoutX="23.0" layoutY="66.0" text="Dostępne rodzaje (&quot;type&quot;): &quot;zmienna&quot;, &quot;kwantyfikator&quot;" />
+                     <Label layoutX="23.0" layoutY="94.0" />
+                     <Label layoutX="23.0" layoutY="119.0" text="Dostępne valueName" />
+                     <TextArea editable="false" layoutX="24.0" layoutY="136.0" prefHeight="218.0" prefWidth="120.0" text="year_from&#10;year_to&#10;displacement&#10;power&#10;torque&#10;acc&#10;max_speed&#10;mixed_fc&#10;city_fc&#10;highway_fc&#10;trunk&#10;weight" />
+                     <Label layoutX="341.0" layoutY="119.0" text="Dostępne rodzaje funkcji" />
+                     <Label layoutX="151.0" layoutY="119.0" text="Minimum" />
+                     <Label layoutX="214.0" layoutY="119.0" text="Maksimum" />
+                     <TextArea editable="false" layoutX="151.0" layoutY="136.0" prefHeight="218.0" prefWidth="56.0" text="1964.0&#10;1964.0&#10;649.0&#10;29.0&#10;44.0&#10;3.2&#10;100.0&#10;2.9&#10;3.6&#10;2.7&#10;72.0&#10;950.0" />
+                     <TextArea editable="false" layoutX="216.0" layoutY="136.0" prefHeight="218.0" prefWidth="56.0" text="2019.0&#10;2020.0&#10;6761.0&#10;710.0&#10;1020.0&#10;33.2&#10;350.0&#10;25.6&#10;35.6&#10;18.5&#10;5400.0&#10;3966.0" />
+                     <TextArea editable="false" layoutX="343.0" layoutY="136.0" prefHeight="66.0" prefWidth="129.0" text="trapez&#10;trójkąt&#10;gauss" />
+                     <TextArea layoutX="490.0" layoutY="136.0" prefHeight="66.0" prefWidth="233.0" text="leftBottom, leftUp, rightUp, rightBottom&#10;left, vertex, right&#10;mean, sigma, leftBound, rightBound" />
+                     <Label layoutX="490.0" layoutY="119.0" text="Parametry" />
+                  </children></AnchorPane>
                 </content>
             </Tab>
         </tabs>

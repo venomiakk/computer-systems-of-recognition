@@ -1,0 +1,51 @@
+[
+    {
+        "type": "zmienna",
+        "name": "pojemność silnika",
+        "valueName": "displacement",
+        "functions": [
+            {
+                "name": "2000-4000 trapez",
+                "type": "trapez",
+                "parameters": {
+                    "leftBottom": 2000,
+                    "leftUp": 2500,
+                    "rightUp": 3000,
+                    "rightBottom": 4000
+                }
+            },
+            {
+                "name": "2000-3000 trójkąt",
+                "type": "trójkąt",
+                "parameters": {
+                    "left": 2000,
+                    "vertex": 2500,
+                    "right": 3000
+                }
+            },
+            {
+                "name": "4000-30-3000-5000 gauss",
+                "type": "gauss",
+                "parameters": {
+                    "mean": 4000,
+                    "sigma": 30,
+                    "leftBound": 3000,
+                    "rightBound": 5000
+                }
+            }
+        ]
+    },
+    {
+        "type": "kwantyfikator",
+        "name": "0.2-0.8 trapez",
+        "function": {
+            "type": "trapez",
+            "parameters": {
+                "leftBottom": 0.2,
+                "leftUp": 0.4,
+                "rightUp": 0.6,
+                "rightBottom": 0.8
+            }
+        }
+    }
+]

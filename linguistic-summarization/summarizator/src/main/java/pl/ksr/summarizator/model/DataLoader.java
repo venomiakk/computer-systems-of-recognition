@@ -2,6 +2,7 @@ package pl.ksr.summarizator.model;
 
 import pl.ksr.summarizator.model.fuzzylogic.DoubleSubjectTerm;
 import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectTerm;
+import pl.ksr.summarizator.view.DstViewModel;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -80,6 +81,20 @@ public class DataLoader {
                         + "2" + ", " + term.getTerm2() + ", " + format(term.getDot2()) + "\n"
                         + "3" + ", " + term.getTerm3() + ", " + format(term.getDot3()) + "\n"
                         + "4" + ", " + term.getTerm4() + ", " + format(term.getDot4()) + "\n"
+                );
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveDoubleSubjectResults2(List<DstViewModel> terms) {
+        try (Writer fw = new BufferedWriter(
+                new OutputStreamWriter(Files.newOutputStream(Paths.get(savePath)), StandardCharsets.UTF_8))) {
+            fw.write("\uFEFF");
+            fw.write("Form, Term, T1\n");
+            for (DstViewModel term : terms) {
+                fw.write(term.getForm() + ", " + term.getTerm() + ", " + format(term.getT1()) + "\n"
                 );
             }
         } catch (Exception e) {

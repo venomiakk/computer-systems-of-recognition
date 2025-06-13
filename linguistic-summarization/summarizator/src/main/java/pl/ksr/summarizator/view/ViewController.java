@@ -1,12 +1,13 @@
 package pl.ksr.summarizator.view;
 
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import pl.ksr.summarizator.model.DataLoader;
 import pl.ksr.summarizator.model.fuzzylogic.FuzzySet;
 import pl.ksr.summarizator.model.fuzzylogic.LinguisticVariable;
@@ -14,6 +15,9 @@ import pl.ksr.summarizator.model.fuzzylogic.Quantifier;
 import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectTerm;
 
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -67,18 +71,7 @@ public class ViewController {
         sstT9Column.setCellValueFactory(new PropertyValueFactory<>("t9"));
         sstT10Column.setCellValueFactory(new PropertyValueFactory<>("t10"));
         sstT11Column.setCellValueFactory(new PropertyValueFactory<>("t11"));
-        //TODO: zmienić model i tam dodać atrybut z lp
-        sstIndex.setCellFactory(col -> new TableCell<>() {
-            @Override
-            protected void updateItem(Number item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty) {
-                    setText(null);
-                } else {
-                    setText(String.valueOf(getIndex() + 1));
-                }
-            }
-        });
+        sstIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
         singleSubjectTermsTableView.setItems(singleSubjectTermsList);
         singleSubjectTermsTableView.setPlaceholder(new Label("Brak wygenerowanych podsumowań."));
         // *: Fuzzy Sets TreeView Initialization
@@ -460,10 +453,7 @@ public class ViewController {
         dstFormColumn.setCellValueFactory(new PropertyValueFactory<>("form"));
         dstTermColumn.setCellValueFactory(new PropertyValueFactory<>("term"));
         dstT1Column.setCellValueFactory(new PropertyValueFactory<>("t1"));
-        //TODO: zmienić model i tam dodać atrybut z lp
-        dstIndex.setCellValueFactory(cellData ->
-                new ReadOnlyObjectWrapper<>(doubleSubjectTermsTreeView.getItems().indexOf(cellData.getValue()) + 1)
-        );
+        dstIndex.setCellValueFactory(new PropertyValueFactory<>("index"));
         doubleSubjectTermsTreeView.setItems(doubleSubjectTermsList);
         doubleSubjectTermsTreeView.setPlaceholder(new Label("Brak wygenerowanych podsumowań."));
 
@@ -510,14 +500,20 @@ public class ViewController {
     private TableColumn<SstViewModel, Double> sstT10Column;
     @FXML
     private TableColumn<SstViewModel, Double> sstT11Column;
-
     @FXML
     private ObservableList<SstViewModel> singleSubjectTermsList = FXCollections.observableArrayList();
+    @FXML
+    private Button readSstAdvButton;
+    @FXML
+    private Button weightsButton;
 
     private List<SingleSubjectTerm> terms = new ArrayList<>();
+    private List<Double> weights = new ArrayList<>();
+
 
     @FXML
     protected void onGenerateSingleSubjectTermButtonClick() {
+        System.out.println(weights);
         List<FuzzySet> selectedFuzzySets = new ArrayList<>();
         collectSelectedFuzzySets(fuzzySetsTreeView.getRoot(), selectedFuzzySets);
         List<Quantifier> selectedQuantifiers = new ArrayList<>();
@@ -540,11 +536,13 @@ public class ViewController {
         }
 
         terms.clear();
-        terms = SummarizationService.getSingleSubjectTerms(selectedQuantifiers, selectedFuzzySets);
+        terms = SummarizationService.getSingleSubjectTerms(selectedQuantifiers, selectedFuzzySets, weights);
         singleSubjectTermsList.clear();
+        int size = terms.size();
         singleSubjectTermsList.setAll(
-                terms.stream()
-                        .map(SstViewModel::new).toList()
+                java.util.stream.IntStream.range(0, size)
+                        .mapToObj(i -> new SstViewModel(terms.get(i), i + 1))
+                        .toList()
         );
         singleSubjectTermsTableView.refresh();
         Platform.runLater(() -> singleSubjectTermsTableView.requestLayout());
@@ -585,6 +583,44 @@ public class ViewController {
         }
     }
 
+    @FXML
+    protected void onWeightsButtonClick() {
+        System.out.println("Weights button clicked!");
+        WeightsWindow form = new WeightsWindow();
+        weights = form.display();
+
+    }
+
+    @FXML
+    protected void onReadSstAdvButtonClick() throws IOException {
+        System.out.println("Read Sst Adv button clicked!");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik JSON");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Pliki JSON", "*.json")
+        );
+        Stage stage = (Stage) readSstAdvButton.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        List<Object> newData;
+        if (selectedFile == null) {
+            return;
+        }
+        newData = JsonLoader.processJson(selectedFile);
+        for (Object obj : newData) {
+            if (obj instanceof LinguisticVariable lv) {
+                TreeItem<Object> variableItem = new TreeItem<>(lv);
+                for (FuzzySet set : lv.getFuzzySets()) {
+                    CheckBoxTreeItem<Object> setItem = new CheckBoxTreeItem<>(set);
+                    variableItem.getChildren().add(setItem);
+                }
+                fuzzySetsTreeView.getRoot().getChildren().add(variableItem);
+            } else if (obj instanceof Quantifier q) {
+                quantifiersTreeView.getRoot().getChildren().add(new CheckBoxTreeItem<>(q));
+            }
+        }
+
+    }
+
     // *: Double Subject Terms
 
     @FXML
@@ -617,6 +653,9 @@ public class ViewController {
     private TableColumn<DstViewModel, String> dstT1Column;
     @FXML
     private ObservableList<DstViewModel> doubleSubjectTermsList = FXCollections.observableArrayList();
+    @FXML
+    private Button readDstAdvButton;
+
 
     @FXML
     protected void onGenerateDoubleSubjectTermsButtonClick() {
@@ -652,16 +691,53 @@ public class ViewController {
         }
         doubleSubjectTermsList.clear();
         doubleSubjectTermsList.setAll(
-        SummarizationService.getDoubleSubjectTerms(
-                selectedQuantifiers,
-                selectedFuzzySets,
-                firstSubject,
-                secondSubject
-        ));
+                SummarizationService.getDoubleSubjectTerms(
+                        selectedQuantifiers,
+                        selectedFuzzySets,
+                        firstSubject,
+                        secondSubject
+                ));
         //doubleSubjectTermsList.add(new DstViewModel("1", "Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1Term 1", 0.54));
         //doubleSubjectTermsList.add(new DstViewModel("2", "Term 2", 0.75));
         doubleSubjectTermsTreeView.refresh();
         Platform.runLater(() -> doubleSubjectTermsTreeView.requestLayout());
-        exportDoubleSubjectTermsButton.setDisable(true);
+        exportDoubleSubjectTermsButton.setDisable(false);
+    }
+
+    @FXML
+    protected void onExportDoubleSubjectTermsButtonClick() {
+        System.out.println("Export button clicked!");
+        DataLoader.saveDoubleSubjectResults2(doubleSubjectTermsList);
+    }
+
+    @FXML
+    protected void onReadDstAdvButtonClick() throws IOException {
+        System.out.println("Read Dst Adv button clicked!");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Wybierz plik JSON");
+        fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Pliki JSON", "*.json")
+        );
+        Stage stage = (Stage) readSstAdvButton.getScene().getWindow();
+        File selectedFile = fileChooser.showOpenDialog(stage);
+        List<Object> newData;
+        if (selectedFile == null) {
+            return;
+        }
+        newData = JsonLoader.processJson(selectedFile);
+        for (Object obj : newData) {
+            if (obj instanceof LinguisticVariable lv) {
+                TreeItem<Object> variableItem = new TreeItem<>(lv);
+                for (FuzzySet set : lv.getFuzzySets()) {
+                    CheckBoxTreeItem<Object> setItem = new CheckBoxTreeItem<>(set);
+                    variableItem.getChildren().add(setItem);
+                }
+                doubleSubjectFuzzySetsTreeView.getRoot().getChildren().add(variableItem);
+            } else if (obj instanceof Quantifier q) {
+                doubleSubjectQuantifiersTreeView.getRoot().getChildren().add(new CheckBoxTreeItem<>(q));
+            }
+        }
+
+
     }
 }
