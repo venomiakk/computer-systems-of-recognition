@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class DataLoader {
-    private static final String carsPath = "data/selected_cars.csv";
+    private static final String carsPath = "src/main/resources/data/selected_cars.csv";
     private static final String savePath = "output.csv";
 
     public static List<CarObject> loadCars() {

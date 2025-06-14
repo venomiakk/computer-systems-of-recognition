@@ -44,7 +44,7 @@ public class SummarizationService {
                     continue;
                 }
                 for (Quantifier quantifier : quantifiers) {
-                    if (weights.isEmpty()) {
+                    if (weights.isEmpty() || weights == null) {
                         terms.add(
                                 new SingleSubjectTerm(
                                         cars,
