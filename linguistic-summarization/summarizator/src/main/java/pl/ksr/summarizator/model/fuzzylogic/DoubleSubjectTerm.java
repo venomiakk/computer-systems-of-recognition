@@ -2,15 +2,11 @@ package pl.ksr.summarizator.model.fuzzylogic;
 
 
 import pl.ksr.summarizator.model.CarObject;
-import pl.ksr.summarizator.model.membership.MembershipFunction;
 
 import java.util.List;
 import java.util.stream.Stream;
 
 public class DoubleSubjectTerm {
-    // ?: Maybe it should only contain information about term
-    // ?: And we should have another class that handles the logic or something like that?
-    // ?: ...
     private final Subject firstSubject;
     private final Subject secondSubject;
     private final Quantifier quantifier;

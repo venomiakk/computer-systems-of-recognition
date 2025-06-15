@@ -2,7 +2,6 @@ package pl.ksr.summarizator.model.fuzzylogic;
 
 import pl.ksr.summarizator.model.CarObject;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -83,8 +82,6 @@ public class SingleSubjectTerm {
         return term;
     }
 
-
-    //TODO: Czy jeszcze jakies miary (jak T2) powinny się ograniczac do zbioru ograniczonego przez kwalifikatory
     private double calculateT1() {
         // * Dane z bazy danych
         double denominator = 0.0;
@@ -106,10 +103,9 @@ public class SingleSubjectTerm {
                 }
             }
             if (denominator == 0) {
-                return 0.0; // Avoid division by zero
+                return 0.0;
             }
         }
-        //TODO: Czy tu w sumie nie powinno być min z sumaryzatorów dla obiektów które są w support kwalifikatora?
         List<FuzzySet> allSets = Stream.concat(this.qualifiers.stream(), this.summarizers.stream()).toList();
         double numerator = 0.0;
         if (allSets.size() == 1) {
@@ -131,30 +127,6 @@ public class SingleSubjectTerm {
 
 
     private double calculateT2() {
-        //TODO: Trzeba jednak z bazy
-        //TODO: Tylko te które spełniają kwalifikator W
-        // * Model
-        //double exponent = 1 / (double) this.summarizers.size();
-        //List<Double> inList = new ArrayList<>();
-        //for (FuzzySet summarizer : this.summarizers) {
-        //    double minValue = summarizer.getFuzzySet().keySet()
-        //            .stream()
-        //            .map(car -> car.getCarProperties().get(summarizer.getValueName()))
-        //            .mapToDouble(val -> (Double.parseDouble((String) val)))
-        //            .min()
-        //            .orElse(0.0);
-        //    double maxValue = summarizer.getFuzzySet().keySet()
-        //            .stream()
-        //            .map(car -> car.getCarProperties().get(summarizer.getValueName()))
-        //            .mapToDouble(val -> (Double.parseDouble((String) val)))
-        //            .max()
-        //            .orElse(0.0);
-        //    double supportSize = summarizer.getMembershipFunction().getSupportSize();
-        //    inList.add(supportSize / (maxValue - minValue));
-        //}
-        //double inMean = inList.stream()
-        //        .reduce(1.0, (a, b) -> a * b);
-        //return 1 - Math.pow(inMean, exponent);
         // * Baza
         double exponent = 1 / (double) this.summarizers.size();
         double inMean = this.summarizers.stream()
@@ -189,7 +161,7 @@ public class SingleSubjectTerm {
                 }
             }
             if (denominator == 0) {
-                return 0.0; // Avoid division by zero
+                return 0.0;
             }
         }
         List<FuzzySet> allSets = Stream.concat(this.qualifiers.stream(), this.summarizers.stream()).toList();
@@ -239,20 +211,10 @@ public class SingleSubjectTerm {
     private double calculateT7() {
         // * DLA MODELU
         return 1.0 - quantifier.getMembershipFunction().getCardinality();
-        //if (quantifier.isAbsolute()) {
-        //    double suppVal = 0.0;
-        //    for (int i = 1; i <= setOfObjects.size(); i++) {
-        //        suppVal += quantifier.calculateMembership(i);
-        //    }
-        //    return 1 - (suppVal / setOfObjects.size());
-        //} else {
-        //    return 1.0 - quantifier.getMembershipFunction().getCardinality();
-        //}
     }
 
     private double calculateT8() {
         // * Na bazie danych
-        //TODO czy dobry wzór
         List<Double> rj = this.summarizers.stream()
                 .map(fuzzySet -> fuzzySet.getCardinality() / (double) fuzzySet.getSize()
                 ).toList();
@@ -263,7 +225,7 @@ public class SingleSubjectTerm {
     }
 
     private double calculateT9() {
-        // * Na bazie danych ?
+        // * Na bazie danych
         if (qualifiers.isEmpty()) {
             return 0.0;
         } else {
@@ -276,8 +238,7 @@ public class SingleSubjectTerm {
     }
 
     private double calculateT10() {
-        // * Na bazie danych ?
-        //TODO czy dobry wzór
+        // * Na bazie danych
         if (qualifiers.isEmpty()) {
             return 0.0;
         } else {
@@ -300,7 +261,7 @@ public class SingleSubjectTerm {
     }
 
     private double calculateOptimalSummary(List<Double> tValues, List<Double> inputWeights) {
-        List<Double> weights; //Need to sum to 1.0
+        List<Double> weights;
         if (inputWeights != null && inputWeights.size() == tValues.size()) {
             weights = inputWeights;
         } else {
@@ -318,7 +279,6 @@ public class SingleSubjectTerm {
                     0.05  // T11
             );
         }
-        //System.out.println(weights.stream().mapToDouble(Double::doubleValue).sum());
         List<Double> finalWeights = weights;
         return IntStream.range(0, tValues.size())
                 .mapToDouble(i -> tValues.get(i) * finalWeights.get(i))

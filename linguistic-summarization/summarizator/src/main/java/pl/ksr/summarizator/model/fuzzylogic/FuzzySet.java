@@ -15,8 +15,6 @@ public class FuzzySet {
     private Map<CarObject, Double> fuzzySet = new LinkedHashMap<>();
     private MembershipFunction membershipFunction;
     private String valueName;
-    //private String linguisticModifier;
-    //private double modifierValue;
 
     public FuzzySet(String name, List<CarObject> cars, String valueName, MembershipFunction membershipFunction) {
         this.name = name;
@@ -84,7 +82,6 @@ public class FuzzySet {
     }
 
     public double getMembership(CarObject car) {
-        // If the car is not in the fuzzy set, return 0 membership
         return fuzzySet.getOrDefault(car, 0.0);
     }
 

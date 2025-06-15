@@ -16,7 +16,6 @@ import pl.ksr.summarizator.model.fuzzylogic.SingleSubjectTerm;
 
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,10 +25,8 @@ import java.util.Map;
 public class ViewController {
 
     public void initialize() {
-        // Initialize the TreeView or any other components if needed
         System.out.println("ViewController initialized");
         // *: Single Subject Terms TableView Initialization
-        // In your initialize() method
         sstTermColumn.setCellFactory(tc -> new TableCell<>() {
             private final Label label = new Label();
 

@@ -13,11 +13,9 @@ import pl.ksr.summarizator.model.membership.Trapezoidal;
 import pl.ksr.summarizator.model.membership.Triangular;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class JsonLoader {
@@ -35,8 +33,6 @@ public class JsonLoader {
             if ("zmienna".equals(def.type) && def.functions != null) {
                 List<FuzzySet> fuzzySets = new ArrayList<>();
                 for (FunctionDefinition f : def.functions) {
-                    //System.out.println("  Funkcja: " + f.name + " (" + f.type + ")");
-                    //System.out.println("  Parametry: " + f.parameters);
                     fuzzySets.add(
                             new FuzzySet(
                                     def.name + ": " + f.name,
@@ -45,12 +41,9 @@ public class JsonLoader {
                                     createMembershipFunction(f)
                             )
                     );
-                    //System.out.println(createMembershipFunction(f).getClass());
                 }
                newData.add(new LinguisticVariable(def.name, fuzzySets, 0, 0));
             } else if ("kwantyfikator".equals(def.type) && def.function != null) {
-                //System.out.println("  Kwantyfikator: " + def.function.name);
-                //System.out.println("  Parametry: " + def.function.parameters);
                 newData.add(
                         new Quantifier(
                                 def.name,

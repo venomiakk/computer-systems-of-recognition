@@ -12,7 +12,6 @@ public class DstViewModel {
     private final SimpleStringProperty form;
     private final SimpleStringProperty term;
     private final SimpleDoubleProperty t1;
-    //TODO: ADD INDEX
     public SimpleIntegerProperty index;
 
     public DstViewModel(String form, String term, double t1, int index) {

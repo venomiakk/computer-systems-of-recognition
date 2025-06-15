@@ -24,37 +24,37 @@ public class WeightsWindow {
 
         TextField field1 = new TextField();
         field1.setPromptText("Waga T1");
-        field1.setText("0.5"); // Domyślna wartość dla T1
+        field1.setText("0.5");
         TextField field2 = new TextField();
         field2.setPromptText("Waga T2");
-        field2.setText("0.05"); // Domyślna wartość dla T2
+        field2.setText("0.05");
         TextField field3 = new TextField();
         field3.setPromptText("Waga T3");
-        field3.setText("0.05"); // Domyślna wartość dla T3
+        field3.setText("0.05");
         TextField field4 = new TextField();
         field4.setPromptText("Waga T4");
-        field4.setText("0.05"); // Domyślna wartość dla T4
+        field4.setText("0.05");
         TextField field5 = new TextField();
         field5.setPromptText("Waga T5");
-        field5.setText("0.05"); // Domyślna wartość dla T5
+        field5.setText("0.05");
         TextField field6 = new TextField();
         field6.setPromptText("Waga T6");
-        field6.setText("0.05"); // Domyślna wartość dla T6
+        field6.setText("0.05");
         TextField field7 = new TextField();
         field7.setPromptText("Waga T7");
-        field7.setText("0.05"); // Domyślna wartość dla T7
+        field7.setText("0.05");
         TextField field8 = new TextField();
         field8.setPromptText("Waga T8");
-        field8.setText("0.05"); // Domyślna wartość dla T8
+        field8.setText("0.05");
         TextField field9 = new TextField();
         field9.setPromptText("Waga T9");
-        field9.setText("0.05"); // Domyślna wartość dla T9
+        field9.setText("0.05");
         TextField field10 = new TextField();
         field10.setPromptText("Waga T10");
-        field10.setText("0.05"); // Domyślna wartość dla T10
+        field10.setText("0.05");
         TextField field11 = new TextField();
         field11.setPromptText("Waga T11");
-        field11.setText("0.05"); // Domyślna wartość dla T11
+        field11.setText("0.05");
 
         Button okButton = new Button("OK");
         okButton.setOnAction(e -> {
@@ -108,7 +108,7 @@ public class WeightsWindow {
 
         Scene scene = new Scene(layout, 200, 450);
         window.setScene(scene);
-        window.showAndWait(); // Czeka aż użytkownik zamknie okno
+        window.showAndWait();
 
         return result;
     }

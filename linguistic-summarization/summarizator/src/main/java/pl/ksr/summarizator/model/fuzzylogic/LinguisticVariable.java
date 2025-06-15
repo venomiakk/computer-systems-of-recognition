@@ -5,8 +5,6 @@ import java.util.Map;
 
 public class LinguisticVariable {
     private String name;
-    //TODO: Consider using a Map<String, FuzzySet> for better access by name
-    // ?: Maybe add additional field to not refactor all the code...
     private Map<String, FuzzySet> fuzzySetsMap;
     private List<FuzzySet> fuzzySets;
     private double leftBound;
